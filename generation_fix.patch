@@ -1,0 +1,17 @@
+diff --git a/backend/app/generation.py b/backend/app/generation.py
+index 861c1de..e1cf2a5 100644
+--- a/backend/app/generation.py
++++ b/backend/app/generation.py
+@@ -15,7 +15,11 @@ class GroundedGenerationError(RuntimeError):
+ 
+ 
+ class GroundedLLMResponse(BaseModel):
+-    answer: str = Field(min_length=1)
++    # `answer` may be empty when the model sets refused=true; a non-refused
++    # response must still contain a non-empty answer, which `answer()` below
++    # enforces after parsing so a refusal never crashes the structured-output
++    # parse itself.
++    answer: str = ""
+     citation_chunk_ids: list[str] = Field(default_factory=list)
+     refused: bool = False
+ 
