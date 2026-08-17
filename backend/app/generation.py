@@ -15,7 +15,11 @@ class GroundedGenerationError(RuntimeError):
 
 
 class GroundedLLMResponse(BaseModel):
-    answer: str = Field(min_length=1)
+    # `answer` may be empty when the model sets refused=true; a non-refused
+    # response must still contain a non-empty answer, which `answer()` below
+    # enforces after parsing so a refusal never crashes the structured-output
+    # parse itself.
+    answer: str = ""
     citation_chunk_ids: list[str] = Field(default_factory=list)
     refused: bool = False
 
@@ -72,7 +76,7 @@ class OpenAIGroundedLLM:
             raise GroundedGenerationError(f"Grounded LLM request failed: {exc}") from exc
         allowed = {hit.chunk.chunk_id for hit in evidence}
         citations = tuple(chunk_id for chunk_id in parsed.citation_chunk_ids if chunk_id in allowed)
-        if parsed.refused or not citations:
+        if parsed.refused or not citations or not parsed.answer.strip():
             return GeneratedAnswer(REFUSAL, (), refused=True)
         return GeneratedAnswer(parsed.answer, citations, refused=False)
 

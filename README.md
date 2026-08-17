@@ -57,6 +57,20 @@ python -m pytest tests -q
 
 The benchmark reports Recall@3, MRR@3, p50, and p95 per English, Hindi, and Kannada fixture query. FAISS comparisons are explicitly reported as unavailable until their matching index is built; no results are fabricated.
 
+## Refusal and Guardrail Protections (Phase 8)
+
+NOVARON enforces strict grounding and refusal guardrails to ensure reliable, unhallucinated responses:
+
+- **Evidence-Based Refusal**: When retrieved evidence scores fall below the relevance threshold or no evidence supports the query, the pipeline returns a standardized refusal message (`"I don't have enough information in the indexed knowledge base to answer that reliably."`) with `refused=true` and empty sources.
+- **Strict Citation Enforcement**: Grounded LLM responses validate returned `citation_chunk_ids` against actual retrieved evidence hits. Uncited, partially invalid, or empty/whitespace non-refused answers are refused. Structured output schemas guarantee that a refusal never crashes Pydantic validation.
+- **Prompt Injection Defense**: Retrieved evidence is treated strictly as untrusted data and isolated within JSON payloads in user messages, never interpolated into system prompt instructions. System prompts explicitly instruct the model to disregard instructions embedded in evidence.
+- **Phase 8 Guardrail Test Suite**: Located in `backend/tests/test_refusal_guardrails.py`, testing five canonical scenarios:
+  - **Case A**: Relevant question with supporting evidence $\to$ grounded answer with valid citations.
+  - **Case B**: Query with weak retrieval evidence $\to$ pipeline refusal.
+  - **Case C**: Completely unrelated query $\to$ pipeline refusal.
+  - **Case D**: Unsupported claim with topical evidence $\to$ model-level refusal.
+  - **Case E**: Adversarial prompt injection inside retrieved document $\to$ treated as passive data, instructions ignored, fabricated citations blocked.
+
 ## Environment variables
 
 - `DENSE_RETRIEVER`: `hashing` (default) or `faiss`
@@ -72,6 +86,7 @@ All secrets belong in environment variables; none are stored in source code.
 
 ## Known limitations
 
-- The fixture benchmark is a smoke test, not representative of the full target corpus.
-- Real SentenceTransformer, cross-encoder, and OpenAI provider paths require model downloads/credentials and must be benchmarked on the intended hardware and corpus.
-- The current API is text-only by design; voice/STT is deliberately deferred until the RAG core is fully validated.
+- **Tiny Fixture Corpus**: The 6-passage fixture corpus (`data/fixtures/sample_corpus.jsonl`) is a minimal smoke test for sanity checking pipelines. Due to tiny corpus size, BM25 IDF weights common shared words heavily; negative query tests use zero-overlap vocabulary. Production thresholds must be calibrated against the target MSMARCO-XI evaluation set.
+- **Provider Prerequisites**: Real SentenceTransformer, cross-encoder, and OpenAI provider paths require model downloads/credentials and must be benchmarked on target hardware and datasets.
+- **Text-Only Core**: The current API is text-only by design; voice/STT integration is deliberately deferred until RAG grounding is fully verified.
+
