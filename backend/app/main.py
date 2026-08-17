@@ -16,8 +16,8 @@ from app.retrieval import (BM25Retriever, CrossEncoderReranker, FAISSDenseRetrie
                            TransparentReranker)
 from app.vector_store import FaissVectorStore
 
-DATA_PATH = Path(__file__).resolve().parents[2] / "data" / "fixtures" / "sample_corpus.jsonl"
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+DATA_PATH = Path(os.getenv("NOVARON_CORPUS_PATH", str(PROJECT_ROOT / "data" / "fixtures" / "sample_corpus.jsonl")))
 
 
 class QueryRequest(BaseModel):
@@ -47,17 +47,23 @@ class QueryResponse(BaseModel):
 
 
 def _build_dense_retriever(chunks: list, strategy: str):
-    provider = os.getenv("DENSE_RETRIEVER", "hashing").lower()
-    if provider == "hashing":
-        return HashingDenseRetriever(chunks, HashingEmbedder())
+    provider = os.getenv("DENSE_RETRIEVER", "faiss").lower()
     if provider == "faiss":
         configured_path = Path(os.getenv("VECTOR_INDEX_DIR", "data/indexes"))
         index_root = configured_path if configured_path.is_absolute() else PROJECT_ROOT / configured_path
         index_dir = index_root / strategy
-        embedder = SentenceTransformerEmbeddingProvider()
-        store = FaissVectorStore.load(index_dir, expected_model=embedder.model_name,
-                                      expected_strategy=strategy, expected_normalized=True)
-        return FAISSDenseRetriever(store, embedder)
+        if FaissVectorStore.exists(index_dir):
+            embedder = SentenceTransformerEmbeddingProvider()
+            store = FaissVectorStore.load(
+                index_dir,
+                expected_model=embedder.model_name,
+                expected_strategy=strategy,
+                expected_normalized=True,
+            )
+            return FAISSDenseRetriever(store, embedder)
+        return HashingDenseRetriever(chunks, HashingEmbedder())
+    if provider == "hashing":
+        return HashingDenseRetriever(chunks, HashingEmbedder())
     raise ValueError("DENSE_RETRIEVER must be either 'hashing' or 'faiss'.")
 
 
@@ -79,11 +85,15 @@ def _build_generator():
     raise ValueError("LLM_PROVIDER must be either 'extractive' or 'openai'.")
 
 
-def build_pipeline(chunks: list, strategy: str = "fixed", mode: str = "hybrid_rerank") -> RAGPipeline:
+def build_pipeline(chunks: list, strategy: str = "sentence", mode: str = "dense") -> RAGPipeline:
     dense = _build_dense_retriever(chunks, strategy)
     bm25 = BM25Retriever(chunks)
-    retriever = {"dense": dense, "bm25": bm25, "hybrid": HybridRetriever(dense, bm25),
-                 "hybrid_rerank": HybridRetriever(dense, bm25)}[mode]
+    retriever = {
+        "dense": dense,
+        "bm25": bm25,
+        "hybrid": HybridRetriever(dense, bm25),
+        "hybrid_rerank": HybridRetriever(dense, bm25),
+    }[mode]
     reranker = _build_reranker() if mode == "hybrid_rerank" else None
     threshold = float(os.getenv("MIN_RELEVANCE_SCORE", "0.12")) if reranker else float(
         os.getenv("MIN_UNRERANKED_RELEVANCE_SCORE", "0.01")
@@ -98,12 +108,14 @@ def build_pipelines() -> dict[str, dict[str, RAGPipeline]]:
         "sentence": sentence_chunks(passages),
         "hierarchical": hierarchical_chunks(passages),
     }
-    return {name: {mode: build_pipeline(chunks, name, mode) for mode in ("dense", "bm25", "hybrid", "hybrid_rerank")}
-            for name, chunks in corpora.items()}
+    return {
+        name: {mode: build_pipeline(chunks, name, mode) for mode in ("dense", "bm25", "hybrid", "hybrid_rerank")}
+        for name, chunks in corpora.items()
+    }
 
 
 pipelines = build_pipelines()
-app = FastAPI(title="NOVARON Voice RAG", version="0.2.0")
+app = FastAPI(title="NOVARON Voice RAG", version="0.3.0")
 
 
 @app.get("/health")
@@ -114,12 +126,28 @@ def health() -> dict[str, str]:
 @app.post("/v1/query", response_model=QueryResponse)
 def query(request: QueryRequest) -> QueryResponse:
     result = pipelines[request.chunking_strategy][request.retrieval_mode].run(request.query, answer_limit=request.top_k)
-    labels = {"dense": "dense", "bm25": "bm25", "hybrid": "hybrid_rrf", "hybrid_rerank": "hybrid_rrf + reranker"}
+    labels = {
+        "dense": "dense",
+        "bm25": "bm25",
+        "hybrid": "hybrid_rrf",
+        "hybrid_rerank": "hybrid_rrf + reranker",
+    }
     return QueryResponse(
-        answer=result.answer, refused=result.refused, retrieval_strategy=labels[request.retrieval_mode],
-        chunking_strategy=request.chunking_strategy, latency_ms=result.latency_ms,
-        sources=[SourceResponse(chunk_id=hit.chunk.chunk_id, document_id=hit.chunk.document_id,
-                                passage_id=hit.chunk.passage_id, title=hit.chunk.title,
-                                language=hit.chunk.language, text=hit.chunk.text,
-                                relevance_score=round(hit.score, 4)) for hit in result.sources],
+        answer=result.answer,
+        refused=result.refused,
+        retrieval_strategy=labels[request.retrieval_mode],
+        chunking_strategy=request.chunking_strategy,
+        latency_ms=result.latency_ms,
+        sources=[
+            SourceResponse(
+                chunk_id=hit.chunk.chunk_id,
+                document_id=hit.chunk.document_id,
+                passage_id=hit.chunk.passage_id,
+                title=hit.chunk.title,
+                language=hit.chunk.language,
+                text=hit.chunk.text,
+                relevance_score=round(hit.score, 4),
+            )
+            for hit in result.sources
+        ],
     )
