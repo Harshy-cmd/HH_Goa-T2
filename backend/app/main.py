@@ -5,7 +5,7 @@ import time
 from pathlib import Path
 from typing import Literal
 
-from fastapi import FastAPI, File, Form, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, Response, UploadFile
 from pydantic import BaseModel, Field
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -22,7 +22,7 @@ try:
 except ImportError:
     pass
 
-from app.domain import SpeechToText
+from app.domain import SpeechToText, TextToSpeech
 from app.embeddings import SentenceTransformerEmbeddingProvider
 from app.generation import OpenAIGroundedLLM
 from app.ingestion import fixed_chunks, hierarchical_chunks, load_jsonl, sentence_chunks
@@ -31,6 +31,7 @@ from app.retrieval import (BM25Retriever, CrossEncoderReranker, FAISSDenseRetrie
                            HashingDenseRetriever, HashingEmbedder, HybridRetriever,
                            TransparentReranker)
 from app.stt import MockSTT, OpenAIWhisperSTT, SpeechToTextError
+from app.tts import EdgeTTS, MockTTS, TextToSpeechError
 from app.vector_store import FaissVectorStore
 
 DATA_PATH = Path(os.getenv("NOVARON_CORPUS_PATH", str(PROJECT_ROOT / "data" / "fixtures" / "sample_corpus.jsonl")))
@@ -70,6 +71,11 @@ class VoiceQueryResponse(BaseModel):
     chunking_strategy: str
     sources: list[SourceResponse]
     latency_ms: dict[str, float]
+
+
+class TTSRequest(BaseModel):
+    text: str = Field(min_length=1, max_length=10_000)
+    language: str | None = Field(default="en")
 
 
 def _build_dense_retriever(chunks: list, strategy: str):
@@ -120,6 +126,15 @@ def _build_stt() -> SpeechToText:
     raise ValueError(f"STT_PROVIDER must be either 'openai', 'groq', or 'mock', got '{provider}'.")
 
 
+def _build_tts() -> TextToSpeech:
+    provider = os.getenv("TTS_PROVIDER", "edge").lower()
+    if provider == "edge":
+        return EdgeTTS()
+    if provider == "mock":
+        return MockTTS()
+    raise ValueError(f"TTS_PROVIDER must be either 'edge' or 'mock', got '{provider}'.")
+
+
 def build_pipeline(chunks: list, strategy: str = "sentence", mode: str = "dense") -> RAGPipeline:
     dense = _build_dense_retriever(chunks, strategy)
     bm25 = BM25Retriever(chunks)
@@ -151,7 +166,8 @@ def build_pipelines() -> dict[str, dict[str, RAGPipeline]]:
 
 pipelines = build_pipelines()
 stt_adapter = _build_stt()
-app = FastAPI(title="NOVARON Voice RAG", version="0.4.0")
+tts_adapter = _build_tts()
+app = FastAPI(title="NOVARON Voice RAG", version="0.5.0")
 
 
 @app.get("/health")
@@ -264,3 +280,18 @@ async def voice_query(
             for hit in result.sources
         ],
     )
+
+
+@app.post("/v1/tts")
+async def synthesize_speech(request: TTSRequest) -> Response:
+    if not request.text or not request.text.strip():
+        raise HTTPException(status_code=400, detail="Text to synthesize cannot be empty.")
+    try:
+        audio_bytes = await tts_adapter.synthesize(request.text, language=request.language)
+        return Response(content=audio_bytes, media_type="audio/mpeg")
+    except TextToSpeechError as exc:
+        msg = str(exc)
+        status = 400 if "Unsupported language" in msg or "Cannot synthesize empty" in msg else 502
+        raise HTTPException(status_code=status, detail=msg) from exc
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail="Internal error during speech synthesis.") from exc

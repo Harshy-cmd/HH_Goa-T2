@@ -59,6 +59,10 @@ class SpeechToText(Protocol):
     async def transcribe(self, audio: bytes, language: str | None = None) -> str: ...
 
 
+class TextToSpeech(Protocol):
+    async def synthesize(self, text: str, language: str | None = None) -> bytes: ...
+
+
 @dataclass(frozen=True)
 class GeneratedAnswer:
     answer: str
