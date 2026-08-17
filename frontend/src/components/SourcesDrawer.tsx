@@ -1,5 +1,5 @@
-import React from 'react';
-import { X, Database, Layers, CheckCircle2 } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { X, Database, Layers, CheckCircle2, ShieldCheck } from 'lucide-react';
 
 interface SourcesDrawerProps {
   isOpen: boolean;
@@ -10,22 +10,38 @@ export const SourcesDrawer: React.FC<SourcesDrawerProps> = ({
   isOpen,
   onClose,
 }) => {
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm transition-opacity">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="sources-drawer-title"
+      className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm transition-opacity"
+    >
       <div className="w-full max-w-md bg-goa-forest-deep text-goa-cream h-full p-6 sm:p-8 overflow-y-auto border-l border-goa-line/30 shadow-2xl flex flex-col justify-between">
         <div>
           <div className="flex items-center justify-between pb-4 border-b border-goa-line/20 mb-6">
             <div className="flex items-center gap-2">
               <Database className="w-5 h-5 text-goa-yellow" />
-              <h2 className="text-lg font-bold font-serif tracking-wide">
+              <h2 id="sources-drawer-title" className="text-lg font-bold font-serif tracking-wide">
                 Knowledge Base & Indexes
               </h2>
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 rounded-full hover:bg-goa-cream/10 text-goa-cream/70"
+              aria-label="Close Sources"
+              className="p-1.5 rounded-full hover:bg-goa-cream/10 text-goa-cream/70 hover:text-goa-cream"
             >
               <X className="w-5 h-5" />
             </button>
@@ -41,7 +57,7 @@ export const SourcesDrawer: React.FC<SourcesDrawerProps> = ({
                 </span>
               </div>
               <p className="text-goa-cream/70 font-sans text-xs">
-                Multilingual 384-dimensional dense embeddings with inner-product cosine similarity.
+                Multilingual 384-dimensional dense embeddings with inner-product cosine similarity for high-recall grounding.
               </p>
               <div className="pt-2 border-t border-goa-line/20 space-y-1 text-[11px] text-goa-cream/60">
                 <div>Model: <strong className="text-goa-cream">intfloat/multilingual-e5-small</strong></div>
@@ -85,11 +101,12 @@ export const SourcesDrawer: React.FC<SourcesDrawerProps> = ({
 
             {/* 3. Guardrail Thresholds */}
             <div className="p-4 rounded-2xl bg-goa-forest border border-goa-line/30 space-y-2">
-              <span className="text-goa-cream font-bold text-xs uppercase tracking-wider block">
-                Evidence Guardrails
-              </span>
+              <div className="flex items-center gap-2 text-goa-cream font-bold text-xs uppercase tracking-wider">
+                <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <span>Evidence Guardrails</span>
+              </div>
               <p className="text-goa-cream/70 font-sans text-xs">
-                Answers are grounded strictly against retrieved passages with citation verification. If relevance scores fall below thresholds, the system refuses rather than guessing.
+                Answers are grounded strictly against retrieved passages with citation verification. If relevance scores fall below safety thresholds, NOVARON refuses to guess.
               </p>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Copy, Check, Share2 } from 'lucide-react';
 import { QueryResponse, VoiceQueryResponse } from '../types';
 
@@ -14,6 +14,16 @@ export const ShareModal: React.FC<ShareModalProps> = ({
   data,
 }) => {
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -35,16 +45,22 @@ export const ShareModal: React.FC<ShareModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="w-full max-w-md bg-goa-forest-deep text-goa-cream rounded-3xl p-6 border border-goa-line/30 shadow-2xl relative">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="share-modal-title"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+    >
+      <div className="w-full max-w-md bg-goa-forest-deep text-goa-cream rounded-3xl p-6 border border-goa-line/30 shadow-2xl relative animate-fade-in">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-goa-cream/10 text-goa-cream/70"
+          aria-label="Close"
+          className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-goa-cream/10 text-goa-cream/70 hover:text-goa-cream"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <h3 className="text-lg font-bold font-serif text-goa-cream mb-4 flex items-center gap-2">
+        <h3 id="share-modal-title" className="text-lg font-bold font-serif text-goa-cream mb-4 flex items-center gap-2">
           <Share2 className="w-4 h-4 text-goa-pink" />
           <span>Share Grounded Answer</span>
         </h3>

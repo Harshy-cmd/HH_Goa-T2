@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X, Send, Sparkles } from 'lucide-react';
 
 interface TextQueryModalProps {
@@ -13,6 +13,16 @@ export const TextQueryModal: React.FC<TextQueryModalProps> = ({
   onSubmit,
 }) => {
   const [query, setQuery] = useState('');
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
@@ -32,18 +42,24 @@ export const TextQueryModal: React.FC<TextQueryModalProps> = ({
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="w-full max-w-lg bg-goa-forest-deep text-goa-cream rounded-3xl p-6 sm:p-7 border border-goa-line/30 shadow-2xl relative">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="text-query-title"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+    >
+      <div className="w-full max-w-lg bg-goa-forest-deep text-goa-cream rounded-3xl p-6 sm:p-7 border border-goa-line/30 shadow-2xl relative animate-fade-in">
         {/* Close Button */}
         <button
           onClick={onClose}
+          aria-label="Close"
           className="absolute top-5 right-5 p-1.5 rounded-full hover:bg-goa-cream/10 text-goa-cream/70 hover:text-goa-cream transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Headline */}
-        <h3 className="text-xl font-bold font-serif text-goa-cream mb-1">
+        <h3 id="text-query-title" className="text-xl font-bold font-serif text-goa-cream mb-1">
           Type Your Question
         </h3>
         <p className="text-xs font-mono text-goa-cream/60 mb-4">
