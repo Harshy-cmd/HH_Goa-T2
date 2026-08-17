@@ -44,15 +44,24 @@ def parse_args() -> argparse.Namespace:
         default=Path(os.getenv("BENCHMARK_OUTPUT", str(root / "benchmarks" / "results" / "v03_results.json"))),
         help="Path to write machine-readable benchmark JSON output.",
     )
+    parser.add_argument(
+        "--languages",
+        type=str,
+        default=os.getenv("BENCHMARK_LANGUAGES", "en,hi"),
+        help="Comma-separated language codes for official benchmark scope (default: 'en,hi'). Use 'all' for all languages.",
+    )
     parser.add_argument("--limit", type=int, default=3, help="Number of retrieved candidates to evaluate.")
     return parser.parse_args()
 
 
-def load_cases(path: Path) -> list[dict[str, Any]]:
+def load_cases(path: Path, languages: set[str] | None = None) -> list[dict[str, Any]]:
     cases = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+    filtered = []
     for case in cases:
         case.setdefault("language", case["query_id"].rsplit("-", 1)[-1])
-    return cases
+        if languages is None or case["language"] in languages:
+            filtered.append(case)
+    return filtered
 
 
 def percentile(values: list[float], fraction: float) -> float:
@@ -170,7 +179,12 @@ def main() -> None:
     index_root = args.index_dir.resolve() if args.index_dir.is_absolute() or args.index_dir.exists() else (root / args.index_dir).resolve()
 
     corpus = load_jsonl(corpus_path)
-    cases = load_cases(eval_path)
+    allowed_languages = (
+        None
+        if args.languages.strip().lower() == "all"
+        else {lang.strip() for lang in args.languages.split(",") if lang.strip()}
+    )
+    cases = load_cases(eval_path, allowed_languages)
     strategies = (
         ("fixed", fixed_chunks(corpus)),
         ("sentence", sentence_chunks(corpus)),
@@ -181,10 +195,11 @@ def main() -> None:
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "corpus": str(corpus_path),
         "evaluation": str(eval_path),
+        "evaluation_scope": list(allowed_languages) if allowed_languages else "all",
         "case_count": len(cases),
         "results": {},
     }
-    print(f"Benchmark cases: {len(cases)} | corpus: {corpus_path}")
+    print(f"Benchmark cases: {len(cases)} (scope: {args.languages}) | corpus: {corpus_path}")
     for strategy, chunks in strategies:
         print(f"\nStrategy: {strategy} | chunks: {len(chunks)}")
         hashing = HashingDenseRetriever(chunks, HashingEmbedder())
@@ -199,6 +214,7 @@ def main() -> None:
         index_dir = index_root / strategy
         if not FaissVectorStore.exists(index_dir):
             methods["faiss_dense"] = {"status": "unavailable", "reason": f"Index not found: {index_dir}"}
+            methods["faiss_bm25_hybrid"] = {"status": "unavailable", "reason": f"Index not found: {index_dir}"}
         else:
             try:
                 embedder = SentenceTransformerEmbeddingProvider()
@@ -210,8 +226,10 @@ def main() -> None:
                 )
                 faiss_dense = FAISSDenseRetriever(store, embedder)
                 methods["faiss_dense"] = available(faiss_dense, cases, limit=args.limit)
+                methods["faiss_bm25_hybrid"] = available(HybridRetriever(faiss_dense, bm25), cases, limit=args.limit)
             except (VectorStoreError, RuntimeError) as exc:
                 methods["faiss_dense"] = {"status": "unavailable", "reason": str(exc)}
+                methods["faiss_bm25_hybrid"] = {"status": "unavailable", "reason": str(exc)}
         if os.getenv("BENCHMARK_CROSS_ENCODER", "0") == "1":
             try:
                 methods["hybrid_cross_encoder"] = available(hybrid, cases, CrossEncoderReranker(), limit=args.limit)

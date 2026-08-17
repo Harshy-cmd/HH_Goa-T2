@@ -7,7 +7,7 @@ import time
 from collections import Counter, defaultdict
 from typing import Iterable, Sequence
 
-from app.domain import Chunk, Embedder, Reranker, SearchHit
+from app.domain import Chunk, Embedder, Reranker, Retriever, SearchHit
 from app.vector_store import FaissVectorStore
 
 
@@ -107,7 +107,7 @@ class BM25Retriever:
 
 
 class HybridRetriever:
-    def __init__(self, dense: DenseRetriever, bm25: BM25Retriever, rrf_k: int = 60) -> None:
+    def __init__(self, dense: Retriever, bm25: BM25Retriever, rrf_k: int = 60) -> None:
         self.dense, self.bm25, self.rrf_k = dense, bm25, rrf_k
 
     def search(self, query: str, limit: int) -> list[SearchHit]:
@@ -124,9 +124,13 @@ class HybridRetriever:
         bm25_at = time.perf_counter()
         fused: dict[str, tuple[Chunk, float]] = {}
         for results in (dense_results, bm25_results):
+            seen_in_branch: set[str] = set()
             for rank, hit in enumerate(results, start=1):
-                score = fused.get(hit.chunk.chunk_id, (hit.chunk, 0.0))[1] + 1 / (self.rrf_k + rank)
-                fused[hit.chunk.chunk_id] = (hit.chunk, score)
+                if hit.chunk.chunk_id in seen_in_branch:
+                    continue
+                seen_in_branch.add(hit.chunk.chunk_id)
+                current_chunk, current_score = fused.get(hit.chunk.chunk_id, (hit.chunk, 0.0))
+                fused[hit.chunk.chunk_id] = (current_chunk, current_score + 1.0 / (self.rrf_k + rank))
         ordered = sorted(fused.values(), key=lambda item: item[1], reverse=True)[:limit]
         profile = {**dense_profile, **bm25_profile, "rrf": (time.perf_counter() - bm25_at) * 1000,
                    "hybrid_total": (time.perf_counter() - started) * 1000}
