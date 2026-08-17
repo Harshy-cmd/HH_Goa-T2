@@ -69,16 +69,34 @@ class EdgeTTS(TextToSpeech):
 
     async def _synthesize_fallback(self, text: str, language: str | None) -> bytes:
         lang = "hi" if language and language.lower() in ("hi", "hin", "hindi") else "en"
-        # Google Translate TTS endpoint as reliable fallback
-        url = f"https://translate.google.com/translate_tts?ie=UTF-8&tl={lang}&client=tw-ob&q=" + urllib.parse.quote(text[:2000])
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+        # Split text into <= 180 char segments at word boundaries to respect endpoint limitations
+        words = text.split()
+        chunks: list[str] = []
+        curr: list[str] = []
+        curr_len = 0
+        for w in words:
+            if curr_len + len(w) + 1 > 180:
+                if curr:
+                    chunks.append(" ".join(curr))
+                curr = [w]
+                curr_len = len(w)
+            else:
+                curr.append(w)
+                curr_len += len(w) + 1
+        if curr:
+            chunks.append(" ".join(curr))
 
-        def _fetch():
-            with urllib.request.urlopen(req, timeout=10) as resp:
-                return resp.read()
+        def _fetch_all():
+            buffer = bytearray()
+            for chunk in chunks:
+                url = f"https://translate.google.com/translate_tts?ie=UTF-8&tl={lang}&client=tw-ob&q=" + urllib.parse.quote(chunk)
+                req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+                with urllib.request.urlopen(req, timeout=10) as resp:
+                    buffer.extend(resp.read())
+            return bytes(buffer)
 
         loop = asyncio.get_running_loop()
-        return await loop.run_in_executor(None, _fetch)
+        return await loop.run_in_executor(None, _fetch_all)
 
     async def synthesize(
         self,
@@ -93,7 +111,7 @@ class EdgeTTS(TextToSpeech):
         if not cleaned_text:
             raise TextToSpeechError("Cannot synthesize empty text after removing citations.")
 
-        # Attempt EdgeTTS first; if blocked or handshake fails, use resilient fallback
+        # Attempt EdgeTTS first; if blocked or handshake fails, use resilient chunked fallback
         try:
             return await self._synthesize_edge(cleaned_text, voice)
         except Exception:

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import base64
 import os
 import time
 from pathlib import Path
@@ -71,6 +72,7 @@ class VoiceQueryResponse(BaseModel):
     chunking_strategy: str
     sources: list[SourceResponse]
     latency_ms: dict[str, float]
+    audio_base64: str | None = None
 
 
 class TTSRequest(BaseModel):
@@ -212,6 +214,7 @@ async def voice_query(
     top_k: int = Form(default=5),
     chunking_strategy: Literal["fixed", "sentence", "hierarchical"] = Form(default="sentence"),
     retrieval_mode: Literal["dense", "bm25", "hybrid", "hybrid_rerank"] = Form(default="dense"),
+    synthesize_audio: bool = Form(default=False),
 ) -> VoiceQueryResponse:
     if not file or not file.filename:
         raise HTTPException(status_code=400, detail="Audio file is required.")
@@ -260,6 +263,18 @@ async def voice_query(
         "total": round(stt_elapsed + result.latency_ms.get("rag_total", 0.0), 3),
     }
 
+    audio_b64 = None
+    if synthesize_audio and result.answer:
+        tts_start = time.perf_counter()
+        try:
+            tts_audio = await tts_adapter.synthesize(result.answer, language=language)
+            tts_elapsed = round((time.perf_counter() - tts_start) * 1000, 3)
+            latency_ms["tts"] = tts_elapsed
+            latency_ms["total"] = round(latency_ms["total"] + tts_elapsed, 3)
+            audio_b64 = base64.b64encode(tts_audio).decode("ascii")
+        except Exception as exc:
+            raise HTTPException(status_code=502, detail=f"Speech synthesis error: {exc}") from exc
+
     return VoiceQueryResponse(
         query=transcript,
         answer=result.answer,
@@ -267,6 +282,7 @@ async def voice_query(
         retrieval_strategy=labels[retrieval_mode],
         chunking_strategy=chunking_strategy,
         latency_ms=latency_ms,
+        audio_base64=audio_b64,
         sources=[
             SourceResponse(
                 chunk_id=hit.chunk.chunk_id,
