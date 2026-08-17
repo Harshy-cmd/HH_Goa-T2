@@ -2,6 +2,7 @@ import React from 'react';
 import { AppState } from '../types';
 import { SparkleIcon } from './Sparkles';
 import { ShieldAlert, CheckCircle2, Circle, Loader2 } from 'lucide-react';
+import { MagicRings } from './MagicRings';
 
 interface VoiceOrbProps {
   state: AppState;
@@ -25,6 +26,91 @@ export const VoiceOrb: React.FC<VoiceOrbProps> = ({
   const isPlayingAudio = state === 'PLAYING_AUDIO';
   const isRefused = state === 'REFUSED';
   const isAnswerReady = state === 'ANSWER_READY';
+
+  // State-Aware MagicRings Configuration
+  const getMagicRingsProps = () => {
+    if (compact || isAnswerReady) {
+      return {
+        speed: 0.30,
+        opacity: 0.15,
+        scaleRate: 0.02,
+        ringCount: 4,
+        color1: '#EE2A6D',
+        color2: '#F5C518',
+      };
+    }
+    if (isListening) {
+      return {
+        speed: 1.15,
+        opacity: 0.65,
+        scaleRate: 0.10,
+        ringCount: 6,
+        color1: '#EE2A6D',
+        color2: '#F5C518',
+      };
+    }
+    if (isTranscribing) {
+      return {
+        speed: 0.70,
+        opacity: 0.40,
+        scaleRate: 0.05,
+        ringCount: 5,
+        color1: '#EE2A6D',
+        color2: '#F5C518',
+      };
+    }
+    if (isRetrieving) {
+      return {
+        speed: 0.75,
+        opacity: 0.50,
+        scaleRate: 0.06,
+        ringCount: 5,
+        color1: '#F5C518',
+        color2: '#EE2A6D',
+      };
+    }
+    if (isGenerating) {
+      return {
+        speed: 0.55,
+        opacity: 0.40,
+        scaleRate: 0.04,
+        ringCount: 5,
+        color1: '#F5C518',
+        color2: '#F4EDD8',
+      };
+    }
+    if (isPlayingAudio) {
+      return {
+        speed: 0.85,
+        opacity: 0.50,
+        scaleRate: 0.07,
+        ringCount: 5,
+        color1: '#F5C518',
+        color2: '#EE2A6D',
+      };
+    }
+    if (isRefused) {
+      return {
+        speed: 0.30,
+        opacity: 0.25,
+        scaleRate: 0.02,
+        ringCount: 4,
+        color1: '#EE2A6D',
+        color2: '#9F1239',
+      };
+    }
+    // IDLE
+    return {
+      speed: 0.35,
+      opacity: 0.25,
+      scaleRate: 0.03,
+      ringCount: 5,
+      color1: '#EE2A6D',
+      color2: '#F5C518',
+    };
+  };
+
+  const ringsProps = getMagicRingsProps();
 
   // Responsive Orb Dimensions
   const orbDimension = compact
@@ -53,10 +139,10 @@ export const VoiceOrb: React.FC<VoiceOrbProps> = ({
       {/* Decorative Floating Sparkles (Idle & Processing) */}
       {!compact && (
         <>
-          <div className="absolute -top-3 left-4 sm:left-12 animate-sparkle">
+          <div className="absolute -top-3 left-4 sm:left-12 animate-sparkle pointer-events-none">
             <SparkleIcon className="w-5 h-5 text-goa-yellow/80" />
           </div>
-          <div className="absolute top-1/2 -right-2 sm:right-6 animate-sparkle" style={{ animationDelay: '2.5s' }}>
+          <div className="absolute top-1/2 -right-2 sm:right-6 animate-sparkle pointer-events-none" style={{ animationDelay: '2.5s' }}>
             <SparkleIcon className="w-6 h-6 text-goa-pink/70" />
           </div>
         </>
@@ -66,7 +152,7 @@ export const VoiceOrb: React.FC<VoiceOrbProps> = ({
       <div className="relative flex items-center justify-center">
         {/* Left Horizontal Waveform (during Listening / Audio Playback) */}
         {(isListening || isPlayingAudio) && !compact && (
-          <div className="hidden sm:flex items-center gap-1.5 mr-4 pointer-events-none">
+          <div className="hidden sm:flex items-center gap-1.5 mr-4 pointer-events-none z-30">
             {leftBars.map((h, i) => (
               <div
                 key={i}
@@ -79,32 +165,50 @@ export const VoiceOrb: React.FC<VoiceOrbProps> = ({
           </div>
         )}
 
-        {/* Central Organic Layered Orb */}
+        {/* Central Organic Layered Orb with MagicRings Underlay */}
         <div
           onClick={onClick}
           className={`relative ${orbDimension} flex items-center justify-center cursor-pointer group transition-all duration-700`}
         >
-          {/* Radar Waves / Ambient Glow */}
+          {/* Layer 0: MagicRings WebGL Underlay (extends ~60–90px beyond the orb) */}
+          <div className="absolute -inset-14 sm:-inset-20 z-0 pointer-events-none overflow-visible">
+            <MagicRings
+              ringCount={ringsProps.ringCount}
+              speed={ringsProps.speed}
+              opacity={ringsProps.opacity}
+              scaleRate={ringsProps.scaleRate}
+              color1={ringsProps.color1}
+              color2={ringsProps.color2}
+              attenuation={14}
+              lineThickness={1.5}
+              baseRadius={0.30}
+              radiusStep={0.085}
+              noiseAmount={0.025}
+              ringGap={1.7}
+              fadeIn={0.8}
+              fadeOut={0.55}
+            />
+          </div>
+
+          {/* Layer 1: Radar Waves / Ambient Glow */}
           {isListening && (
-            <>
-              <div className="absolute inset-0 rounded-full border-2 border-goa-pink/40 animate-radar-ring pointer-events-none" />
-              <div className="absolute -inset-4 rounded-full border border-goa-pink/30 animate-radar-ring pointer-events-none" style={{ animationDelay: '0.7s' }} />
-              <div className="absolute -inset-8 rounded-full border border-goa-pink/20 animate-radar-ring pointer-events-none" style={{ animationDelay: '1.4s' }} />
-            </>
+            <div className="absolute inset-0 z-1 pointer-events-none">
+              <div className="absolute inset-0 rounded-full border-2 border-goa-pink/40 animate-radar-ring" />
+              <div className="absolute -inset-4 rounded-full border border-goa-pink/30 animate-radar-ring" style={{ animationDelay: '0.7s' }} />
+              <div className="absolute -inset-8 rounded-full border border-goa-pink/20 animate-radar-ring" style={{ animationDelay: '1.4s' }} />
+            </div>
           )}
 
-          {/* Layer 1: Outer Cream Organic Layer */}
-          <div className={`absolute inset-0 bg-goa-cream shadow-2xl transition-all duration-700 ${
+          {/* Layer 2: Outer Cream Organic Torn-Paper Layers */}
+          <div className={`absolute inset-0 bg-goa-cream shadow-2xl z-2 transition-all duration-700 ${
             isListening ? 'animate-blob-1 ring-4 ring-goa-pink/40 shadow-goa-pink/40' : 'animate-blob-1'
           }`} />
 
-          {/* Layer 2: Middle Fluid Ring with Pink / Gold Accents */}
-          <div className="absolute inset-1.5 sm:inset-2 bg-gradient-to-tr from-goa-cream via-goa-yellow/30 to-goa-pink/30 shadow-inner animate-blob-2" />
+          <div className="absolute inset-1.5 sm:inset-2 bg-gradient-to-tr from-goa-cream via-goa-yellow/30 to-goa-pink/30 shadow-inner animate-blob-2 z-2" />
 
-          {/* Layer 3: Inner Contour */}
-          <div className="absolute inset-3 sm:inset-4 bg-goa-cream animate-blob-3 shadow-md" />
+          <div className="absolute inset-3 sm:inset-4 bg-goa-cream animate-blob-3 shadow-md z-2" />
 
-          {/* Inner Dark Forest Disc & Sun Core */}
+          {/* Layer 3: Inner Dark Forest Disc & Sun Core */}
           <div className="relative w-3/5 h-3/5 rounded-full bg-goa-forest-deep flex items-center justify-center border-2 border-goa-cream/30 shadow-2xl overflow-hidden z-10">
             {/* Ambient Radial Gradient */}
             <div className={`absolute inset-0 transition-opacity duration-700 ${
@@ -148,7 +252,7 @@ export const VoiceOrb: React.FC<VoiceOrbProps> = ({
 
         {/* Right Horizontal Waveform (during Listening / Audio Playback) */}
         {(isListening || isPlayingAudio) && !compact && (
-          <div className="hidden sm:flex items-center gap-1.5 ml-4 pointer-events-none">
+          <div className="hidden sm:flex items-center gap-1.5 ml-4 pointer-events-none z-30">
             {rightBars.map((h, i) => (
               <div
                 key={i}
@@ -164,7 +268,7 @@ export const VoiceOrb: React.FC<VoiceOrbProps> = ({
 
       {/* State Caption & Stage Feedback */}
       {!compact && (
-        <div className="mt-4 text-center max-w-sm px-4">
+        <div className="mt-4 text-center max-w-sm px-4 z-20">
           {isListening && (
             <p className="text-xs sm:text-sm font-mono tracking-wider text-goa-pink font-semibold flex items-center justify-center gap-2">
               <span className="w-2 h-2 rounded-full bg-goa-pink animate-ping" />
