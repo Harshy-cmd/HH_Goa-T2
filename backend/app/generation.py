@@ -38,6 +38,12 @@ class GroundedLLMResponse(BaseModel):
     refused: bool = False
 
 
+import threading
+
+_CLIENT_CACHE: dict[tuple[str | None, str | None], Any] = {}
+_CLIENT_LOCK = threading.Lock()
+
+
 class OpenAIGroundedLLM:
     """OpenAI-compatible structured-output adapter. It never sends evidence beyond supplied hits."""
     def __init__(
@@ -57,15 +63,25 @@ class OpenAIGroundedLLM:
             return self._client
         if not self.api_key:
             raise GroundedGenerationError("OPENAI_API_KEY is required when LLM_PROVIDER=openai.")
-        try:
-            from openai import OpenAI
-        except ImportError as exc:
-            raise GroundedGenerationError("openai is required when LLM_PROVIDER=openai.") from exc
-        kwargs: dict[str, Any] = {"api_key": self.api_key}
-        if self.base_url:
-            kwargs["base_url"] = self.base_url
-        self._client = OpenAI(**kwargs)
-        return self._client
+        cache_key = (self.api_key, self.base_url)
+        with _CLIENT_LOCK:
+            if cache_key in _CLIENT_CACHE:
+                self._client = _CLIENT_CACHE[cache_key]
+                return self._client
+            try:
+                from openai import OpenAI
+            except ImportError as exc:
+                raise GroundedGenerationError("openai is required when LLM_PROVIDER=openai.") from exc
+            kwargs: dict[str, Any] = {"api_key": self.api_key}
+            if self.base_url:
+                kwargs["base_url"] = self.base_url
+            try:
+                client = OpenAI(**kwargs)
+                _CLIENT_CACHE[cache_key] = client
+                self._client = client
+                return self._client
+            except Exception as exc:
+                raise GroundedGenerationError(f"Failed to initialize OpenAI client: {exc}") from exc
 
     @staticmethod
     def _prompt(query: str, evidence: Sequence[SearchHit]) -> list[dict[str, str]]:

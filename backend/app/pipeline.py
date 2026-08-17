@@ -30,7 +30,11 @@ class RAGPipeline:
 
     def run(self, query: str, retrieval_limit: int = 10, answer_limit: int = 5) -> PipelineResult:
         started = time.perf_counter()
-        candidates = self.retriever.search(query, retrieval_limit)
+        if hasattr(self.retriever, "search_with_profile"):
+            candidates, retrieval_profile = self.retriever.search_with_profile(query, retrieval_limit)
+        else:
+            candidates = self.retriever.search(query, retrieval_limit)
+            retrieval_profile = {}
         retrieved_at = time.perf_counter()
         evidence = self.reranker.rerank(query, candidates, answer_limit) if self.reranker else candidates[:answer_limit]
         reranked_at = time.perf_counter()
@@ -44,12 +48,16 @@ class RAGPipeline:
         else:
             answer = generated
         completed_at = time.perf_counter()
+        latency_ms: dict[str, float] = {
+            "retrieval": round((retrieved_at - started) * 1000, 3),
+        }
+        for k, v in retrieval_profile.items():
+            latency_ms[k] = round(float(v), 3)
+        latency_ms["reranking"] = round((reranked_at - retrieved_at) * 1000, 3)
+        latency_ms["generation"] = round((completed_at - reranked_at) * 1000, 3)
+        latency_ms["rag_total"] = round((completed_at - started) * 1000, 3)
+
         return PipelineResult(
             answer=answer, sources=evidence if supported else [], refused=not supported,
-            latency_ms={
-                "retrieval": round((retrieved_at - started) * 1000, 3),
-                "reranking": round((reranked_at - retrieved_at) * 1000, 3),
-                "generation": round((completed_at - reranked_at) * 1000, 3),
-                "rag_total": round((completed_at - started) * 1000, 3),
-            },
+            latency_ms=latency_ms,
         )

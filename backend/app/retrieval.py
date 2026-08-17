@@ -3,9 +3,10 @@ from __future__ import annotations
 import hashlib
 import math
 import re
+import threading
 import time
 from collections import Counter, defaultdict
-from typing import Iterable, Sequence
+from typing import Any, Iterable, Sequence
 
 from app.domain import Chunk, Embedder, Reranker, Retriever, SearchHit
 from app.vector_store import FaissVectorStore
@@ -137,6 +138,10 @@ class HybridRetriever:
         return [SearchHit(chunk=chunk, score=score, retriever="hybrid") for chunk, score in ordered], profile
 
 
+_CROSS_ENCODER_CACHE: dict[str, Any] = {}
+_CROSS_ENCODER_LOCK = threading.Lock()
+
+
 class TransparentReranker(Reranker):
     """Transparent baseline reranker; replace with a cross-encoder adapter after baseline evaluation."""
     def rerank(self, query: str, candidates: Sequence[SearchHit], limit: int) -> list[SearchHit]:
@@ -166,12 +171,18 @@ class CrossEncoderReranker(Reranker):
     def _load_model(self):
         if self._model is not None:
             return self._model
-        try:
-            from sentence_transformers import CrossEncoder
-            self._model = CrossEncoder(self.model_name)
-            return self._model
-        except Exception as exc:
-            raise RuntimeError(f"Unable to load reranker model '{self.model_name}': {exc}") from exc
+        with _CROSS_ENCODER_LOCK:
+            if self.model_name in _CROSS_ENCODER_CACHE:
+                self._model = _CROSS_ENCODER_CACHE[self.model_name]
+                return self._model
+            try:
+                from sentence_transformers import CrossEncoder
+                model = CrossEncoder(self.model_name)
+                _CROSS_ENCODER_CACHE[self.model_name] = model
+                self._model = model
+                return self._model
+            except Exception as exc:
+                raise RuntimeError(f"Unable to load reranker model '{self.model_name}': {exc}") from exc
 
     def rerank(self, query: str, candidates: Sequence[SearchHit], limit: int) -> list[SearchHit]:
         if not candidates:

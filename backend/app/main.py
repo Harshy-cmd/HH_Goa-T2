@@ -80,21 +80,42 @@ class TTSRequest(BaseModel):
     language: str | None = Field(default="en")
 
 
+_STORE_CACHE: dict[str, FaissVectorStore] = {}
+_EMBEDDER_INSTANCE: SentenceTransformerEmbeddingProvider | None = None
+
+
+def _get_shared_embedder() -> SentenceTransformerEmbeddingProvider:
+    global _EMBEDDER_INSTANCE
+    if _EMBEDDER_INSTANCE is None:
+        _EMBEDDER_INSTANCE = SentenceTransformerEmbeddingProvider()
+    return _EMBEDDER_INSTANCE
+
+
+def _get_vector_store(strategy: str) -> FaissVectorStore | None:
+    if strategy in _STORE_CACHE:
+        return _STORE_CACHE[strategy]
+    configured_path = Path(os.getenv("VECTOR_INDEX_DIR", "data/indexes"))
+    index_root = configured_path if configured_path.is_absolute() else PROJECT_ROOT / configured_path
+    index_dir = index_root / strategy
+    if FaissVectorStore.exists(index_dir):
+        embedder = _get_shared_embedder()
+        store = FaissVectorStore.load(
+            index_dir,
+            expected_model=embedder.model_name,
+            expected_strategy=strategy,
+            expected_normalized=True,
+        )
+        _STORE_CACHE[strategy] = store
+        return store
+    return None
+
+
 def _build_dense_retriever(chunks: list, strategy: str):
     provider = os.getenv("DENSE_RETRIEVER", "faiss").lower()
     if provider == "faiss":
-        configured_path = Path(os.getenv("VECTOR_INDEX_DIR", "data/indexes"))
-        index_root = configured_path if configured_path.is_absolute() else PROJECT_ROOT / configured_path
-        index_dir = index_root / strategy
-        if FaissVectorStore.exists(index_dir):
-            embedder = SentenceTransformerEmbeddingProvider()
-            store = FaissVectorStore.load(
-                index_dir,
-                expected_model=embedder.model_name,
-                expected_strategy=strategy,
-                expected_normalized=True,
-            )
-            return FAISSDenseRetriever(store, embedder)
+        store = _get_vector_store(strategy)
+        if store is not None:
+            return FAISSDenseRetriever(store, _get_shared_embedder())
         return HashingDenseRetriever(chunks, HashingEmbedder())
     if provider == "hashing":
         return HashingDenseRetriever(chunks, HashingEmbedder())
@@ -110,12 +131,20 @@ def _build_reranker():
     raise ValueError("RERANKER_PROVIDER must be either 'transparent' or 'cross_encoder'.")
 
 
+_GENERATOR_INSTANCE = None
+
+
 def _build_generator():
+    global _GENERATOR_INSTANCE
+    if _GENERATOR_INSTANCE is not None:
+        return _GENERATOR_INSTANCE
     provider = os.getenv("LLM_PROVIDER", "extractive").lower()
     if provider == "extractive":
-        return ExtractiveGroundedGenerator()
+        _GENERATOR_INSTANCE = ExtractiveGroundedGenerator()
+        return _GENERATOR_INSTANCE
     if provider == "openai":
-        return OpenAIGroundedLLM()
+        _GENERATOR_INSTANCE = OpenAIGroundedLLM()
+        return _GENERATOR_INSTANCE
     raise ValueError("LLM_PROVIDER must be either 'extractive' or 'openai'.")
 
 
@@ -137,14 +166,14 @@ def _build_tts() -> TextToSpeech:
     raise ValueError(f"TTS_PROVIDER must be either 'edge' or 'mock', got '{provider}'.")
 
 
-def build_pipeline(chunks: list, strategy: str = "sentence", mode: str = "dense") -> RAGPipeline:
-    dense = _build_dense_retriever(chunks, strategy)
-    bm25 = BM25Retriever(chunks)
+def build_pipeline(chunks: list, strategy: str = "sentence", mode: str = "dense", dense=None, bm25=None) -> RAGPipeline:
+    dense_retriever = dense if dense is not None else _build_dense_retriever(chunks, strategy)
+    bm25_retriever = bm25 if bm25 is not None else BM25Retriever(chunks)
     retriever = {
-        "dense": dense,
-        "bm25": bm25,
-        "hybrid": HybridRetriever(dense, bm25),
-        "hybrid_rerank": HybridRetriever(dense, bm25),
+        "dense": dense_retriever,
+        "bm25": bm25_retriever,
+        "hybrid": HybridRetriever(dense_retriever, bm25_retriever),
+        "hybrid_rerank": HybridRetriever(dense_retriever, bm25_retriever),
     }[mode]
     reranker = _build_reranker() if mode == "hybrid_rerank" else None
     threshold = float(os.getenv("MIN_RELEVANCE_SCORE", "0.12")) if reranker else float(
@@ -160,10 +189,15 @@ def build_pipelines() -> dict[str, dict[str, RAGPipeline]]:
         "sentence": sentence_chunks(passages),
         "hierarchical": hierarchical_chunks(passages),
     }
-    return {
-        name: {mode: build_pipeline(chunks, name, mode) for mode in ("dense", "bm25", "hybrid", "hybrid_rerank")}
-        for name, chunks in corpora.items()
-    }
+    result: dict[str, dict[str, RAGPipeline]] = {}
+    for name, chunks in corpora.items():
+        dense = _build_dense_retriever(chunks, name)
+        bm25 = BM25Retriever(chunks)
+        result[name] = {
+            mode: build_pipeline(chunks, name, mode, dense=dense, bm25=bm25)
+            for mode in ("dense", "bm25", "hybrid", "hybrid_rerank")
+        }
+    return result
 
 
 from fastapi.middleware.cors import CORSMiddleware
@@ -171,7 +205,52 @@ from fastapi.middleware.cors import CORSMiddleware
 pipelines = build_pipelines()
 stt_adapter = _build_stt()
 tts_adapter = _build_tts()
-app = FastAPI(title="NOVARON Voice RAG", version="0.5.0")
+from contextlib import asynccontextmanager
+
+
+def warmup_system() -> dict[str, float]:
+    t_start = time.perf_counter()
+    timings: dict[str, float] = {}
+
+    m_start = time.perf_counter()
+    embedder = _get_shared_embedder()
+    try:
+        embedder.warmup()
+    except Exception:
+        pass
+    timings["model_load_ms"] = round((time.perf_counter() - m_start) * 1000, 2)
+
+    f_start = time.perf_counter()
+    for strat in ("fixed", "sentence", "hierarchical"):
+        _get_vector_store(strat)
+    timings["faiss_load_ms"] = round((time.perf_counter() - f_start) * 1000, 2)
+
+    w_start = time.perf_counter()
+    for strat, modes in pipelines.items():
+        for mode, pipeline in modes.items():
+            try:
+                pipeline.run("warmup query", retrieval_limit=2, answer_limit=2)
+            except Exception:
+                pass
+    timings["warmup_ms"] = round((time.perf_counter() - w_start) * 1000, 2)
+    timings["total_startup_ms"] = round((time.perf_counter() - t_start) * 1000, 2)
+
+    print(
+        f"[STARTUP] MODEL LOAD: {timings['model_load_ms']} ms | "
+        f"FAISS LOAD: {timings['faiss_load_ms']} ms | "
+        f"WARMUP: {timings['warmup_ms']} ms | "
+        f"TOTAL: {timings['total_startup_ms']} ms"
+    )
+    return timings
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    warmup_system()
+    yield
+
+
+app = FastAPI(title="NOVARON Voice RAG", version="0.5.0", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -179,7 +258,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 
 @app.get("/health")
@@ -266,10 +344,7 @@ async def voice_query(
 
     latency_ms = {
         "stt": stt_elapsed,
-        "retrieval": result.latency_ms.get("retrieval", 0.0),
-        "reranking": result.latency_ms.get("reranking", 0.0),
-        "generation": result.latency_ms.get("generation", 0.0),
-        "rag_total": result.latency_ms.get("rag_total", 0.0),
+        **result.latency_ms,
         "total": round(stt_elapsed + result.latency_ms.get("rag_total", 0.0), 3),
     }
 

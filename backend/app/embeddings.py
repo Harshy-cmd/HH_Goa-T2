@@ -1,16 +1,28 @@
 from __future__ import annotations
 
+import math
 import os
 import re
+import threading
 import unicodedata
-import math
-from typing import Sequence
+from contextlib import nullcontext
+from typing import Any, Sequence
 
 from app.domain import EmbeddingProvider
+
+try:
+    import torch
+    _HAS_TORCH = True
+except ImportError:
+    _HAS_TORCH = False
 
 
 class EmbeddingProviderError(RuntimeError):
     """Raised when an embedding provider cannot produce a valid vector."""
+
+
+_MODEL_CACHE: dict[tuple[str, str | None], Any] = {}
+_MODEL_LOCK = threading.Lock()
 
 
 def normalize_embedding_text(text: str) -> str:
@@ -41,18 +53,30 @@ class SentenceTransformerEmbeddingProvider(EmbeddingProvider):
     def _load_model(self):
         if self._model is not None:
             return self._model
-        try:
-            from sentence_transformers import SentenceTransformer
-        except ImportError as exc:
-            raise EmbeddingProviderError(
-                "sentence-transformers is required for EMBEDDING_PROVIDER=sentence_transformers; "
-                "install backend/requirements.txt production extras."
-            ) from exc
-        try:
-            self._model = SentenceTransformer(self.model_name, device=self.device)
-        except Exception as exc:  # model download, local cache, device, or provider failures
-            raise EmbeddingProviderError(f"Unable to load embedding model '{self.model_name}': {exc}") from exc
-        return self._model
+        cache_key = (self.model_name, self.device)
+        with _MODEL_LOCK:
+            if cache_key in _MODEL_CACHE:
+                self._model = _MODEL_CACHE[cache_key]
+                return self._model
+            try:
+                from sentence_transformers import SentenceTransformer
+            except ImportError as exc:
+                raise EmbeddingProviderError(
+                    "sentence-transformers is required for EMBEDDING_PROVIDER=sentence_transformers; "
+                    "install backend/requirements.txt production extras."
+                ) from exc
+            try:
+                model = SentenceTransformer(self.model_name, device=self.device)
+                _MODEL_CACHE[cache_key] = model
+                self._model = model
+                return self._model
+            except Exception as exc:  # model download, local cache, device, or provider failures
+                raise EmbeddingProviderError(f"Unable to load embedding model '{self.model_name}': {exc}") from exc
+
+    def warmup(self) -> None:
+        """Warm up model and inference engine eagerly."""
+        self._load_model()
+        self.embed_query("warmup")
 
     def _encode(self, texts: Sequence[str], batch_size: int | None, prefix: str) -> list[list[float]]:
         if not texts:
@@ -64,13 +88,15 @@ class SentenceTransformerEmbeddingProvider(EmbeddingProvider):
         if prefix:
             prepared = [prefix + text for text in prepared]
         try:
-            vectors = model.encode(
-                prepared,
-                batch_size=batch_size or int(os.getenv("EMBEDDING_BATCH_SIZE", "32")),
-                normalize_embeddings=True,
-                show_progress_bar=False,
-                convert_to_numpy=True,
-            )
+            ctx = torch.inference_mode() if _HAS_TORCH else nullcontext()
+            with ctx:
+                vectors = model.encode(
+                    prepared,
+                    batch_size=batch_size or int(os.getenv("EMBEDDING_BATCH_SIZE", "32")),
+                    normalize_embeddings=True,
+                    show_progress_bar=False,
+                    convert_to_numpy=True,
+                )
         except Exception as exc:
             raise EmbeddingProviderError(f"Embedding request failed: {exc}") from exc
         result = [vector.astype(float).tolist() for vector in vectors]
