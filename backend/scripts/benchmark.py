@@ -50,6 +50,18 @@ def parse_args() -> argparse.Namespace:
         default=os.getenv("BENCHMARK_LANGUAGES", "en,hi"),
         help="Comma-separated language codes for official benchmark scope (default: 'en,hi'). Use 'all' for all languages.",
     )
+    parser.add_argument(
+        "--reranker",
+        type=str,
+        default=os.getenv("BENCHMARK_CROSS_ENCODER", "1"),
+        help="Whether to benchmark CrossEncoder reranker ('1' or '0'). Default is '1'.",
+    )
+    parser.add_argument(
+        "--candidate-pool",
+        type=int,
+        default=int(os.getenv("BENCHMARK_CANDIDATE_POOL", "10")),
+        help="Number of first-stage candidates provided to reranker (default: 10).",
+    )
     parser.add_argument("--limit", type=int, default=3, help="Number of retrieved candidates to evaluate.")
     return parser.parse_args()
 
@@ -80,35 +92,53 @@ def latency_summary(values: list[float]) -> dict[str, float]:
     } if values else {}
 
 
-def evaluate(retriever, cases: list[dict[str, Any]], reranker=None, limit: int = 3) -> dict[str, Any]:
-    # Warm up retriever / embedder once before timing to exclude lazy model download/initialization
+def evaluate(
+    retriever,
+    cases: list[dict[str, Any]],
+    reranker=None,
+    limit: int = 3,
+    candidate_pool: int = 10,
+) -> dict[str, Any]:
+    # Warm up retriever / embedder / reranker once before timing to exclude lazy model download/initialization
     try:
         if hasattr(retriever, "search_with_profile"):
-            retriever.search_with_profile("warmup query", 1)
+            warmup_hits, _ = retriever.search_with_profile("warmup query", candidate_pool)
         else:
-            retriever.search("warmup query", 1)
+            warmup_hits = retriever.search("warmup query", candidate_pool)
+        if reranker:
+            reranker.rerank("warmup query", warmup_hits, limit)
     except Exception:
         pass
 
     languages: dict[str, dict[str, list[float]]] = {}
-    overall: dict[str, list[float]] = {"recall": [], "mrr": [], "total": []}
+    overall: dict[str, list[float]] = {"recall": [], "mrr": [], "candidate_recall": [], "total": []}
 
     for case in cases:
         language = case["language"]
-        metrics = languages.setdefault(language, {"recall": [], "mrr": [], "total": []})
+        metrics = languages.setdefault(language, {"recall": [], "mrr": [], "candidate_recall": [], "total": []})
+        relevant = set(case["relevant_document_ids"])
+
         started = time.perf_counter()
+        pool_size = candidate_pool if reranker else max(candidate_pool, limit * 2, 20)
         if hasattr(retriever, "search_with_profile"):
-            hits, profile = retriever.search_with_profile(case["query"], max(20, limit * 2))
+            hits, profile = retriever.search_with_profile(case["query"], pool_size)
         else:
-            hits, profile = retriever.search(case["query"], max(20, limit * 2)), {}
+            hits, profile = retriever.search(case["query"], pool_size), {}
+
+        # Measure first-stage candidate recall before reranking
+        cand_ranks = [rank for rank, hit in enumerate(hits[:candidate_pool], start=1) if hit.chunk.document_id in relevant]
+        cand_recall_val = float(bool(cand_ranks))
+        metrics["candidate_recall"].append(cand_recall_val)
+        overall["candidate_recall"].append(cand_recall_val)
+
         if reranker:
             rerank_started = time.perf_counter()
-            hits = reranker.rerank(case["query"], hits, limit)
-            profile["reranking"] = (time.perf_counter() - rerank_started) * 1000
+            hits = reranker.rerank(case["query"], hits[:candidate_pool], limit)
+            profile["cross_encoder"] = (time.perf_counter() - rerank_started) * 1000
         else:
             hits = hits[:limit]
+
         profile["total_retrieval"] = (time.perf_counter() - started) * 1000
-        relevant = set(case["relevant_document_ids"])
         ranks = [rank for rank, hit in enumerate(hits, start=1) if hit.chunk.document_id in relevant]
         recall_val = float(bool(ranks))
         mrr_val = 1.0 / ranks[0] if ranks else 0.0
@@ -129,11 +159,12 @@ def evaluate(retriever, cases: list[dict[str, Any]], reranker=None, limit: int =
         language: {
             "recall_at_3": round(sum(values["recall"]) / len(values["recall"]), 3),
             "mrr_at_3": round(sum(values["mrr"]) / len(values["mrr"]), 3),
+            "candidate_recall_at_10": round(sum(values["candidate_recall"]) / len(values["candidate_recall"]), 3),
             "query_count": len(values["recall"]),
             "latency_ms": {
                 stage: latency_summary(timings)
                 for stage, timings in values.items()
-                if stage not in {"recall", "mrr", "total"}
+                if stage not in {"recall", "mrr", "candidate_recall", "total"}
             },
         }
         for language, values in languages.items()
@@ -143,11 +174,12 @@ def evaluate(retriever, cases: list[dict[str, Any]], reranker=None, limit: int =
         results["overall"] = {
             "recall_at_3": round(sum(overall["recall"]) / len(overall["recall"]), 3),
             "mrr_at_3": round(sum(overall["mrr"]) / len(overall["mrr"]), 3),
+            "candidate_recall_at_10": round(sum(overall["candidate_recall"]) / len(overall["candidate_recall"]), 3),
             "query_count": len(overall["recall"]),
             "latency_ms": {
                 stage: latency_summary(timings)
                 for stage, timings in overall.items()
-                if stage not in {"recall", "mrr", "total"}
+                if stage not in {"recall", "mrr", "candidate_recall", "total"}
             },
         }
 
@@ -160,15 +192,17 @@ def print_method(method: str, value: dict[str, Any]) -> None:
         return
     for language, metrics in value["languages"].items():
         total = metrics["latency_ms"]["total_retrieval"]
+        cand_recall = metrics.get("candidate_recall_at_10", 0.0)
         print(
             f"  {method:<28} lang={language:<7} (n={metrics['query_count']:>3}) "
             f"Recall@3={metrics['recall_at_3']:.3f} MRR@3={metrics['mrr_at_3']:.3f} "
+            f"CandRec@10={cand_recall:.3f} "
             f"p50={total['p50']:.3f}ms p70={total['p70']:.3f}ms p95={total['p95']:.3f}ms p100={total['p100']:.3f}ms"
         )
 
 
-def available(retriever, cases, reranker=None, limit: int = 3) -> dict[str, Any]:
-    return {"status": "available", "languages": evaluate(retriever, cases, reranker, limit)}
+def available(retriever, cases, reranker=None, limit: int = 3, candidate_pool: int = 10) -> dict[str, Any]:
+    return {"status": "available", "languages": evaluate(retriever, cases, reranker, limit, candidate_pool)}
 
 
 def main() -> None:
@@ -196,25 +230,35 @@ def main() -> None:
         "corpus": str(corpus_path),
         "evaluation": str(eval_path),
         "evaluation_scope": list(allowed_languages) if allowed_languages else "all",
+        "candidate_pool": args.candidate_pool,
         "case_count": len(cases),
         "results": {},
     }
-    print(f"Benchmark cases: {len(cases)} (scope: {args.languages}) | corpus: {corpus_path}")
+    print(f"Benchmark cases: {len(cases)} (scope: {args.languages}) | candidate_pool: {args.candidate_pool} | corpus: {corpus_path}")
+
+    ce_reranker = None
+    if args.reranker in {"1", "true", "True"}:
+        try:
+            ce_reranker = CrossEncoderReranker()
+        except RuntimeError as exc:
+            print(f"Warning: could not initialize CrossEncoderReranker: {exc}")
+
     for strategy, chunks in strategies:
         print(f"\nStrategy: {strategy} | chunks: {len(chunks)}")
         hashing = HashingDenseRetriever(chunks, HashingEmbedder())
         bm25 = BM25Retriever(chunks)
         hybrid = HybridRetriever(hashing, bm25)
         methods: dict[str, dict[str, Any]] = {
-            "hashing_dense": available(hashing, cases, limit=args.limit),
-            "bm25": available(bm25, cases, limit=args.limit),
-            "hybrid_rrf": available(hybrid, cases, limit=args.limit),
-            "hybrid_transparent_reranker": available(hybrid, cases, TransparentReranker(), limit=args.limit),
+            "hashing_dense": available(hashing, cases, limit=args.limit, candidate_pool=args.candidate_pool),
+            "bm25": available(bm25, cases, limit=args.limit, candidate_pool=args.candidate_pool),
+            "hybrid_rrf": available(hybrid, cases, limit=args.limit, candidate_pool=args.candidate_pool),
+            "hybrid_transparent_reranker": available(hybrid, cases, TransparentReranker(), limit=args.limit, candidate_pool=args.candidate_pool),
         }
         index_dir = index_root / strategy
         if not FaissVectorStore.exists(index_dir):
             methods["faiss_dense"] = {"status": "unavailable", "reason": f"Index not found: {index_dir}"}
             methods["faiss_bm25_hybrid"] = {"status": "unavailable", "reason": f"Index not found: {index_dir}"}
+            methods["faiss_cross_encoder"] = {"status": "unavailable", "reason": f"Index not found: {index_dir}"}
         else:
             try:
                 embedder = SentenceTransformerEmbeddingProvider()
@@ -225,16 +269,19 @@ def main() -> None:
                     expected_normalized=True,
                 )
                 faiss_dense = FAISSDenseRetriever(store, embedder)
-                methods["faiss_dense"] = available(faiss_dense, cases, limit=args.limit)
-                methods["faiss_bm25_hybrid"] = available(HybridRetriever(faiss_dense, bm25), cases, limit=args.limit)
+                methods["faiss_dense"] = available(faiss_dense, cases, limit=args.limit, candidate_pool=args.candidate_pool)
+                methods["faiss_bm25_hybrid"] = available(HybridRetriever(faiss_dense, bm25), cases, limit=args.limit, candidate_pool=args.candidate_pool)
+                if ce_reranker is not None:
+                    methods["faiss_cross_encoder"] = available(faiss_dense, cases, ce_reranker, limit=args.limit, candidate_pool=args.candidate_pool)
+                else:
+                    methods["faiss_cross_encoder"] = {"status": "unavailable", "reason": "CrossEncoder disabled or failed initialization."}
             except (VectorStoreError, RuntimeError) as exc:
                 methods["faiss_dense"] = {"status": "unavailable", "reason": str(exc)}
                 methods["faiss_bm25_hybrid"] = {"status": "unavailable", "reason": str(exc)}
-        if os.getenv("BENCHMARK_CROSS_ENCODER", "0") == "1":
-            try:
-                methods["hybrid_cross_encoder"] = available(hybrid, cases, CrossEncoderReranker(), limit=args.limit)
-            except RuntimeError as exc:
-                methods["hybrid_cross_encoder"] = {"status": "unavailable", "reason": str(exc)}
+                methods["faiss_cross_encoder"] = {"status": "unavailable", "reason": str(exc)}
+
+        if ce_reranker is not None:
+            methods["hybrid_cross_encoder"] = available(hybrid, cases, ce_reranker, limit=args.limit, candidate_pool=args.candidate_pool)
         else:
             methods["hybrid_cross_encoder"] = {
                 "status": "unavailable",
