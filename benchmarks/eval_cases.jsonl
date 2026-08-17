@@ -1,0 +1,5 @@
+{"query_id":"photosynthesis-en","query":"What is photosynthesis?","relevant_document_ids":["science-photosynthesis-en"]}
+{"query_id":"photosynthesis-hi","query":"प्रकाश संश्लेषण क्या है?","relevant_document_ids":["science-photosynthesis-hi"]}
+{"query_id":"photosynthesis-kn","query":"ದ್ಯುತಿಸಂಶ್ಲೇಷಣೆ ಎಂದರೇನು?","relevant_document_ids":["science-photosynthesis-kn"]}
+{"query_id":"mars-en","query":"Why is Mars called the Red Planet?","relevant_document_ids":["space-mars-en"]}
+{"query_id":"rag-en","query":"How does retrieval-augmented generation use evidence?","relevant_document_ids":["computing-rag-en"]}

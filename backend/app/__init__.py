@@ -1,0 +1,2 @@
+"""NOVARON backend application."""
+
