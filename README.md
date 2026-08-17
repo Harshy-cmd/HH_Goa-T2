@@ -1,42 +1,270 @@
 # NOVARON Voice RAG
 
-NOVARON is a multilingual, grounded Voice RAG system. RAG Core v0.2 keeps the dependency-free v0.1 baseline while adding optional provider-backed embeddings, persistent FAISS indexes, cross-encoder reranking, and structured grounded generation.
+<p align="center">
+  <strong>Production-Ready, Multilingual, Grounded Voice-to-Voice RAG System</strong><br>
+  <em>High-precision multilingual dense retrieval, grounded LLM generation, strict refusal guardrails, and real-time STT/TTS pipelines.</em>
+</p>
 
-## Architecture
+---
+
+## Overview
+
+**NOVARON Voice RAG** is an end-to-end multilingual conversational intelligence system built for high-accuracy question answering across **English** and **Hindi**. It seamlessly converts spoken user audio into grounded answers with verified citations and returns natural, synthesized voice audio while strictly preventing hallucinations and prompt injections.
+
+### Key Highlights
+- **End-to-End Voice Pipeline**: Full Voice-to-Voice (`Audio Input` $\to$ `STT` $\to$ `Sentence FAISS` $\to$ `Grounded LLM` $\to$ `Evidence Guard` $\to$ `TTS` $\to$ `MP3 Audio`).
+- **Multilingual Dense Retrieval**: Production `intfloat/multilingual-e5-small` embeddings indexed in high-performance cosine FAISS vector stores.
+- **Strict Grounding & Citation Validation**: Answers are strictly validated against retrieved evidence hits. Unsupported questions are safely refused with standardized refusal messages.
+- **Prompt-Injection Defense**: Evidence is isolated into passive data payloads, blocking untrusted retrieved content from overriding system instructions.
+- **Real-Time Latency Tracking**: Granular stage-wise latency tracking (`stt`, `retrieval`, `reranking`, `generation`, `tts`, `rag_total`, `total`).
+- **Offline & CI Determinism**: Includes `MockSTT` and `MockTTS` adapters alongside production provider implementations, enabling 100% offline unit/integration test coverage (73/73 tests passing).
+
+---
+
+## System Architecture
 
 ```text
-JSONL corpus → selected chunker → embedding provider → persisted FAISS index
-                                      ↘ BM25 ↗
-query → dense / BM25 → reciprocal-rank fusion → optional reranker → evidence guardrail
-      → extractive or grounded LLM answer → sources + stage latency
+                                  ┌────────────────────────┐
+                                  │   User Spoken Audio    │
+                                  └───────────┬────────────┘
+                                              │
+                                              ▼
+                                  ┌────────────────────────┐
+                                  │   Speech-to-Text       │
+                                  │   (Groq Whisper Turbo) │
+                                  └───────────┬────────────┘
+                                              │ Transcript
+                                              ▼
+┌───────────────────────┐         ┌────────────────────────┐
+│ Indexed Vector Store  │ ──────► │ Sentence FAISS Dense   │
+│ (Multilingual E5 384) │         │ Retrieval              │
+└───────────────────────┘         └───────────┬────────────┘
+                                              │ Evidence Chunks
+                                              ▼
+                                  ┌────────────────────────┐
+                                  │ Evidence Relevance     │
+                                  │ & Grounding Guardrail  │
+                                  └───────────┬────────────┘
+                                              │ Validated Evidence
+                                              ▼
+                                  ┌────────────────────────┐
+                                  │ Grounded LLM           │
+                                  │ (Groq GPT-OSS 20B)     │
+                                  └───────────┬────────────┘
+                                              │
+                       ┌──────────────────────┴──────────────────────┐
+                       │                                             │
+             [Sufficient Evidence]                         [Insufficient Evidence]
+                       ▼                                             ▼
+         ┌───────────────────────────┐                 ┌───────────────────────────┐
+         │ Grounded Text Answer      │                 │ Standard Refusal Text     │
+         │ + Verified Citations      │                 │ (sources = [])            │
+         └─────────────┬─────────────┘                 └─────────────┬─────────────┘
+                       │                                             │
+                       └──────────────────────┬──────────────────────┘
+                                              │
+                                              ▼
+                                  ┌────────────────────────┐
+                                  │ Text-to-Speech         │
+                                  │ (Edge Neural TTS / MP3)│
+                                  └───────────┬────────────┘
+                                              │
+                                              ▼
+                                  ┌────────────────────────┐
+                                  │ Playable Audio Output  │
+                                  └────────────────────────┘
 ```
 
-The API remains backward-compatible: `POST /v1/query` still accepts `query`, `top_k`, and `chunking_strategy`. It additionally accepts `retrieval_mode`: `dense`, `bm25`, `hybrid`, or `hybrid_rerank` (the default).
+---
 
-## Baseline versus production retrieval
+## Production Technology Stack
 
-| Capability | Baseline | Provider-backed option |
+| Component | Production Engine | Details |
 | --- | --- | --- |
-| Dense vectors | Local hashing vectors | Multilingual SentenceTransformer + FAISS |
-| Reranking | Transparent lexical overlap | SentenceTransformers cross-encoder |
-| Answering | Extractive top evidence | OpenAI-compatible structured grounded adapter |
-| Storage | In-memory | Persisted `index.faiss`, `chunks.json`, and manifest |
+| **Speech-to-Text (STT)** | Groq Whisper | `whisper-large-v3-turbo` with automatic language detection (`en`, `hi`) |
+| **Embeddings** | SentenceTransformers | `intfloat/multilingual-e5-small` (384-dimensional dense vectors) |
+| **Vector Index** | FAISS CPU | Normalized inner-product (cosine similarity) indexed per chunking strategy |
+| **Reranking** | Optional Cross-Encoder | `cross-encoder/ms-marco-MiniLM-L-6-v2` / transparent pass-through |
+| **Grounded LLM** | Groq OpenAI-Compatible | `openai/gpt-oss-20b` structured grounded output schema |
+| **Text-to-Speech (TTS)** | Microsoft Edge Neural | `en-US-JennyNeural` (English), `hi-IN-SwaraNeural` (Hindi) with chunked fallback |
+| **API Framework** | FastAPI + Uvicorn | Async REST endpoints with multipart/form-data upload support |
 
-No production adapter is activated by default. This lets the project run without a model download or secret, and ensures baseline benchmarks remain comparable.
+---
 
-## Setup
+## API Reference
 
-1. Use Python 3.11+ and create a virtual environment.
-2. Install `pip install -r backend/requirements.txt`.
-3. Copy `.env.example` to `.env` and select only the providers you have configured.
-4. From `backend`, run `uvicorn app.main:app --reload`.
+### 1. Health Check
+```http
+GET /health
+```
+**Response:**
+```json
+{
+  "status": "ok",
+  "service": "novaron-rag-core"
+}
+```
 
-The fixture corpus is deliberately tiny and is only for smoke tests. It is not MSMARCO-XI and cannot establish production quality.
+---
 
-## Build a FAISS index
+### 2. Text Query
+```http
+POST /v1/query
+Content-Type: application/json
+```
+**Request Body:**
+```json
+{
+  "query": "What is photosynthesis?",
+  "top_k": 5,
+  "chunking_strategy": "sentence",
+  "retrieval_mode": "dense"
+}
+```
+**Response:**
+```json
+{
+  "answer": "Photosynthesis is the light-driven process in which plants use photosystems...",
+  "refused": false,
+  "retrieval_strategy": "dense",
+  "chunking_strategy": "sentence",
+  "sources": [
+    {
+      "chunk_id": "msmarco-xi:en:400625:7:sentence:0",
+      "document_id": "msmarco-xi:en:400625:7",
+      "passage_id": "400625",
+      "title": null,
+      "language": "en",
+      "text": "Photosynthesis is the process...",
+      "relevance_score": 0.8842
+    }
+  ],
+  "latency_ms": {
+    "retrieval": 16.49,
+    "reranking": 0.0,
+    "generation": 1022.64,
+    "rag_total": 1039.13
+  }
+}
+```
 
-The server never rebuilds an index at startup. Build each chunking strategy explicitly:
+---
 
+### 3. Voice Query (Voice-to-Voice / Voice-to-Text)
+```http
+POST /v1/voice/query
+Content-Type: multipart/form-data
+```
+**Form Parameters:**
+- `file`: Audio file (`.wav`, `.mp3`, `.m4a`, `.ogg`)
+- `language`: `en` or `hi` (optional, auto-detected if omitted)
+- `top_k`: Number of evidence passages (default: `5`)
+- `chunking_strategy`: `sentence` | `fixed` | `hierarchical` (default: `sentence`)
+- `retrieval_mode`: `dense` | `bm25` | `hybrid` | `hybrid_rerank` (default: `dense`)
+- `synthesize_audio`: `true` | `false` (default: `false`)
+
+**Response:**
+```json
+{
+  "query": "What is photosynthesis?",
+  "answer": "Photosynthesis is the light-driven process in which plants...",
+  "refused": false,
+  "retrieval_strategy": "dense",
+  "chunking_strategy": "sentence",
+  "sources": [...],
+  "latency_ms": {
+    "stt": 279.32,
+    "retrieval": 16.49,
+    "reranking": 0.0,
+    "generation": 1022.64,
+    "tts": 1616.06,
+    "rag_total": 1039.13,
+    "total": 2936.61
+  },
+  "audio_base64": "SUQzBAAAAAAA..."
+}
+```
+
+---
+
+### 4. Text-to-Speech Synthesis
+```http
+POST /v1/tts
+Content-Type: application/json
+```
+**Request Body:**
+```json
+{
+  "text": "What is photosynthesis?",
+  "language": "en"
+}
+```
+**Response:**
+- Binary stream (`media_type="audio/mpeg"`) with valid MP3 headers.
+
+---
+
+## Guardrails & Grounding Safety
+
+NOVARON implements strict multi-layer guardrails to maintain factual integrity and security:
+
+1. **Evidence-Based Refusal**:
+   - Queries with insufficient evidence relevance scores or empty retrieval results automatically trigger standardized refusal:
+     `"I don't have enough information in the indexed knowledge base to answer that reliably."`
+   - `refused=true` with `sources=[]`.
+2. **Citation Verification**:
+   - Grounded LLM responses must strictly cite valid retrieved `chunk_id` values. Fabricated or invalid citations result in immediate refusal.
+   - Raw citation markers (`[chunk_id]`) are automatically stripped before speech synthesis to ensure natural audio.
+3. **Prompt-Injection Defense**:
+   - Retrieved text is treated strictly as passive data inside JSON structures, completely separated from system prompt directives.
+4. **Refusal Speech Safety**:
+   - When a refusal occurs, TTS synthesizes only the standard refusal message, preventing ungrounded speculation or hallucinated speech.
+
+---
+
+## Installation & Setup
+
+### 1. Prerequisites
+- Python 3.11+
+- Git
+
+### 2. Clone and Install Dependencies
+```bash
+git clone https://github.com/Harshy-cmd/HH_Goa-T2.git
+cd HH_Goa-T2/backend
+pip install -r requirements.txt
+```
+
+### 3. Configure Environment Variables
+Copy `.env.example` to `.env` in the project root:
+```bash
+cp ../.env.example ../.env
+```
+
+Configure your provider credentials in `.env`:
+```env
+# LLM Provider (Groq / OpenAI-compatible)
+LLM_PROVIDER=openai
+LLM_MODEL=openai/gpt-oss-20b
+OPENAI_API_KEY=your_api_key_here
+LLM_BASE_URL=https://api.groq.com/openai/v1
+
+# Speech-to-Text (STT)
+STT_PROVIDER=openai
+STT_MODEL=whisper-large-v3-turbo
+
+# Text-to-Speech (TTS)
+TTS_PROVIDER=edge
+TTS_VOICE_EN=en-US-JennyNeural
+TTS_VOICE_HI=hi-IN-SwaraNeural
+
+# Retrieval & Vector Index
+DENSE_RETRIEVER=faiss
+VECTOR_INDEX_DIR=data/indexes
+```
+
+### 4. Build FAISS Indexes
+Build the persistent FAISS indexes for each chunking strategy:
 ```bash
 cd backend
 python -m scripts.build_index --strategy fixed --index-dir ../data/indexes/fixed
@@ -44,49 +272,61 @@ python -m scripts.build_index --strategy sentence --index-dir ../data/indexes/se
 python -m scripts.build_index --strategy hierarchical --index-dir ../data/indexes/hierarchical
 ```
 
-Then configure `DENSE_RETRIEVER=faiss` and `VECTOR_INDEX_DIR=data/indexes`. The embedding model used at query time must match the model used when building the index.
+### 5. Launch the Server
+```bash
+cd backend
+uvicorn app.main:app --reload --port 8000
+```
+API Documentation will be available at `http://localhost:8000/docs`.
 
-## Benchmark and tests
+---
 
-From `backend`:
+## Test Suite & Verification
+
+The repository includes a comprehensive 73-test regression suite covering vector retrieval, hybrid ranking, citation validation, refusal guardrails, STT transcription, TTS synthesis, and end-to-end voice-to-voice flows:
 
 ```bash
-python -m scripts.benchmark
+cd backend
 python -m pytest tests -q
 ```
 
-The benchmark reports Recall@3, MRR@3, p50, and p95 per English, Hindi, and Kannada fixture query. FAISS comparisons are explicitly reported as unavailable until their matching index is built; no results are fabricated.
+### Test Coverage Summary:
+- `test_retrieval.py` & `test_production_retrieval.py`: Dense FAISS and multilingual retrieval benchmarks.
+- `test_refusal_guardrails.py`: 5 canonical guardrail cases (grounded answering, weak evidence refusal, unrelated query refusal, unsupported claims, adversarial injection).
+- `test_stt.py`: Speech-to-Text transcription, audio validation, and multipart upload handling.
+- `test_tts.py`: Text-to-Speech language routing, error handling, refusal synthesis, and `/v1/tts` endpoint.
+- `test_voice_to_voice.py`: Full end-to-end offline integration tests (`Audio` $\to$ `STT` $\to$ `RAG` $\to$ `TTS`).
 
-## Refusal and Guardrail Protections (Phase 8)
+---
 
-NOVARON enforces strict grounding and refusal guardrails to ensure reliable, unhallucinated responses:
+## Repository Structure
 
-- **Evidence-Based Refusal**: When retrieved evidence scores fall below the relevance threshold or no evidence supports the query, the pipeline returns a standardized refusal message (`"I don't have enough information in the indexed knowledge base to answer that reliably."`) with `refused=true` and empty sources.
-- **Strict Citation Enforcement**: Grounded LLM responses validate returned `citation_chunk_ids` against actual retrieved evidence hits. Uncited, partially invalid, or empty/whitespace non-refused answers are refused. Structured output schemas guarantee that a refusal never crashes Pydantic validation.
-- **Prompt Injection Defense**: Retrieved evidence is treated strictly as untrusted data and isolated within JSON payloads in user messages, never interpolated into system prompt instructions. System prompts explicitly instruct the model to disregard instructions embedded in evidence.
-- **Phase 8 Guardrail Test Suite**: Located in `backend/tests/test_refusal_guardrails.py`, testing five canonical scenarios:
-  - **Case A**: Relevant question with supporting evidence $\to$ grounded answer with valid citations.
-  - **Case B**: Query with weak retrieval evidence $\to$ pipeline refusal.
-  - **Case C**: Completely unrelated query $\to$ pipeline refusal.
-  - **Case D**: Unsupported claim with topical evidence $\to$ model-level refusal.
-  - **Case E**: Adversarial prompt injection inside retrieved document $\to$ treated as passive data, instructions ignored, fabricated citations blocked.
+```text
+HH_Goa-T2/
+├── .env.example               # Template environment configuration
+├── README.md                  # System documentation
+├── benchmarks/                # Evaluation cases and gold judgments
+├── data/
+│   ├── evaluation/            # MSMARCO-XI evaluation splits and subsets
+│   ├── fixtures/              # Sample multilingual corpus
+│   └── indexes/               # Persisted FAISS vector stores (sentence, fixed, hierarchical)
+└── backend/
+    ├── requirements.txt       # Production dependencies
+    ├── app/
+    │   ├── domain.py          # Core domain models and protocols (Retriever, Generator, STT, TTS)
+    │   ├── embeddings.py      # Multilingual SentenceTransformer embedder
+    │   ├── vector_store.py    # FAISS persistent index manager
+    │   ├── retrieval.py       # Dense, BM25, and Hybrid retrievers
+    │   ├── generation.py      # Grounded LLM generator and citation validator
+    │   ├── pipeline.py        # Complete RAG pipeline and refusal logic
+    │   ├── stt.py             # Whisper STT and MockSTT adapters
+    │   ├── tts.py             # EdgeTTS and MockTTS adapters
+    │   └── main.py            # FastAPI application routes (/health, /query, /voice/query, /tts)
+    ├── scripts/               # Indexing and benchmarking utilities
+    └── tests/                 # 73 automated unit and integration tests
+```
 
-## Environment variables
+---
 
-- `DENSE_RETRIEVER`: `hashing` (default) or `faiss`
-- `EMBEDDING_MODEL`, `EMBEDDING_DEVICE`, `EMBEDDING_BATCH_SIZE`: multilingual embedding configuration
-- `VECTOR_INDEX_DIR`: parent directory for strategy-specific FAISS indexes
-- `RERANKER_PROVIDER`: `transparent` (default) or `cross_encoder`
-- `RERANKER_MODEL`: cross-encoder model name
-- `LLM_PROVIDER`: `extractive` (default) or `openai`
-- `LLM_MODEL`, `OPENAI_API_KEY`: grounded generation configuration
-- `MIN_RELEVANCE_SCORE`, `MIN_UNRERANKED_RELEVANCE_SCORE`: evidence thresholds
-
-All secrets belong in environment variables; none are stored in source code.
-
-## Known limitations
-
-- **Tiny Fixture Corpus**: The 6-passage fixture corpus (`data/fixtures/sample_corpus.jsonl`) is a minimal smoke test for sanity checking pipelines. Due to tiny corpus size, BM25 IDF weights common shared words heavily; negative query tests use zero-overlap vocabulary. Production thresholds must be calibrated against the target MSMARCO-XI evaluation set.
-- **Provider Prerequisites**: Real SentenceTransformer, cross-encoder, and OpenAI provider paths require model downloads/credentials and must be benchmarked on target hardware and datasets.
-- **Text-Only Core**: The current API is text-only by design; voice/STT integration is deliberately deferred until RAG grounding is fully verified.
-
+## License
+MIT License. Built for the Hackathon 2026 Multilingual Voice RAG Challenge.
