@@ -26,9 +26,16 @@ class GroundedLLMResponse(BaseModel):
 
 class OpenAIGroundedLLM:
     """OpenAI-compatible structured-output adapter. It never sends evidence beyond supplied hits."""
-    def __init__(self, model: str | None = None, api_key: str | None = None, client: Any | None = None) -> None:
+    def __init__(
+        self,
+        model: str | None = None,
+        api_key: str | None = None,
+        base_url: str | None = None,
+        client: Any | None = None,
+    ) -> None:
         self.model = model or os.getenv("LLM_MODEL", "gpt-4.1-mini")
         self.api_key = api_key or os.getenv("OPENAI_API_KEY")
+        self.base_url = base_url or os.getenv("LLM_BASE_URL")
         self._client = client
 
     def _client_instance(self):
@@ -40,7 +47,10 @@ class OpenAIGroundedLLM:
             from openai import OpenAI
         except ImportError as exc:
             raise GroundedGenerationError("openai is required when LLM_PROVIDER=openai.") from exc
-        self._client = OpenAI(api_key=self.api_key)
+        kwargs: dict[str, Any] = {"api_key": self.api_key}
+        if self.base_url:
+            kwargs["base_url"] = self.base_url
+        self._client = OpenAI(**kwargs)
         return self._client
 
     @staticmethod
