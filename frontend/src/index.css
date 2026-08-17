@@ -1,0 +1,123 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --goa-forest: #0F3D2E;
+    --goa-forest-deep: #0A2E22;
+    --goa-forest-card: #0D3326;
+    --goa-cream: #F4EDD8;
+    --goa-pink: #EE2A6D;
+    --goa-yellow: #F5C518;
+    --goa-line: rgba(244, 237, 216, 0.14);
+  }
+
+  body {
+    background-color: var(--goa-forest);
+    color: var(--goa-cream);
+    font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+/* Organic Blob / Sun Layer Keyframes */
+@keyframes blob-layer-1 {
+  0%, 100% {
+    border-radius: 60% 40% 70% 30% / 30% 60% 40% 70%;
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    border-radius: 40% 60% 35% 65% / 60% 40% 60% 40%;
+    transform: rotate(6deg) scale(1.02);
+  }
+}
+
+@keyframes blob-layer-2 {
+  0%, 100% {
+    border-radius: 45% 55% 60% 40% / 55% 45% 50% 50%;
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    border-radius: 65% 35% 45% 55% / 40% 60% 40% 60%;
+    transform: rotate(-8deg) scale(0.98);
+  }
+}
+
+@keyframes blob-layer-3 {
+  0%, 100% {
+    border-radius: 50% 50% 45% 55% / 55% 45% 55% 45%;
+    transform: rotate(0deg);
+  }
+  50% {
+    border-radius: 55% 45% 55% 45% / 45% 55% 45% 55%;
+    transform: rotate(12deg);
+  }
+}
+
+@keyframes listening-wave {
+  0%, 100% {
+    transform: scaleY(0.2);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes radar-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.65);
+    opacity: 0;
+  }
+}
+
+@keyframes gentle-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-blob-1 {
+  animation: blob-layer-1 10s ease-in-out infinite;
+}
+
+.animate-blob-2 {
+  animation: blob-layer-2 12s ease-in-out infinite;
+}
+
+.animate-blob-3 {
+  animation: blob-layer-3 14s ease-in-out infinite;
+}
+
+.animate-radar-ring {
+  animation: radar-ring 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+
+.animate-gentle-float {
+  animation: gentle-float 6s ease-in-out infinite;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(10, 46, 34, 0.6);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(244, 237, 216, 0.25);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(244, 237, 216, 0.45);
+}

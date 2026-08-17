@@ -166,10 +166,20 @@ def build_pipelines() -> dict[str, dict[str, RAGPipeline]]:
     }
 
 
+from fastapi.middleware.cors import CORSMiddleware
+
 pipelines = build_pipelines()
 stt_adapter = _build_stt()
 tts_adapter = _build_tts()
 app = FastAPI(title="NOVARON Voice RAG", version="0.5.0")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 
 @app.get("/health")
