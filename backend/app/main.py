@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import os
+import time
 from pathlib import Path
 from typing import Literal
 
-from fastapi import FastAPI
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from pydantic import BaseModel, Field
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -21,6 +22,7 @@ try:
 except ImportError:
     pass
 
+from app.domain import SpeechToText
 from app.embeddings import SentenceTransformerEmbeddingProvider
 from app.generation import OpenAIGroundedLLM
 from app.ingestion import fixed_chunks, hierarchical_chunks, load_jsonl, sentence_chunks
@@ -28,6 +30,7 @@ from app.pipeline import ExtractiveGroundedGenerator, RAGPipeline
 from app.retrieval import (BM25Retriever, CrossEncoderReranker, FAISSDenseRetriever,
                            HashingDenseRetriever, HashingEmbedder, HybridRetriever,
                            TransparentReranker)
+from app.stt import MockSTT, OpenAIWhisperSTT, SpeechToTextError
 from app.vector_store import FaissVectorStore
 
 DATA_PATH = Path(os.getenv("NOVARON_CORPUS_PATH", str(PROJECT_ROOT / "data" / "fixtures" / "sample_corpus.jsonl")))
@@ -51,6 +54,16 @@ class SourceResponse(BaseModel):
 
 
 class QueryResponse(BaseModel):
+    answer: str
+    refused: bool
+    retrieval_strategy: str
+    chunking_strategy: str
+    sources: list[SourceResponse]
+    latency_ms: dict[str, float]
+
+
+class VoiceQueryResponse(BaseModel):
+    query: str
     answer: str
     refused: bool
     retrieval_strategy: str
@@ -98,6 +111,15 @@ def _build_generator():
     raise ValueError("LLM_PROVIDER must be either 'extractive' or 'openai'.")
 
 
+def _build_stt() -> SpeechToText:
+    provider = os.getenv("STT_PROVIDER", "openai").lower()
+    if provider in ("openai", "groq"):
+        return OpenAIWhisperSTT()
+    if provider == "mock":
+        return MockSTT()
+    raise ValueError(f"STT_PROVIDER must be either 'openai', 'groq', or 'mock', got '{provider}'.")
+
+
 def build_pipeline(chunks: list, strategy: str = "sentence", mode: str = "dense") -> RAGPipeline:
     dense = _build_dense_retriever(chunks, strategy)
     bm25 = BM25Retriever(chunks)
@@ -128,7 +150,8 @@ def build_pipelines() -> dict[str, dict[str, RAGPipeline]]:
 
 
 pipelines = build_pipelines()
-app = FastAPI(title="NOVARON Voice RAG", version="0.3.0")
+stt_adapter = _build_stt()
+app = FastAPI(title="NOVARON Voice RAG", version="0.4.0")
 
 
 @app.get("/health")
@@ -151,6 +174,83 @@ def query(request: QueryRequest) -> QueryResponse:
         retrieval_strategy=labels[request.retrieval_mode],
         chunking_strategy=request.chunking_strategy,
         latency_ms=result.latency_ms,
+        sources=[
+            SourceResponse(
+                chunk_id=hit.chunk.chunk_id,
+                document_id=hit.chunk.document_id,
+                passage_id=hit.chunk.passage_id,
+                title=hit.chunk.title,
+                language=hit.chunk.language,
+                text=hit.chunk.text,
+                relevance_score=round(hit.score, 4),
+            )
+            for hit in result.sources
+        ],
+    )
+
+
+@app.post("/v1/voice/query", response_model=VoiceQueryResponse)
+async def voice_query(
+    file: UploadFile = File(...),
+    language: str | None = Form(default=None),
+    top_k: int = Form(default=5),
+    chunking_strategy: Literal["fixed", "sentence", "hierarchical"] = Form(default="sentence"),
+    retrieval_mode: Literal["dense", "bm25", "hybrid", "hybrid_rerank"] = Form(default="dense"),
+) -> VoiceQueryResponse:
+    if not file or not file.filename:
+        raise HTTPException(status_code=400, detail="Audio file is required.")
+
+    audio_bytes = await file.read()
+    if not audio_bytes or len(audio_bytes) == 0:
+        raise HTTPException(status_code=400, detail="Uploaded audio file is empty.")
+
+    if len(audio_bytes) > 25 * 1024 * 1024:
+        raise HTTPException(status_code=413, detail="Audio file exceeds maximum size of 25MB.")
+
+    stt_start = time.perf_counter()
+    try:
+        transcript = await stt_adapter.transcribe(
+            audio=audio_bytes,
+            language=language,
+            filename=file.filename or "audio.wav",
+        )
+    except SpeechToTextError as exc:
+        raise HTTPException(status_code=502, detail=f"Speech-to-text transcription error: {exc}") from exc
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail="Internal error during voice transcription.") from exc
+
+    stt_elapsed = round((time.perf_counter() - stt_start) * 1000, 3)
+
+    if chunking_strategy not in pipelines or retrieval_mode not in pipelines[chunking_strategy]:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid chunking strategy '{chunking_strategy}' or retrieval mode '{retrieval_mode}'.",
+        )
+
+    result = pipelines[chunking_strategy][retrieval_mode].run(transcript, answer_limit=top_k)
+    labels = {
+        "dense": "dense",
+        "bm25": "bm25",
+        "hybrid": "hybrid_rrf",
+        "hybrid_rerank": "hybrid_rrf + reranker",
+    }
+
+    latency_ms = {
+        "stt": stt_elapsed,
+        "retrieval": result.latency_ms.get("retrieval", 0.0),
+        "reranking": result.latency_ms.get("reranking", 0.0),
+        "generation": result.latency_ms.get("generation", 0.0),
+        "rag_total": result.latency_ms.get("rag_total", 0.0),
+        "total": round(stt_elapsed + result.latency_ms.get("rag_total", 0.0), 3),
+    }
+
+    return VoiceQueryResponse(
+        query=transcript,
+        answer=result.answer,
+        refused=result.refused,
+        retrieval_strategy=labels[retrieval_mode],
+        chunking_strategy=chunking_strategy,
+        latency_ms=latency_ms,
         sources=[
             SourceResponse(
                 chunk_id=hit.chunk.chunk_id,
