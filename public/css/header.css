@@ -1,0 +1,125 @@
+/* ===== HEADER ===== */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-xl);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-controls);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.logo-mark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  border: 1.5px solid var(--border-medium);
+  border-radius: var(--radius-xs);
+  padding: 3px 6px;
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  letter-spacing: 0.5px;
+}
+
+.logo-hh {
+  font-size: 0.7rem;
+  letter-spacing: 1px;
+}
+
+.logo-goa {
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+}
+
+.header-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.header-title {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-primary);
+}
+
+.header-subtitle {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* RAG Status pill */
+.rag-status-pill {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: rgba(0, 0, 0, 0.25);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: 1px;
+  border: 1px solid var(--border-light);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-circle);
+  background: var(--status-error);
+  transition: background var(--duration-normal) var(--ease-out);
+}
+
+.status-dot.online {
+  background: var(--status-online);
+  box-shadow: 0 0 8px var(--status-online);
+}
+
+.status-label {
+  text-transform: uppercase;
+}
+
+/* Three-dot menu */
+.menu-btn {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border-light);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.menu-btn:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.menu-btn .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: var(--radius-circle);
+  background: var(--text-primary);
+}

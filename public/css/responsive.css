@@ -1,0 +1,144 @@
+/* ===== RESPONSIVE ===== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .hero-headline {
+    font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+  }
+
+  .artwork-zone {
+    width: clamp(220px, 40vw, 320px);
+    height: clamp(220px, 40vw, 320px);
+  }
+
+  .side-text {
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+  }
+
+  .side-text-left {
+    right: calc(100% + 20px);
+  }
+
+  .side-text-right {
+    left: calc(100% + 20px);
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .app-header {
+    padding: var(--space-sm) var(--space-md);
+  }
+
+  .header-title {
+    font-size: var(--text-sm);
+  }
+
+  .hero-container {
+    padding: 70px var(--space-md) 140px;
+  }
+
+  .hero-headline {
+    font-size: clamp(1.4rem, 5vw, 2rem);
+  }
+
+  .artwork-zone {
+    width: clamp(200px, 55vw, 280px);
+    height: clamp(200px, 55vw, 280px);
+  }
+
+  .side-text {
+    position: relative;
+    top: auto;
+    transform: none;
+    left: auto !important;
+    right: auto !important;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-top: var(--space-sm);
+  }
+
+  .side-text-left {
+    order: -1;
+  }
+
+  .status-pills {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm);
+  }
+
+  .control-bar {
+    min-width: auto;
+    width: calc(100% - var(--space-xl) * 2);
+    max-width: 420px;
+    bottom: var(--space-md);
+  }
+
+  .ctrl-label {
+    font-size: 0.6rem;
+  }
+
+  .ctrl-btn {
+    padding: var(--space-xs) var(--space-sm);
+  }
+
+  .bottom-caption {
+    display: none;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 480px) {
+  .hero-headline {
+    font-size: 1.3rem;
+  }
+
+  .artwork-zone {
+    width: 200px;
+    height: 200px;
+  }
+
+  .rag-status-pill {
+    font-size: 0.6rem;
+    padding: var(--space-xxs) var(--space-sm);
+  }
+
+  .ctrl-label {
+    display: none;
+  }
+
+  .control-bar {
+    gap: var(--space-xxs);
+  }
+
+  .mic-icon-wrap {
+    width: 42px;
+    height: 42px;
+  }
+}
+
+/* Tall viewports */
+@media (min-height: 900px) {
+  .hero-container {
+    padding-top: 100px;
+  }
+}
+
+/* Short viewports */
+@media (max-height: 650px) {
+  .hero-container {
+    padding-top: 60px;
+    padding-bottom: 100px;
+  }
+
+  .artwork-zone {
+    width: 200px;
+    height: 200px;
+  }
+
+  .hero-headline {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-sm);
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "benchmarkA_retrievalOnly": {
+    "summary": {
+      "totalQueries": 100,
+      "successCount": 100,
+      "p50": 0.0367,
+      "p70": 0.0476,
+      "p100": 1.3901,
+      "mean": 0.07604399999999999,
+      "min": 0.0238,
+      "max": 1.3901
+    }
+  },
+  "benchmarkB_modelHarness": {
+    "summary": {
+      "totalQueries": 100,
+      "successCount": 100,
+      "p50": 0.1071,
+      "p70": 0.1311,
+      "p100": 2.193,
+      "mean": 0.15622900000000003,
+      "min": 0.0016,
+      "max": 2.193
+    },
+    "stageStats": {
+      "stages": {
+        "input_validation": {
+          "count": 100,
+          "min": 0.0002,
+          "max": 0.1155,
+          "mean": 0.0019619999999999998,
+          "p50": 0.0003,
+          "p70": 0.0004,
+          "p100": 0.1155
+        },
+        "normalization": {
+          "count": 97,
+          "min": 0.0005,
+          "max": 0.0151,
+          "mean": 0.0024989690721649496,
+          "p50": 0.002,
+          "p70": 0.0024,
+          "p100": 0.0151
+        },
+        "offtopic_check": {
+          "count": 97,
+          "min": 0.0002,
+          "max": 0.0814,
+          "mean": 0.001616494845360825,
+          "p50": 0.0003,
+          "p70": 0.0008,
+          "p100": 0.0814
+        },
+        "safety_check": {
+          "count": 97,
+          "min": 0.0009,
+          "max": 0.4455,
+          "mean": 0.008313402061855664,
+          "p50": 0.0015,
+          "p70": 0.0017,
+          "p100": 0.4455
+        },
+        "retrieval": {
+          "count": 97,
+          "min": 0.023,
+          "max": 0.4024,
+          "mean": 0.044583505154639186,
+          "p50": 0.0339,
+          "p70": 0.0367,
+          "p100": 0.4024
+        },
+        "context_assembly": {
+          "count": 91,
+          "min": 0.0015,
+          "max": 0.3482,
+          "mean": 0.008663736263736267,
+          "p50": 0.002,
+          "p70": 0.0024,
+          "p100": 0.3482
+        },
+        "generation": {
+          "count": 91,
+          "min": 0.0091,
+          "max": 0.4336,
+          "mean": 0.03443626373626373,
+          "p50": 0.0217,
+          "p70": 0.0284,
+          "p100": 0.4336
+        },
+        "output_validation": {
+          "count": 91,
+          "min": 0.0005,
+          "max": 0.0468,
+          "mean": 0.0014978021978021986,
+          "p50": 0.0006,
+          "p70": 0.0007,
+          "p100": 0.0468
+        },
+        "grounding_check": {
+          "count": 91,
+          "min": 0.0067,
+          "max": 0.3675,
+          "mean": 0.04235714285714287,
+          "p50": 0.0344,
+          "p70": 0.0428,
+          "p100": 0.3675
+        },
+        "citation_check": {
+          "count": 91,
+          "min": 0.0009,
+          "max": 0.069,
+          "mean": 0.0029406593406593397,
+          "p50": 0.0012,
+          "p70": 0.0016,
+          "p100": 0.069
+        }
+      },
+      "totalRecords": 943,
+      "timestamp": 1786972517618
+    },
+    "groundedCount": 91,
+    "refusedCount": 3
+  },
+  "benchmarkC_sttPipeline": {
+    "summary": {
+      "totalQueries": 10,
+      "successCount": 10,
+      "p50": 0.0259,
+      "p70": 0.0276,
+      "p100": 0.3781,
+      "mean": 0.062209999999999974,
+      "min": 0.0188,
+      "max": 0.3781
+    },
+    "provider": "sarvam",
+    "isMock": true
+  },
+  "benchmarkD_endToEndVoice": {
+    "summary": {
+      "totalQueries": 100,
+      "p50": 0.133,
+      "p70": 0.157,
+      "p100": 2.2189,
+      "mean": 0.18212900000000004,
+      "min": 0.0275,
+      "max": 2.2189
+    },
+    "note": "End-to-end voice pipeline combining STT transcription latency with local model harness latency."
+  },
+  "conditions": {
+    "timestamp": "2026-08-17T13:15:17.619Z",
+    "queryCount": 100,
+    "environment": "development",
+    "platform": "win32",
+    "nodeVersion": "v24.14.0"
+  }
+}

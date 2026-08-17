@@ -1,0 +1,128 @@
+/* ===== ANIMATIONS ===== */
+
+/* ── Orbit rotation ── */
+@keyframes orbit-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes orbit-rotate-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.orbit-outer {
+  animation: orbit-rotate var(--duration-orbit) linear infinite;
+}
+
+.orbit-mid {
+  animation: orbit-rotate-reverse calc(var(--duration-orbit) * 0.7) linear infinite;
+}
+
+/* ── Waveform bars animation ── */
+@keyframes wave-bar {
+  0%, 100% { height: 4px; }
+  50% { height: 24px; }
+}
+
+body[data-state="listening"] .waveform-bar:nth-child(1)  { animation: wave-bar 0.5s ease-in-out 0.00s infinite; }
+body[data-state="listening"] .waveform-bar:nth-child(2)  { animation: wave-bar 0.5s ease-in-out 0.08s infinite; }
+body[data-state="listening"] .waveform-bar:nth-child(3)  { animation: wave-bar 0.5s ease-in-out 0.16s infinite; }
+body[data-state="listening"] .waveform-bar:nth-child(4)  { animation: wave-bar 0.5s ease-in-out 0.24s infinite; }
+body[data-state="listening"] .waveform-bar:nth-child(5)  { animation: wave-bar 0.5s ease-in-out 0.32s infinite; }
+body[data-state="listening"] .waveform-bar:nth-child(6)  { animation: wave-bar 0.5s ease-in-out 0.40s infinite; }
+body[data-state="listening"] .waveform-bar:nth-child(7)  { animation: wave-bar 0.5s ease-in-out 0.36s infinite; }
+body[data-state="listening"] .waveform-bar:nth-child(8)  { animation: wave-bar 0.5s ease-in-out 0.28s infinite; }
+body[data-state="listening"] .waveform-bar:nth-child(9)  { animation: wave-bar 0.5s ease-in-out 0.20s infinite; }
+body[data-state="listening"] .waveform-bar:nth-child(10) { animation: wave-bar 0.5s ease-in-out 0.12s infinite; }
+body[data-state="listening"] .waveform-bar:nth-child(11) { animation: wave-bar 0.5s ease-in-out 0.04s infinite; }
+body[data-state="listening"] .waveform-bar:nth-child(12) { animation: wave-bar 0.5s ease-in-out 0.44s infinite; }
+
+/* ── Mic pulse (listening) ── */
+@keyframes mic-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px rgba(232, 68, 106, 0.15), 0 4px 16px rgba(232, 68, 106, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(232, 68, 106, 0.08), 0 0 0 16px rgba(232, 68, 106, 0.03), 0 4px 16px rgba(232, 68, 106, 0.4); }
+}
+
+body[data-state="listening"] .ctrl-mic .mic-icon-wrap {
+  animation: mic-pulse 1.5s ease-in-out infinite;
+}
+
+/* ── Sparkle float ── */
+@keyframes sparkle-float {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.8; }
+  50% { transform: translateY(-6px) scale(1.1); opacity: 1; }
+}
+
+.sparkle {
+  animation: sparkle-float 3s ease-in-out infinite;
+}
+
+.sparkle-right-top {
+  animation-delay: 1s;
+}
+
+.sparkle-bottom-right {
+  animation-delay: 2s;
+}
+
+/* ── Organic shape gentle breathing ── */
+@keyframes organic-breathe {
+  0%, 100% { border-radius: 48% 52% 46% 54% / 50% 45% 55% 50%; }
+  33% { border-radius: 52% 48% 50% 50% / 46% 54% 48% 52%; }
+  66% { border-radius: 46% 54% 52% 48% / 52% 50% 46% 54%; }
+}
+
+.organic-shape {
+  animation: organic-breathe 8s ease-in-out infinite;
+}
+
+/* ── Retrieving spin ── */
+@keyframes retrieval-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+body[data-state="retrieving"] .orbit-outer {
+  animation: retrieval-spin 4s linear infinite;
+}
+
+body[data-state="retrieving"] .orbit-mid {
+  animation: retrieval-spin 2.5s linear reverse infinite;
+}
+
+/* ── Generating glow pulse ── */
+@keyframes gen-glow {
+  0%, 100% { box-shadow: 0 8px 32px rgba(0,0,0,0.15), 0 0 24px rgba(125,186,110,0.15); }
+  50% { box-shadow: 0 8px 32px rgba(0,0,0,0.15), 0 0 40px rgba(125,186,110,0.3); }
+}
+
+body[data-state="generating"] .organic-shape {
+  animation: gen-glow 1.5s ease-in-out infinite, organic-breathe 8s ease-in-out infinite;
+}
+
+/* ── Status transition ── */
+.pill, .status-dot, .rag-status-pill {
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+/* ── prefers-reduced-motion ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .orbit-outer, .orbit-mid {
+    animation: none;
+  }
+
+  .sparkle {
+    animation: none;
+  }
+
+  .organic-shape {
+    animation: none;
+  }
+}

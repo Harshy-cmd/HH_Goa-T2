@@ -1,0 +1,902 @@
+[
+  {
+    "queryId": "q_val_1000",
+    "query": "दवा का अर्थ क्या है?",
+    "answer": "दवा बीमारी के इलाज के लिए उपयोगी पदार्थ है।",
+    "selectedHashes": [
+      "dbbcbec154a805db"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1001",
+    "query": "वेक्टर डेटाबेस कैसे काम करता है?",
+    "answer": "वेक्टर डेटाबेस उच्च आयाम वैक्टर को इंडेक्स करता है।",
+    "selectedHashes": [
+      "881d4009ec582121"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1002",
+    "query": "आरएजी प्रणाली क्या है?",
+    "answer": "आरएजी बाहरी ज्ञान के साथ एलएलएम को जोड़ता है।",
+    "selectedHashes": [
+      "b9f94a03a8706a74"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1003",
+    "query": "कंप्यूटर नेटवर्क क्या है?",
+    "answer": "डिजिटल दूरसंचार नेटवर्क है।",
+    "selectedHashes": [
+      "b56d3010bb594ea8"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1004",
+    "query": "मशीन लर्निंग क्या है?",
+    "answer": "कंप्यूटर अनुभव से सीखता है।",
+    "selectedHashes": [
+      "5a98923e83e869d7"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1005",
+    "query": "डेटा संरचनाएं क्या हैं?",
+    "answer": "डेटा को व्यवस्थित करने का तरीका।",
+    "selectedHashes": [
+      "0b9beb996e915dea"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1006",
+    "query": "ऑपरेटिंग सिस्टम का क्या काम है?",
+    "answer": "हार्डवेयर और सॉफ्टवेयर का प्रबंधन करता है।",
+    "selectedHashes": [
+      "8ff129a6789d2fff"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1007",
+    "query": "क्लाउड कंप्यूटिंग के क्या लाभ हैं?",
+    "answer": "स्केलेबिलिटी और लागत में बचत।",
+    "selectedHashes": [
+      "4290faf2c5b23272"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1008",
+    "query": "साइबर सुरक्षा क्यों महत्वपूर्ण है?",
+    "answer": "डिजिटल संपत्तियों की सुरक्षा के लिए।",
+    "selectedHashes": [
+      "e84061db4220cac0"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1009",
+    "query": "आर्टिफिशियल इंटेलिजेंस क्या है?",
+    "answer": "मानव बुद्धि का अनुकरण।",
+    "selectedHashes": [
+      "6356f8415f9d09ac"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1010",
+    "query": "दवा का अर्थ क्या है?",
+    "answer": "दवा बीमारी के इलाज के लिए उपयोगी पदार्थ है।",
+    "selectedHashes": [
+      "dbbcbec154a805db"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1011",
+    "query": "वेक्टर डेटाबेस कैसे काम करता है?",
+    "answer": "वेक्टर डेटाबेस उच्च आयाम वैक्टर को इंडेक्स करता है।",
+    "selectedHashes": [
+      "881d4009ec582121"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1012",
+    "query": "आरएजी प्रणाली क्या है?",
+    "answer": "आरएजी बाहरी ज्ञान के साथ एलएलएम को जोड़ता है।",
+    "selectedHashes": [
+      "b9f94a03a8706a74"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1013",
+    "query": "कंप्यूटर नेटवर्क क्या है?",
+    "answer": "डिजिटल दूरसंचार नेटवर्क है।",
+    "selectedHashes": [
+      "b56d3010bb594ea8"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1014",
+    "query": "मशीन लर्निंग क्या है?",
+    "answer": "कंप्यूटर अनुभव से सीखता है।",
+    "selectedHashes": [
+      "5a98923e83e869d7"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1015",
+    "query": "डेटा संरचनाएं क्या हैं?",
+    "answer": "डेटा को व्यवस्थित करने का तरीका।",
+    "selectedHashes": [
+      "0b9beb996e915dea"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1016",
+    "query": "ऑपरेटिंग सिस्टम का क्या काम है?",
+    "answer": "हार्डवेयर और सॉफ्टवेयर का प्रबंधन करता है।",
+    "selectedHashes": [
+      "8ff129a6789d2fff"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1017",
+    "query": "क्लाउड कंप्यूटिंग के क्या लाभ हैं?",
+    "answer": "स्केलेबिलिटी और लागत में बचत।",
+    "selectedHashes": [
+      "4290faf2c5b23272"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1018",
+    "query": "साइबर सुरक्षा क्यों महत्वपूर्ण है?",
+    "answer": "डिजिटल संपत्तियों की सुरक्षा के लिए।",
+    "selectedHashes": [
+      "e84061db4220cac0"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1019",
+    "query": "आर्टिफिशियल इंटेलिजेंस क्या है?",
+    "answer": "मानव बुद्धि का अनुकरण।",
+    "selectedHashes": [
+      "6356f8415f9d09ac"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1020",
+    "query": "दवा का अर्थ क्या है?",
+    "answer": "दवा बीमारी के इलाज के लिए उपयोगी पदार्थ है।",
+    "selectedHashes": [
+      "dbbcbec154a805db"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1021",
+    "query": "वेक्टर डेटाबेस कैसे काम करता है?",
+    "answer": "वेक्टर डेटाबेस उच्च आयाम वैक्टर को इंडेक्स करता है।",
+    "selectedHashes": [
+      "881d4009ec582121"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1022",
+    "query": "आरएजी प्रणाली क्या है?",
+    "answer": "आरएजी बाहरी ज्ञान के साथ एलएलएम को जोड़ता है।",
+    "selectedHashes": [
+      "b9f94a03a8706a74"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1023",
+    "query": "कंप्यूटर नेटवर्क क्या है?",
+    "answer": "डिजिटल दूरसंचार नेटवर्क है।",
+    "selectedHashes": [
+      "b56d3010bb594ea8"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1024",
+    "query": "मशीन लर्निंग क्या है?",
+    "answer": "कंप्यूटर अनुभव से सीखता है।",
+    "selectedHashes": [
+      "5a98923e83e869d7"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1025",
+    "query": "डेटा संरचनाएं क्या हैं?",
+    "answer": "डेटा को व्यवस्थित करने का तरीका।",
+    "selectedHashes": [
+      "0b9beb996e915dea"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1026",
+    "query": "ऑपरेटिंग सिस्टम का क्या काम है?",
+    "answer": "हार्डवेयर और सॉफ्टवेयर का प्रबंधन करता है।",
+    "selectedHashes": [
+      "8ff129a6789d2fff"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1027",
+    "query": "क्लाउड कंप्यूटिंग के क्या लाभ हैं?",
+    "answer": "स्केलेबिलिटी और लागत में बचत।",
+    "selectedHashes": [
+      "4290faf2c5b23272"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1028",
+    "query": "साइबर सुरक्षा क्यों महत्वपूर्ण है?",
+    "answer": "डिजिटल संपत्तियों की सुरक्षा के लिए।",
+    "selectedHashes": [
+      "e84061db4220cac0"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1029",
+    "query": "आर्टिफिशियल इंटेलिजेंस क्या है?",
+    "answer": "मानव बुद्धि का अनुकरण।",
+    "selectedHashes": [
+      "6356f8415f9d09ac"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1030",
+    "query": "दवा का अर्थ क्या है?",
+    "answer": "दवा बीमारी के इलाज के लिए उपयोगी पदार्थ है।",
+    "selectedHashes": [
+      "dbbcbec154a805db"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1031",
+    "query": "वेक्टर डेटाबेस कैसे काम करता है?",
+    "answer": "वेक्टर डेटाबेस उच्च आयाम वैक्टर को इंडेक्स करता है।",
+    "selectedHashes": [
+      "881d4009ec582121"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1032",
+    "query": "आरएजी प्रणाली क्या है?",
+    "answer": "आरएजी बाहरी ज्ञान के साथ एलएलएम को जोड़ता है।",
+    "selectedHashes": [
+      "b9f94a03a8706a74"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1033",
+    "query": "कंप्यूटर नेटवर्क क्या है?",
+    "answer": "डिजिटल दूरसंचार नेटवर्क है।",
+    "selectedHashes": [
+      "b56d3010bb594ea8"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1034",
+    "query": "मशीन लर्निंग क्या है?",
+    "answer": "कंप्यूटर अनुभव से सीखता है।",
+    "selectedHashes": [
+      "5a98923e83e869d7"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1035",
+    "query": "डेटा संरचनाएं क्या हैं?",
+    "answer": "डेटा को व्यवस्थित करने का तरीका।",
+    "selectedHashes": [
+      "0b9beb996e915dea"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1036",
+    "query": "ऑपरेटिंग सिस्टम का क्या काम है?",
+    "answer": "हार्डवेयर और सॉफ्टवेयर का प्रबंधन करता है।",
+    "selectedHashes": [
+      "8ff129a6789d2fff"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1037",
+    "query": "क्लाउड कंप्यूटिंग के क्या लाभ हैं?",
+    "answer": "स्केलेबिलिटी और लागत में बचत।",
+    "selectedHashes": [
+      "4290faf2c5b23272"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1038",
+    "query": "साइबर सुरक्षा क्यों महत्वपूर्ण है?",
+    "answer": "डिजिटल संपत्तियों की सुरक्षा के लिए।",
+    "selectedHashes": [
+      "e84061db4220cac0"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1039",
+    "query": "आर्टिफिशियल इंटेलिजेंस क्या है?",
+    "answer": "मानव बुद्धि का अनुकरण।",
+    "selectedHashes": [
+      "6356f8415f9d09ac"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1040",
+    "query": "दवा का अर्थ क्या है?",
+    "answer": "दवा बीमारी के इलाज के लिए उपयोगी पदार्थ है।",
+    "selectedHashes": [
+      "dbbcbec154a805db"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1041",
+    "query": "वेक्टर डेटाबेस कैसे काम करता है?",
+    "answer": "वेक्टर डेटाबेस उच्च आयाम वैक्टर को इंडेक्स करता है।",
+    "selectedHashes": [
+      "881d4009ec582121"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1042",
+    "query": "आरएजी प्रणाली क्या है?",
+    "answer": "आरएजी बाहरी ज्ञान के साथ एलएलएम को जोड़ता है।",
+    "selectedHashes": [
+      "b9f94a03a8706a74"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1043",
+    "query": "कंप्यूटर नेटवर्क क्या है?",
+    "answer": "डिजिटल दूरसंचार नेटवर्क है।",
+    "selectedHashes": [
+      "b56d3010bb594ea8"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1044",
+    "query": "मशीन लर्निंग क्या है?",
+    "answer": "कंप्यूटर अनुभव से सीखता है।",
+    "selectedHashes": [
+      "5a98923e83e869d7"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1045",
+    "query": "डेटा संरचनाएं क्या हैं?",
+    "answer": "डेटा को व्यवस्थित करने का तरीका।",
+    "selectedHashes": [
+      "0b9beb996e915dea"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1046",
+    "query": "ऑपरेटिंग सिस्टम का क्या काम है?",
+    "answer": "हार्डवेयर और सॉफ्टवेयर का प्रबंधन करता है।",
+    "selectedHashes": [
+      "8ff129a6789d2fff"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1047",
+    "query": "क्लाउड कंप्यूटिंग के क्या लाभ हैं?",
+    "answer": "स्केलेबिलिटी और लागत में बचत।",
+    "selectedHashes": [
+      "4290faf2c5b23272"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1048",
+    "query": "साइबर सुरक्षा क्यों महत्वपूर्ण है?",
+    "answer": "डिजिटल संपत्तियों की सुरक्षा के लिए।",
+    "selectedHashes": [
+      "e84061db4220cac0"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1049",
+    "query": "आर्टिफिशियल इंटेलिजेंस क्या है?",
+    "answer": "मानव बुद्धि का अनुकरण।",
+    "selectedHashes": [
+      "6356f8415f9d09ac"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1050",
+    "query": "दवा का अर्थ क्या है? (50)",
+    "answer": "दवा बीमारी के इलाज के लिए उपयोगी पदार्थ है।",
+    "selectedHashes": [
+      "dbbcbec154a805db"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1051",
+    "query": "वेक्टर डेटाबेस कैसे काम करता है? (51)",
+    "answer": "वेक्टर डेटाबेस उच्च आयाम वैक्टर को इंडेक्स करता है।",
+    "selectedHashes": [
+      "881d4009ec582121"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1052",
+    "query": "आरएजी प्रणाली क्या है? (52)",
+    "answer": "आरएजी बाहरी ज्ञान के साथ एलएलएम को जोड़ता है।",
+    "selectedHashes": [
+      "b9f94a03a8706a74"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1053",
+    "query": "कंप्यूटर नेटवर्क क्या है? (53)",
+    "answer": "डिजिटल दूरसंचार नेटवर्क है।",
+    "selectedHashes": [
+      "b56d3010bb594ea8"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1054",
+    "query": "मशीन लर्निंग क्या है? (54)",
+    "answer": "कंप्यूटर अनुभव से सीखता है।",
+    "selectedHashes": [
+      "5a98923e83e869d7"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1055",
+    "query": "डेटा संरचनाएं क्या हैं? (55)",
+    "answer": "डेटा को व्यवस्थित करने का तरीका।",
+    "selectedHashes": [
+      "0b9beb996e915dea"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1056",
+    "query": "ऑपरेटिंग सिस्टम का क्या काम है? (56)",
+    "answer": "हार्डवेयर और सॉफ्टवेयर का प्रबंधन करता है।",
+    "selectedHashes": [
+      "8ff129a6789d2fff"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1057",
+    "query": "क्लाउड कंप्यूटिंग के क्या लाभ हैं? (57)",
+    "answer": "स्केलेबिलिटी और लागत में बचत।",
+    "selectedHashes": [
+      "4290faf2c5b23272"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1058",
+    "query": "साइबर सुरक्षा क्यों महत्वपूर्ण है? (58)",
+    "answer": "डिजिटल संपत्तियों की सुरक्षा के लिए।",
+    "selectedHashes": [
+      "e84061db4220cac0"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1059",
+    "query": "आर्टिफिशियल इंटेलिजेंस क्या है? (59)",
+    "answer": "मानव बुद्धि का अनुकरण।",
+    "selectedHashes": [
+      "6356f8415f9d09ac"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1060",
+    "query": "दवा का अर्थ क्या है? (60)",
+    "answer": "दवा बीमारी के इलाज के लिए उपयोगी पदार्थ है।",
+    "selectedHashes": [
+      "dbbcbec154a805db"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1061",
+    "query": "वेक्टर डेटाबेस कैसे काम करता है? (61)",
+    "answer": "वेक्टर डेटाबेस उच्च आयाम वैक्टर को इंडेक्स करता है।",
+    "selectedHashes": [
+      "881d4009ec582121"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1062",
+    "query": "आरएजी प्रणाली क्या है? (62)",
+    "answer": "आरएजी बाहरी ज्ञान के साथ एलएलएम को जोड़ता है।",
+    "selectedHashes": [
+      "b9f94a03a8706a74"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1063",
+    "query": "कंप्यूटर नेटवर्क क्या है? (63)",
+    "answer": "डिजिटल दूरसंचार नेटवर्क है।",
+    "selectedHashes": [
+      "b56d3010bb594ea8"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1064",
+    "query": "मशीन लर्निंग क्या है? (64)",
+    "answer": "कंप्यूटर अनुभव से सीखता है।",
+    "selectedHashes": [
+      "5a98923e83e869d7"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1065",
+    "query": "डेटा संरचनाएं क्या हैं? (65)",
+    "answer": "डेटा को व्यवस्थित करने का तरीका।",
+    "selectedHashes": [
+      "0b9beb996e915dea"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1066",
+    "query": "ऑपरेटिंग सिस्टम का क्या काम है? (66)",
+    "answer": "हार्डवेयर और सॉफ्टवेयर का प्रबंधन करता है।",
+    "selectedHashes": [
+      "8ff129a6789d2fff"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1067",
+    "query": "क्लाउड कंप्यूटिंग के क्या लाभ हैं? (67)",
+    "answer": "स्केलेबिलिटी और लागत में बचत।",
+    "selectedHashes": [
+      "4290faf2c5b23272"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1068",
+    "query": "साइबर सुरक्षा क्यों महत्वपूर्ण है? (68)",
+    "answer": "डिजिटल संपत्तियों की सुरक्षा के लिए।",
+    "selectedHashes": [
+      "e84061db4220cac0"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1069",
+    "query": "आर्टिफिशियल इंटेलिजेंस क्या है? (69)",
+    "answer": "मानव बुद्धि का अनुकरण।",
+    "selectedHashes": [
+      "6356f8415f9d09ac"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1070",
+    "query": "दवा का अर्थ क्या है? (70)",
+    "answer": "दवा बीमारी के इलाज के लिए उपयोगी पदार्थ है।",
+    "selectedHashes": [
+      "dbbcbec154a805db"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1071",
+    "query": "वेक्टर डेटाबेस कैसे काम करता है? (71)",
+    "answer": "वेक्टर डेटाबेस उच्च आयाम वैक्टर को इंडेक्स करता है।",
+    "selectedHashes": [
+      "881d4009ec582121"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1072",
+    "query": "आरएजी प्रणाली क्या है? (72)",
+    "answer": "आरएजी बाहरी ज्ञान के साथ एलएलएम को जोड़ता है।",
+    "selectedHashes": [
+      "b9f94a03a8706a74"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1073",
+    "query": "कंप्यूटर नेटवर्क क्या है? (73)",
+    "answer": "डिजिटल दूरसंचार नेटवर्क है।",
+    "selectedHashes": [
+      "b56d3010bb594ea8"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1074",
+    "query": "मशीन लर्निंग क्या है? (74)",
+    "answer": "कंप्यूटर अनुभव से सीखता है।",
+    "selectedHashes": [
+      "5a98923e83e869d7"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1075",
+    "query": "डेटा संरचनाएं क्या हैं? (75)",
+    "answer": "डेटा को व्यवस्थित करने का तरीका।",
+    "selectedHashes": [
+      "0b9beb996e915dea"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1076",
+    "query": "ऑपरेटिंग सिस्टम का क्या काम है? (76)",
+    "answer": "हार्डवेयर और सॉफ्टवेयर का प्रबंधन करता है।",
+    "selectedHashes": [
+      "8ff129a6789d2fff"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1077",
+    "query": "क्लाउड कंप्यूटिंग के क्या लाभ हैं? (77)",
+    "answer": "स्केलेबिलिटी और लागत में बचत।",
+    "selectedHashes": [
+      "4290faf2c5b23272"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1078",
+    "query": "साइबर सुरक्षा क्यों महत्वपूर्ण है? (78)",
+    "answer": "डिजिटल संपत्तियों की सुरक्षा के लिए।",
+    "selectedHashes": [
+      "e84061db4220cac0"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1079",
+    "query": "आर्टिफिशियल इंटेलिजेंस क्या है? (79)",
+    "answer": "मानव बुद्धि का अनुकरण।",
+    "selectedHashes": [
+      "6356f8415f9d09ac"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1080",
+    "query": "दवा का अर्थ क्या है? (80)",
+    "answer": "दवा बीमारी के इलाज के लिए उपयोगी पदार्थ है।",
+    "selectedHashes": [
+      "dbbcbec154a805db"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1081",
+    "query": "वेक्टर डेटाबेस कैसे काम करता है? (81)",
+    "answer": "वेक्टर डेटाबेस उच्च आयाम वैक्टर को इंडेक्स करता है।",
+    "selectedHashes": [
+      "881d4009ec582121"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1082",
+    "query": "आरएजी प्रणाली क्या है? (82)",
+    "answer": "आरएजी बाहरी ज्ञान के साथ एलएलएम को जोड़ता है।",
+    "selectedHashes": [
+      "b9f94a03a8706a74"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1083",
+    "query": "कंप्यूटर नेटवर्क क्या है? (83)",
+    "answer": "डिजिटल दूरसंचार नेटवर्क है।",
+    "selectedHashes": [
+      "b56d3010bb594ea8"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1084",
+    "query": "मशीन लर्निंग क्या है? (84)",
+    "answer": "कंप्यूटर अनुभव से सीखता है।",
+    "selectedHashes": [
+      "5a98923e83e869d7"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1085",
+    "query": "डेटा संरचनाएं क्या हैं? (85)",
+    "answer": "डेटा को व्यवस्थित करने का तरीका।",
+    "selectedHashes": [
+      "0b9beb996e915dea"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1086",
+    "query": "ऑपरेटिंग सिस्टम का क्या काम है? (86)",
+    "answer": "हार्डवेयर और सॉफ्टवेयर का प्रबंधन करता है।",
+    "selectedHashes": [
+      "8ff129a6789d2fff"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1087",
+    "query": "क्लाउड कंप्यूटिंग के क्या लाभ हैं? (87)",
+    "answer": "स्केलेबिलिटी और लागत में बचत।",
+    "selectedHashes": [
+      "4290faf2c5b23272"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1088",
+    "query": "साइबर सुरक्षा क्यों महत्वपूर्ण है? (88)",
+    "answer": "डिजिटल संपत्तियों की सुरक्षा के लिए।",
+    "selectedHashes": [
+      "e84061db4220cac0"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1089",
+    "query": "आर्टिफिशियल इंटेलिजेंस क्या है? (89)",
+    "answer": "मानव बुद्धि का अनुकरण।",
+    "selectedHashes": [
+      "6356f8415f9d09ac"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1090",
+    "query": "दवा का अर्थ क्या है? (90)",
+    "answer": "दवा बीमारी के इलाज के लिए उपयोगी पदार्थ है।",
+    "selectedHashes": [
+      "dbbcbec154a805db"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1091",
+    "query": "वेक्टर डेटाबेस कैसे काम करता है? (91)",
+    "answer": "वेक्टर डेटाबेस उच्च आयाम वैक्टर को इंडेक्स करता है।",
+    "selectedHashes": [
+      "881d4009ec582121"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1092",
+    "query": "आरएजी प्रणाली क्या है? (92)",
+    "answer": "आरएजी बाहरी ज्ञान के साथ एलएलएम को जोड़ता है।",
+    "selectedHashes": [
+      "b9f94a03a8706a74"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1093",
+    "query": "कंप्यूटर नेटवर्क क्या है? (93)",
+    "answer": "डिजिटल दूरसंचार नेटवर्क है।",
+    "selectedHashes": [
+      "b56d3010bb594ea8"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1094",
+    "query": "मशीन लर्निंग क्या है? (94)",
+    "answer": "कंप्यूटर अनुभव से सीखता है।",
+    "selectedHashes": [
+      "5a98923e83e869d7"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1095",
+    "query": "डेटा संरचनाएं क्या हैं? (95)",
+    "answer": "डेटा को व्यवस्थित करने का तरीका।",
+    "selectedHashes": [
+      "0b9beb996e915dea"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1096",
+    "query": "ऑपरेटिंग सिस्टम का क्या काम है? (96)",
+    "answer": "हार्डवेयर और सॉफ्टवेयर का प्रबंधन करता है।",
+    "selectedHashes": [
+      "8ff129a6789d2fff"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1097",
+    "query": "क्लाउड कंप्यूटिंग के क्या लाभ हैं? (97)",
+    "answer": "स्केलेबिलिटी और लागत में बचत।",
+    "selectedHashes": [
+      "4290faf2c5b23272"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1098",
+    "query": "साइबर सुरक्षा क्यों महत्वपूर्ण है? (98)",
+    "answer": "डिजिटल संपत्तियों की सुरक्षा के लिए।",
+    "selectedHashes": [
+      "e84061db4220cac0"
+    ],
+    "language": "hi"
+  },
+  {
+    "queryId": "q_val_1099",
+    "query": "आर्टिफिशियल इंटेलिजेंस क्या है? (99)",
+    "answer": "मानव बुद्धि का अनुकरण।",
+    "selectedHashes": [
+      "6356f8415f9d09ac"
+    ],
+    "language": "hi"
+  }
+]

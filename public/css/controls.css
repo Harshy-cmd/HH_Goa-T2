@@ -1,0 +1,230 @@
+/* ===== CONTROL BAR ===== */
+.control-bar {
+  position: fixed;
+  bottom: var(--space-xl);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: var(--cream);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  z-index: var(--z-controls);
+  min-width: 360px;
+}
+
+.ctrl-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xxs);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-lg);
+  color: var(--text-dark);
+  transition: all var(--duration-fast) var(--ease-out);
+  position: relative;
+}
+
+.ctrl-btn:hover {
+  background: rgba(26, 92, 58, 0.08);
+}
+
+.ctrl-btn:active {
+  transform: scale(0.96);
+}
+
+.ctrl-label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--text-dark);
+  opacity: 0.65;
+  white-space: nowrap;
+}
+
+/* ── Microphone Button (special) ── */
+.ctrl-mic {
+  position: relative;
+}
+
+.mic-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-circle);
+  background: var(--pink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 16px rgba(232, 68, 106, 0.35);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.ctrl-mic:hover .mic-icon-wrap {
+  transform: scale(1.06);
+  box-shadow: 0 6px 24px rgba(232, 68, 106, 0.45);
+}
+
+.ctrl-mic.listening .mic-icon-wrap {
+  background: var(--pink-deep);
+  box-shadow: 0 0 0 4px rgba(232, 68, 106, 0.2), 0 4px 16px rgba(232, 68, 106, 0.4);
+}
+
+/* ── Text Input Overlay ── */
+.text-input-overlay {
+  position: fixed;
+  bottom: var(--space-xl);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-overlay);
+  width: 90%;
+  max-width: 600px;
+}
+
+.text-input-form {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: var(--cream);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+}
+
+.text-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: var(--text-md);
+  color: var(--text-dark);
+  padding: var(--space-sm) var(--space-md);
+  outline: none;
+}
+
+.text-input::placeholder {
+  color: rgba(26, 58, 40, 0.4);
+}
+
+.text-submit-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-circle);
+  background: var(--green-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.text-submit-btn:hover {
+  background: var(--green-dark);
+}
+
+.text-close-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-circle);
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--text-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-md);
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.text-close-btn:hover {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+/* ── Upload Overlay ── */
+.upload-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-modal);
+  backdrop-filter: blur(4px);
+}
+
+.upload-panel {
+  background: var(--cream);
+  color: var(--text-dark);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  max-width: 480px;
+  width: 90%;
+  position: relative;
+  box-shadow: var(--shadow-lg);
+}
+
+.upload-panel h3 {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-sm);
+}
+
+.upload-desc {
+  font-size: var(--text-base);
+  color: rgba(26, 58, 40, 0.7);
+  margin-bottom: var(--space-lg);
+}
+
+.upload-dropzone {
+  border: 2px dashed rgba(26, 92, 58, 0.25);
+  border-radius: var(--radius-md);
+  padding: var(--space-xl);
+  text-align: center;
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.upload-dropzone:hover,
+.upload-dropzone.dragover {
+  border-color: var(--green-primary);
+}
+
+.upload-browse {
+  color: var(--green-primary);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: inherit;
+}
+
+.upload-hint {
+  font-size: var(--text-xs);
+  color: rgba(26, 58, 40, 0.5);
+  margin-top: var(--space-sm);
+}
+
+.upload-close-btn {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-circle);
+  background: rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-md);
+  color: var(--text-dark);
+}
+
+.upload-close-btn:hover {
+  background: rgba(0, 0, 0, 0.12);
+}
+
+.upload-status {
+  margin-top: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+}

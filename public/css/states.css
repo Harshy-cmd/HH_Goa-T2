@@ -1,0 +1,124 @@
+/* ===== UI STATES ===== */
+
+/* State: IDLE — calm, default */
+body[data-state="idle"] .waveform-vis {
+  opacity: 0.5;
+}
+
+body[data-state="idle"] .waveform-bar {
+  height: 4px;
+}
+
+/* State: LISTENING — active, waveform animated */
+body[data-state="listening"] .ctrl-mic .mic-icon-wrap {
+  background: var(--pink-deep);
+  box-shadow: 0 0 0 6px rgba(232, 68, 106, 0.15), 0 0 0 12px rgba(232, 68, 106, 0.07), 0 4px 16px rgba(232, 68, 106, 0.4);
+}
+
+body[data-state="listening"] .waveform-vis {
+  opacity: 1;
+}
+
+body[data-state="listening"] .orbit-outer {
+  border-color: rgba(232, 68, 106, 0.35);
+}
+
+/* State: TRANSCRIBING */
+body[data-state="transcribing"] .organic-shape {
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    0 0 20px rgba(245, 200, 66, 0.15);
+}
+
+/* State: RETRIEVING */
+body[data-state="retrieving"] .orbit-outer {
+  border-color: rgba(125, 186, 110, 0.5);
+}
+
+body[data-state="retrieving"] .orbit-mid {
+  border-color: rgba(125, 186, 110, 0.35);
+}
+
+/* State: GENERATING */
+body[data-state="generating"] .organic-shape {
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    0 0 24px rgba(125, 186, 110, 0.2);
+}
+
+/* State: GROUNDED — answer ready */
+body[data-state="grounded"] .pill-grounded {
+  color: var(--green-accent);
+}
+
+/* State: NO_CONTEXT */
+body[data-state="no_context"] .pill-grounded {
+  display: none;
+}
+
+body[data-state="no_context"] .organic-shape {
+  opacity: 0.7;
+}
+
+/* State: REFUSED */
+body[data-state="refused"] .organic-shape {
+  opacity: 0.5;
+  filter: grayscale(0.3);
+}
+
+body[data-state="refused"] .orbit-outer {
+  border-color: rgba(232, 80, 80, 0.3);
+}
+
+/* State: ERROR */
+body[data-state="error"] .organic-shape {
+  opacity: 0.6;
+  filter: grayscale(0.4);
+}
+
+body[data-state="error"] .orbit-outer {
+  border-color: rgba(232, 80, 80, 0.4);
+}
+
+body[data-state="error"] .status-dot {
+  background: var(--status-error);
+  box-shadow: 0 0 8px var(--status-error);
+}
+
+/* ── Disabled controls ── */
+body[data-state="listening"] .ctrl-keyboard,
+body[data-state="listening"] .ctrl-upload,
+body[data-state="transcribing"] .ctrl-keyboard,
+body[data-state="transcribing"] .ctrl-upload,
+body[data-state="transcribing"] .ctrl-mic,
+body[data-state="retrieving"] .ctrl-keyboard,
+body[data-state="retrieving"] .ctrl-upload,
+body[data-state="retrieving"] .ctrl-mic,
+body[data-state="generating"] .ctrl-keyboard,
+body[data-state="generating"] .ctrl-upload,
+body[data-state="generating"] .ctrl-mic {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* ── Answer area visibility ── */
+body[data-state="grounded"] .answer-area,
+body[data-state="no_context"] .answer-area,
+body[data-state="refused"] .answer-area,
+body[data-state="error"] .answer-area {
+  display: block;
+}
+
+/* ── Refusal styling ── */
+.answer-area.refusal .answer-content {
+  color: var(--status-warning);
+}
+
+.answer-area.no-context .answer-content {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.answer-area.error .answer-content {
+  color: var(--status-error);
+}

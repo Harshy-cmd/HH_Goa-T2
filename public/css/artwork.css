@@ -1,0 +1,164 @@
+/* ===== CENTRAL ARTWORK ===== */
+.artwork-zone {
+  position: relative;
+  width: clamp(260px, 35vw, 380px);
+  height: clamp(260px, 35vw, 380px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-artwork);
+}
+
+/* ── Orbit Rings ── */
+.orbit-ring {
+  position: absolute;
+  border-radius: var(--radius-circle);
+  border: 1px dashed var(--green-muted);
+}
+
+.orbit-outer {
+  width: 100%;
+  height: 100%;
+  border-color: rgba(125, 186, 110, 0.25);
+  border-style: dotted;
+  border-width: 1.5px;
+}
+
+.orbit-mid {
+  width: 82%;
+  height: 82%;
+  border-color: rgba(232, 68, 106, 0.2);
+  border-style: dashed;
+  border-width: 1px;
+}
+
+/* ── SVG Accent Arcs ── */
+.accent-arcs {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+/* ── Cream Organic Shape ── */
+.organic-shape {
+  width: 55%;
+  height: 55%;
+  background: var(--cream);
+  border-radius: 48% 52% 46% 54% / 50% 45% 55% 50%;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    inset 0 2px 8px rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+}
+
+.organic-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* ── Wave Bands (green organic shapes on sides) ── */
+.wave-band {
+  position: absolute;
+  width: 40%;
+  height: 80%;
+  top: 10%;
+  z-index: 1;
+}
+
+.wave-left {
+  left: -5%;
+  background: var(--green-primary);
+  border-radius: 0 60% 60% 0 / 0 50% 50% 0;
+  opacity: 0.7;
+  clip-path: ellipse(70% 45% at 30% 50%);
+}
+
+.wave-right {
+  right: -5%;
+  background: var(--green-primary);
+  border-radius: 60% 0 0 60% / 50% 0 0 50%;
+  opacity: 0.7;
+  clip-path: ellipse(70% 45% at 70% 50%);
+}
+
+/* ── Center Icon ── */
+.center-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-circle);
+  background: var(--cream-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 3;
+  border: 2px solid rgba(0, 0, 0, 0.04);
+}
+
+.sun-icon {
+  width: 40px;
+  height: 40px;
+}
+
+/* ── Waveform Visualizer ── */
+.waveform-vis {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  z-index: 3;
+  opacity: 0.7;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 32%;
+}
+
+.waveform-bar {
+  width: 3px;
+  height: 12px;
+  background: var(--green-accent);
+  border-radius: 2px;
+  transition: height 0.1s ease;
+}
+
+/* ── Sparkle Decorations ── */
+.sparkle {
+  position: absolute;
+  color: var(--yellow-accent);
+  font-size: 0.9rem;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.sparkle-top {
+  top: -5%;
+  right: 35%;
+  color: var(--yellow-accent);
+}
+
+.sparkle-right-top {
+  top: 15%;
+  right: -8%;
+  color: var(--pink);
+  font-size: 0.7rem;
+}
+
+.sparkle-bottom-right {
+  bottom: 8%;
+  right: -10%;
+  color: var(--pink);
+  font-size: 0.6rem;
+}

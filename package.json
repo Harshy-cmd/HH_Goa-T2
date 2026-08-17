@@ -1,0 +1,31 @@
+{
+  "name": "voice-rag-2026",
+  "version": "1.0.0",
+  "description": "Voice RAG — Ask anything with your voice. Grounded answers from your knowledge base.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node tests/run.js",
+    "benchmark": "node tests/benchmark.js",
+    "inspect:dataset": "node server/ingestion/inspect_dataset.js",
+    "eval:retrieval": "node server/perf/eval_retrieval.js"
+  },
+  "keywords": [
+    "rag",
+    "voice",
+    "stt",
+    "vector-search"
+  ],
+  "author": "HH Goa 2026",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "form-data": "^4.0.6",
+    "multer": "^2.2.0",
+    "uuid": "^14.0.1"
+  }
+}
