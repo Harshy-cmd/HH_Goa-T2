@@ -2,9 +2,23 @@ from __future__ import annotations
 
 import json
 import os
+from pathlib import Path
 from typing import Any, Sequence
 
 from pydantic import BaseModel, Field, ValidationError
+
+try:
+    from dotenv import load_dotenv
+
+    _project_root = Path(__file__).resolve().parents[2]
+    _root_env = _project_root / ".env"
+    _backend_env = Path(__file__).resolve().parents[1] / ".env"
+    if _root_env.exists():
+        load_dotenv(_root_env)
+    elif _backend_env.exists():
+        load_dotenv(_backend_env)
+except ImportError:
+    pass
 
 from app.domain import GeneratedAnswer, SearchHit
 from app.pipeline import REFUSAL

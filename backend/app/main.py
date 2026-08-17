@@ -7,6 +7,20 @@ from typing import Literal
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
 
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+
+try:
+    from dotenv import load_dotenv
+
+    _root_env = PROJECT_ROOT / ".env"
+    _backend_env = Path(__file__).resolve().parents[1] / ".env"
+    if _root_env.exists():
+        load_dotenv(_root_env)
+    elif _backend_env.exists():
+        load_dotenv(_backend_env)
+except ImportError:
+    pass
+
 from app.embeddings import SentenceTransformerEmbeddingProvider
 from app.generation import OpenAIGroundedLLM
 from app.ingestion import fixed_chunks, hierarchical_chunks, load_jsonl, sentence_chunks
@@ -16,7 +30,6 @@ from app.retrieval import (BM25Retriever, CrossEncoderReranker, FAISSDenseRetrie
                            TransparentReranker)
 from app.vector_store import FaissVectorStore
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_PATH = Path(os.getenv("NOVARON_CORPUS_PATH", str(PROJECT_ROOT / "data" / "fixtures" / "sample_corpus.jsonl")))
 
 
