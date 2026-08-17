@@ -7,10 +7,11 @@ cd backend
 python -m scripts.create_msmarco_subset --examples-per-language 50 --seed 20260817
 ```
 
-The script streams deterministic samples from the `hi` and `kn` validation configurations of `ai4bharat/MSMARCO-XI`. English examples are the original English fields for the deterministically sampled Hindi records; Hindi and Kannada examples use their translated fields. It emits:
+The script deterministically samples from the Hindi (`validation/hinval.parquet`) and Kannada (`validation/kanval.parquet`) validation Parquet files of `ai4bharat/MSMARCO-XI` using PyArrow. English examples are the paired original English fields (`eng_Latn`) from the sampled Hindi records; Hindi (`hin_Deva`) and Kannada (`kan_Knda`) examples use their respective translated fields. It emits:
 
 - `corpus.jsonl`: passages with stable synthetic IDs;
 - `eval_cases.jsonl`: queries and selected-passage relevance IDs;
-- `subset_manifest.json`: dataset, revision, split, seed, sizes, and timestamp.
+- `subset_manifest.json`: dataset, revision, split, seed, language mappings, sizes, and rejection stats.
 
-The selection is seeded and applies no relevance, answer-length, or difficulty filtering. The dataset card defines the selected-passage labels and documents the source language configurations.
+The selection is seeded and rejects malformed or unannotated records (queries without positive selected passages).
+

@@ -1,0 +1,45 @@
+{
+  "dataset": "ai4bharat/MSMARCO-XI",
+  "revision": "main",
+  "split": "validation",
+  "seed": 20260817,
+  "language_mapping": {
+    "en": {
+      "source_lang": "eng_Latn",
+      "target_lang": "hin_Deva",
+      "translated": false,
+      "parquet_file": "validation/hinval.parquet"
+    },
+    "hi": {
+      "source_lang": "eng_Latn",
+      "target_lang": "hin_Deva",
+      "translated": true,
+      "parquet_file": "validation/hinval.parquet"
+    },
+    "kn": {
+      "source_lang": "eng_Latn",
+      "target_lang": "kan_Knda",
+      "translated": true,
+      "parquet_file": "validation/kanval.parquet"
+    }
+  },
+  "examples_per_language": 50,
+  "languages": [
+    "en",
+    "hi",
+    "kn"
+  ],
+  "actual_examples_selected": {
+    "en": 50,
+    "hi": 50,
+    "kn": 50
+  },
+  "rejected_records_count": {
+    "en": 45,
+    "hi": 45,
+    "kn": 45
+  },
+  "record_count": 1488,
+  "query_count": 150,
+  "created_at": "2026-08-17T07:39:14.488547+00:00"
+}
