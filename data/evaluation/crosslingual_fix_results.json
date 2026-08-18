@@ -1,0 +1,249 @@
+{
+  "timestamp": "2026-08-18 09:31:05 UTC",
+  "valid_pairs_count": 322,
+  "overall_results": {
+    "Baseline (Mixed Dense)": {
+      "pairs": 322,
+      "recall@1": 0.0031,
+      "recall@3": 0.0062,
+      "recall@5": 0.0093,
+      "recall@10": 0.0124,
+      "mrr": 0.0058
+    },
+    "Experiment A (Filtered k=300)": {
+      "pairs": 322,
+      "recall@1": 0.236,
+      "recall@3": 0.3571,
+      "recall@5": 0.4161,
+      "recall@10": 0.5124,
+      "mrr": 0.3177
+    },
+    "Experiment B (Filtered k=600)": {
+      "pairs": 322,
+      "recall@1": 0.2578,
+      "recall@3": 0.3975,
+      "recall@5": 0.472,
+      "recall@10": 0.6273,
+      "mrr": 0.3594
+    },
+    "Experiment C (Hybrid+Rerank k=600)": {
+      "pairs": 322,
+      "recall@1": 0.2547,
+      "recall@3": 0.3944,
+      "recall@5": 0.472,
+      "recall@10": 0.6273,
+      "mrr": 0.3564
+    }
+  },
+  "per_language_comparison": {
+    "as": {
+      "pairs": 23,
+      "baseline_r10": 0.0,
+      "baseline_mrr": 0.0,
+      "exp_b_r10": 0.2609,
+      "exp_b_mrr": 0.1652,
+      "exp_c_r10": 0.2609,
+      "exp_c_mrr": 0.1652,
+      "improvement_pct": 26.1
+    },
+    "bn": {
+      "pairs": 23,
+      "baseline_r10": 0.0,
+      "baseline_mrr": 0.0,
+      "exp_b_r10": 0.7826,
+      "exp_b_mrr": 0.4537,
+      "exp_c_r10": 0.7826,
+      "exp_c_mrr": 0.4537,
+      "improvement_pct": 78.3
+    },
+    "gu": {
+      "pairs": 23,
+      "baseline_r10": 0.0,
+      "baseline_mrr": 0.0,
+      "exp_b_r10": 0.6087,
+      "exp_b_mrr": 0.3418,
+      "exp_c_r10": 0.6087,
+      "exp_c_mrr": 0.3418,
+      "improvement_pct": 60.9
+    },
+    "hi": {
+      "pairs": 23,
+      "baseline_r10": 0.087,
+      "baseline_mrr": 0.0157,
+      "exp_b_r10": 0.7391,
+      "exp_b_mrr": 0.4399,
+      "exp_c_r10": 0.7391,
+      "exp_c_mrr": 0.4399,
+      "improvement_pct": 65.2
+    },
+    "kn": {
+      "pairs": 23,
+      "baseline_r10": 0.0,
+      "baseline_mrr": 0.0,
+      "exp_b_r10": 0.6522,
+      "exp_b_mrr": 0.37,
+      "exp_c_r10": 0.6522,
+      "exp_c_mrr": 0.37,
+      "improvement_pct": 65.2
+    },
+    "ml": {
+      "pairs": 23,
+      "baseline_r10": 0.0,
+      "baseline_mrr": 0.0,
+      "exp_b_r10": 0.7826,
+      "exp_b_mrr": 0.5019,
+      "exp_c_r10": 0.7826,
+      "exp_c_mrr": 0.5019,
+      "improvement_pct": 78.3
+    },
+    "mr": {
+      "pairs": 23,
+      "baseline_r10": 0.0,
+      "baseline_mrr": 0.0,
+      "exp_b_r10": 0.6522,
+      "exp_b_mrr": 0.3761,
+      "exp_c_r10": 0.6522,
+      "exp_c_mrr": 0.3761,
+      "improvement_pct": 65.2
+    },
+    "ne": {
+      "pairs": 23,
+      "baseline_r10": 0.0,
+      "baseline_mrr": 0.0,
+      "exp_b_r10": 0.6522,
+      "exp_b_mrr": 0.328,
+      "exp_c_r10": 0.6522,
+      "exp_c_mrr": 0.328,
+      "improvement_pct": 65.2
+    },
+    "or": {
+      "pairs": 23,
+      "baseline_r10": 0.0,
+      "baseline_mrr": 0.0,
+      "exp_b_r10": 0.5652,
+      "exp_b_mrr": 0.3207,
+      "exp_c_r10": 0.5652,
+      "exp_c_mrr": 0.3207,
+      "improvement_pct": 56.5
+    },
+    "pa": {
+      "pairs": 23,
+      "baseline_r10": 0.0435,
+      "baseline_mrr": 0.0217,
+      "exp_b_r10": 0.6087,
+      "exp_b_mrr": 0.3175,
+      "exp_c_r10": 0.6087,
+      "exp_c_mrr": 0.3175,
+      "improvement_pct": 56.5
+    },
+    "sa": {
+      "pairs": 23,
+      "baseline_r10": 0.0,
+      "baseline_mrr": 0.0,
+      "exp_b_r10": 0.5217,
+      "exp_b_mrr": 0.2816,
+      "exp_c_r10": 0.5217,
+      "exp_c_mrr": 0.2816,
+      "improvement_pct": 52.2
+    },
+    "ta": {
+      "pairs": 23,
+      "baseline_r10": 0.0,
+      "baseline_mrr": 0.0,
+      "exp_b_r10": 0.6522,
+      "exp_b_mrr": 0.366,
+      "exp_c_r10": 0.6522,
+      "exp_c_mrr": 0.366,
+      "improvement_pct": 65.2
+    },
+    "te": {
+      "pairs": 23,
+      "baseline_r10": 0.0,
+      "baseline_mrr": 0.0,
+      "exp_b_r10": 0.7391,
+      "exp_b_mrr": 0.3784,
+      "exp_c_r10": 0.7391,
+      "exp_c_mrr": 0.3784,
+      "improvement_pct": 73.9
+    },
+    "ur": {
+      "pairs": 23,
+      "baseline_r10": 0.0435,
+      "baseline_mrr": 0.0435,
+      "exp_b_r10": 0.5652,
+      "exp_b_mrr": 0.3913,
+      "exp_c_r10": 0.5652,
+      "exp_c_mrr": 0.3493,
+      "improvement_pct": 52.2
+    }
+  },
+  "latency_summary": {
+    "Baseline (Mixed Dense)": {
+      "p50_ms": 15.65,
+      "p95_ms": 18.13,
+      "max_ms": 21.58
+    },
+    "Experiment A (Filtered k=300)": {
+      "p50_ms": 15.87,
+      "p95_ms": 18.62,
+      "max_ms": 25.88
+    },
+    "Experiment B (Filtered k=600)": {
+      "p50_ms": 15.88,
+      "p95_ms": 18.24,
+      "max_ms": 20.15
+    },
+    "Experiment C (Hybrid+Rerank k=600)": {
+      "p50_ms": 227.37,
+      "p95_ms": 362.32,
+      "max_ms": 483.37
+    }
+  },
+  "migration_samples": [
+    {
+      "query": "সততা বা সততার সংজ্ঞা",
+      "language": "as",
+      "expected_en_doc_id": "msmarco-xi-en-205107-2",
+      "baseline_rank": ">10 (MISS)",
+      "experiment_b_rank": 2,
+      "new_score": 0.8247,
+      "text_preview": "honesty. n, pl-ties. 1. the condition of being honest. 2. sincerity or fairness. 3. virtue or respec"
+    },
+    {
+      "query": "সততা বা সততার সংজ্ঞা",
+      "language": "as",
+      "expected_en_doc_id": "msmarco-xi-en-205107-4",
+      "baseline_rank": ">10 (MISS)",
+      "experiment_b_rank": 5,
+      "new_score": 0.8061,
+      "text_preview": "hence, a white lie in some cases, is a result of integrity. integrity is the value and morals of a i"
+    },
+    {
+      "query": "ফ্ৰেংক গিফৰ্ডে কিমানগৰাকী মহিলাক বিয়া কৰাইছিল",
+      "language": "as",
+      "expected_en_doc_id": "msmarco-xi-en-300122-1",
+      "baseline_rank": ">10 (MISS)",
+      "experiment_b_rank": 10,
+      "new_score": 0.7924,
+      "text_preview": "Mini Bio (1) Frank Gifford was born on August 16, 1930 in Santa Monica, California, USA as Frank New"
+    },
+    {
+      "query": "সমাজবিজ্ঞানৰ সংস্কৃতি সংজ্ঞা",
+      "language": "as",
+      "expected_en_doc_id": "msmarco-xi-en-113570-4",
+      "baseline_rank": ">10 (MISS)",
+      "experiment_b_rank": 1,
+      "new_score": 0.8515,
+      "text_preview": "For the journal, see Cultural Sociology (journal). The sociology of culture and, the related, cultur"
+    },
+    {
+      "query": "আপুনি কিমান দিন ধৰি কাৰ্ব চক্ৰ চলাব লাগে",
+      "language": "as",
+      "expected_en_doc_id": "msmarco-xi-en-267380-2",
+      "baseline_rank": ">10 (MISS)",
+      "experiment_b_rank": 1,
+      "new_score": 0.8315,
+      "text_preview": "It should be somewhere between two and eight weeks depending on your initial bodyfat. If it takes mo"
+    }
+  ]
+}

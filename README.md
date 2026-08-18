@@ -9,15 +9,21 @@
 
 ## Overview
 
-**NOVARON Voice RAG** is an end-to-end multilingual conversational intelligence system built for high-accuracy question answering across **English** and **Hindi**. It seamlessly converts spoken user audio into grounded answers with verified citations and returns natural, synthesized voice audio while strictly preventing hallucinations and prompt injections.
+**NOVARON Voice RAG** is an end-to-end multilingual conversational intelligence system built for high-accuracy question answering across **15 languages** (14 Indic languages + English). It seamlessly converts spoken user audio into grounded answers with verified citations and returns natural, synthesized voice audio while strictly preventing hallucinations and prompt injections.
+
+### Supported Languages (15)
+- **English (`en`)**
+- **14 Indic Languages**: Assamese (`as`), Bengali (`bn`), Gujarati (`gu`), Hindi (`hi`), Kannada (`kn`), Malayalam (`ml`), Marathi (`mr`), Nepali (`ne`), Odia (`or`), Punjabi (`pa`), Sanskrit (`sa`), Tamil (`ta`), Telugu (`te`), Urdu (`ur`).
 
 ### Key Highlights
-- **End-to-End Voice Pipeline**: Full Voice-to-Voice (`Audio Input` $\to$ `STT` $\to$ `Sentence FAISS` $\to$ `Grounded LLM` $\to$ `Evidence Guard` $\to$ `TTS` $\to$ `MP3 Audio`).
-- **Multilingual Dense Retrieval**: Production `intfloat/multilingual-e5-small` embeddings indexed in high-performance cosine FAISS vector stores.
+- **End-to-End Voice Pipeline**: Full Voice-to-Voice (`Audio Input` $\to$ `STT` $\to$ `15-Language Router` $\to$ `Sentence FAISS + BM25` $\to$ `Grounded LLM` $\to$ `Evidence Guard` $\to$ `TTS` $\to$ `MP3 Audio`).
+- **AI4Bharat MSMARCO-XI Integration**: Ingested 12,000 official MSMARCO-XI passages + 184 curated domain documents (12,184 total documents, 12,206 sentence chunks).
+- **Multilingual Dense Retrieval & Candidate Filtering**: `intfloat/multilingual-e5-small` embeddings indexed in high-performance cosine FAISS vector stores. Language-aware candidate filtering achieves **62.7% Cross-Lingual Recall@10** and **0.359 MRR** (12/14 Indic languages >= 50% R@10).
+- **Sub-Millisecond 15-Language Router**: Pure-Python deterministic Unicode script and lexical classifier running at **0.06 ms P95** latency.
 - **Strict Grounding & Citation Validation**: Answers are strictly validated against retrieved evidence hits. Unsupported questions are safely refused with standardized refusal messages.
 - **Prompt-Injection Defense**: Evidence is isolated into passive data payloads, blocking untrusted retrieved content from overriding system instructions.
-- **Real-Time Latency Tracking**: Granular stage-wise latency tracking (`stt`, `retrieval`, `reranking`, `generation`, `tts`, `rag_total`, `total`).
-- **Offline & CI Determinism**: Includes `MockSTT` and `MockTTS` adapters alongside production provider implementations, enabling 100% offline unit/integration test coverage (73/73 tests passing).
+- **Real-Time Latency Tracking**: Granular stage-wise latency tracking (`router`, `stt`, `embedding`, `faiss`, `bm25`, `filtering`, `reranking`, `generation`, `tts`, `rag_total`, `total`).
+- **100% Deterministic CI Test Suite**: 124/124 unit and integration tests passing.
 
 ---
 

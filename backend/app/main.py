@@ -181,7 +181,7 @@ def build_pipeline(chunks: list, strategy: str = "sentence", mode: str = "dense"
     }[mode]
     reranker = _build_reranker() if mode == "hybrid_rerank" else None
     threshold = float(os.getenv("MIN_RELEVANCE_SCORE", "0.12")) if reranker else float(
-        os.getenv("MIN_UNRERANKED_RELEVANCE_SCORE", "0.01")
+        os.getenv("MIN_UNRERANKED_RELEVANCE_SCORE", "0.70")
     )
     return RAGPipeline(retriever, reranker, _build_generator(), threshold)
 

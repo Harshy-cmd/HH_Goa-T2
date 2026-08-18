@@ -1,0 +1,54 @@
+{
+  "release": "NOVARON Loop 14C-11 Final Freeze",
+  "generated_at": "2026-08-18 09:30:00 UTC",
+  "git_commit": "9cf94ba9e6eff5bd83eb1538858101abf00cc3e5",
+  "corpus": {
+    "total_documents": 12184,
+    "curated_documents": 184,
+    "msmarco_xi_documents": 12000,
+    "languages_supported": 15,
+    "language_codes": [
+      "en", "as", "bn", "gu", "hi", "kn", "ml", "mr", "ne", "or", "pa", "sa", "ta", "te", "ur"
+    ]
+  },
+  "indexes": {
+    "sentence_chunks": 12206,
+    "sentence_vectors": 12206,
+    "fixed_chunks": 12231,
+    "fixed_vectors": 12231,
+    "hierarchical_chunks": 24414,
+    "hierarchical_vectors": 24414,
+    "embedding_model": "intfloat/multilingual-e5-small",
+    "embedding_dimension": 384,
+    "vector_store_type": "IndexFlatIP"
+  },
+  "retrieval_benchmarks": {
+    "monolingual_hybrid_recall_10": 0.663,
+    "monolingual_hybrid_mrr": 0.323,
+    "crosslingual_baseline_recall_10": 0.012,
+    "crosslingual_baseline_mrr": 0.006,
+    "crosslingual_filtered_recall_10": 0.627,
+    "crosslingual_filtered_mrr": 0.359,
+    "languages_ge_50pct_recall": "12/14 Indic languages"
+  },
+  "latency_p95_ms": {
+    "router": 0.06,
+    "embedding": 16.56,
+    "faiss_dense": 1.54,
+    "candidate_filtering": 2.17,
+    "dense_retrieval_total": 18.54,
+    "voice_e2e": 221.13,
+    "filtering_overhead": 0.63
+  },
+  "test_results": {
+    "backend_total": 124,
+    "backend_passed": 124,
+    "backend_failed": 0,
+    "corpus_contract_validation": "PASS",
+    "index_validation": "PASS",
+    "frontend_build": "PASS",
+    "console_errors": 0,
+    "network_errors": 0
+  },
+  "status": "FROZEN_AND_DEMO_READY"
+}

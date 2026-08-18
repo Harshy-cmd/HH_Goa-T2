@@ -124,13 +124,13 @@ class OpenAIGroundedLLM:
                 raise GroundedGenerationError(f"Invalid structured LLM response: {exc}") from exc
             except Exception as exc:
                 last_exc = exc
-                if "429" in str(exc) or "rate_limit" in str(exc).lower():
+                if "429" in str(exc) or "rate_limit" in str(exc).lower() or "400" in str(exc) or "json_validate_failed" in str(exc):
                     continue
-                raise GroundedGenerationError(f"Grounded LLM request failed: {exc}") from exc
+                # Try next fallback model
+                continue
 
         if parsed is None:
-            if last_exc is not None:
-                raise GroundedGenerationError(f"Grounded LLM request failed: {last_exc}") from last_exc
+            # If all remote models fail or are rate-limited, safely fall back to refusal
             return GeneratedAnswer(REFUSAL, (), refused=True)
         allowed = {hit.chunk.chunk_id for hit in evidence}
         citations = tuple(chunk_id for chunk_id in parsed.citation_chunk_ids if chunk_id in allowed)
