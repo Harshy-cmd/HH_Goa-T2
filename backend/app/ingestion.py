@@ -30,7 +30,7 @@ def load_jsonl(path: Path) -> list[Passage]:
 
 
 def _sentences(text: str) -> list[str]:
-    return [sentence.strip() for sentence in re.split(r"(?<=[.!?।])\s+", text) if sentence.strip()]
+    return [sentence.strip() for sentence in re.split(r"(?<=[.!?।॥۔؟])\s+", text) if sentence.strip()]
 
 
 def _chunk(passage: Passage, text: str, index: int, strategy: str, parent: str | None = None) -> Chunk:

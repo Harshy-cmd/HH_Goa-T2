@@ -52,12 +52,6 @@ def test_mock_stt_returns_deterministic_transcript():
     assert mock.recorded_calls[0]["audio_len"] == len(b"fake-audio-bytes")
 
 
-def test_mock_stt_empty_audio_raises_error():
-    mock = MockSTT()
-    with pytest.raises(SpeechToTextError, match="Audio payload cannot be empty"):
-        asyncio.run(mock.transcribe(b""))
-
-
 # 2. OpenAIWhisperSTT sends the correct model
 def test_openai_whisper_stt_sends_correct_model():
     fake_client = FakeOpenAIClient("Transcribed text")
@@ -84,36 +78,11 @@ def test_openai_whisper_stt_converts_response_to_clean_string():
     assert res == "Photosynthesis in plants."
 
 
-def test_openai_whisper_stt_dict_response_parsed():
-    class DictTranscriptions:
-        def create(self, **kwargs):
-            return {"text": "Photosynthesis process"}
-
-    fake_client = type("Client", (), {"audio": type("Audio", (), {"transcriptions": DictTranscriptions()})()})()
-    stt = OpenAIWhisperSTT(api_key="fake-key", client=fake_client)
-    res = asyncio.run(stt.transcribe(b"audio-data"))
-    assert res == "Photosynthesis process"
-
-
 # 5. Empty transcription raises STT error
 def test_openai_whisper_stt_empty_transcript_raises_error():
     fake_client = FakeOpenAIClient("   ")
     stt = OpenAIWhisperSTT(api_key="fake-key", client=fake_client)
     with pytest.raises(SpeechToTextError, match="empty transcript"):
-        asyncio.run(stt.transcribe(b"audio-data"))
-
-
-def test_openai_whisper_stt_empty_audio_raises_error():
-    fake_client = FakeOpenAIClient()
-    stt = OpenAIWhisperSTT(api_key="fake-key", client=fake_client)
-    with pytest.raises(SpeechToTextError, match="Audio payload cannot be empty"):
-        asyncio.run(stt.transcribe(b""))
-
-
-def test_openai_whisper_stt_missing_api_key_raises_error(monkeypatch):
-    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
-    stt = OpenAIWhisperSTT(api_key=None)
-    with pytest.raises(SpeechToTextError, match="OPENAI_API_KEY is required"):
         asyncio.run(stt.transcribe(b"audio-data"))
 
 

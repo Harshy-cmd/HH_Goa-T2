@@ -1,0 +1,3347 @@
+[
+  {
+    "query": "কৰ্পোৰেচন কি?",
+    "eng_query": ". what is a corporation?",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-1102432-5"
+    ],
+    "query_id": 1102432
+  },
+  {
+    "query": "ৰেচেল কাৰ্চনে কিয় এক বাধ্যবাধকতা সহ্য কৰিবলৈ লিখিছিল",
+    "eng_query": "why did rachel carson write an obligation to endure",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-1102431-4",
+      "msmarco-xi-as-1102431-5"
+    ],
+    "query_id": 1102431
+  },
+  {
+    "query": "সততা বা সততার সংজ্ঞা",
+    "eng_query": "honesty or integrity definition",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-205107-2",
+      "msmarco-xi-as-205107-4"
+    ],
+    "query_id": 205107
+  },
+  {
+    "query": "ফ্ৰেংক গিফৰ্ডে কিমানগৰাকী মহিলাক বিয়া কৰাইছিল",
+    "eng_query": "how many women did frank gifford marry",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-300122-1"
+    ],
+    "query_id": 300122
+  },
+  {
+    "query": "এটা ঈগলে কিমান দ্ৰুতগতিত ভ্ৰমণ কৰে",
+    "eng_query": "how fast does an eagle travel",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-233826-0"
+    ],
+    "query_id": 233826
+  },
+  {
+    "query": "ষ্টাবহাব টোল বিনামূলীয়া নম্বৰ",
+    "eng_query": "stubhub toll free number",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-1090355-7"
+    ],
+    "query_id": 1090355
+  },
+  {
+    "query": "ডেল্টা বাংগালোৰলৈ উৰি যায়",
+    "eng_query": "does delta fly to bangalore",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-165349-0"
+    ],
+    "query_id": 165349
+  },
+  {
+    "query": "কেণ্টালুপ পূৰঠ হ'বলৈ কিমান সময় লাগে",
+    "eng_query": "how long for cantaloupe to mature",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-260880-7"
+    ],
+    "query_id": 260880
+  },
+  {
+    "query": "সংজ্ঞা নিৰ্ধাৰণ স্বেচ্ছামূলক",
+    "eng_query": "defination arbitrary",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-116898-0"
+    ],
+    "query_id": 116898
+  },
+  {
+    "query": "বাৰ্টাৰ ব্যৱস্থা আৰু ইয়াৰ সমস্যাবোৰ কি",
+    "eng_query": "what is barter system and its problems",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-1060361-1",
+      "msmarco-xi-as-1060361-9"
+    ],
+    "query_id": 1060361
+  },
+  {
+    "query": "জলবায়ু বতৰৰ অধ্যয়ন",
+    "eng_query": "study of climate weather",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-1090353-4"
+    ],
+    "query_id": 1090353
+  },
+  {
+    "query": "সমাজবিজ্ঞানৰ সংস্কৃতি সংজ্ঞা",
+    "eng_query": "culture of sociology definition",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-113570-4"
+    ],
+    "query_id": 113570
+  },
+  {
+    "query": "মূলবাদী ডিঙিৰ সংজ্ঞা দিয়ক",
+    "eng_query": "define radical neck",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-126172-2"
+    ],
+    "query_id": 126172
+  },
+  {
+    "query": "ইয়াক্সবক্স গেইমসমূহৰ দাম কিমান?",
+    "eng_query": "how much xbox games cost",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-331047-0"
+    ],
+    "query_id": 331047
+  },
+  {
+    "query": "যিটো বেছিকেল ইনছেন আছে সেইটো কি",
+    "eng_query": "what is basal in dna",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-1060359-2"
+    ],
+    "query_id": 1060359
+  },
+  {
+    "query": "আপুনি কিমান দিন ধৰি কাৰ্ব চক্ৰ চলাব লাগে",
+    "eng_query": "how long should you carb cycle",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-267380-2"
+    ],
+    "query_id": 267380
+  },
+  {
+    "query": "ষ্টাই কাৰণে",
+    "eng_query": "sty causes",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-1090352-4"
+    ],
+    "query_id": 1090352
+  },
+  {
+    "query": "ৰেডিং কাৰ বাবে সৰ্বোচ্চ ৰেকৰ্ড তাপমাত্ৰা",
+    "eng_query": "highest record temperature for redding ca",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-202891-8"
+    ],
+    "query_id": 202891
+  },
+  {
+    "query": "মেট লাউৱাৰে এটা বছৰত কিমান উপাৰ্জন কৰে",
+    "eng_query": "how much does matt lauer make a year",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-317450-8"
+    ],
+    "query_id": 317450
+  },
+  {
+    "query": "এখন এক্সেল শ্বীট কেনেকৈ প্ৰিণ্ট কৰিব",
+    "eng_query": "how to print an excel sheet",
+    "language": "as",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-as-373460-9"
+    ],
+    "query_id": 373460
+  },
+  {
+    "query": "কর্পোরেশন কী?",
+    "eng_query": ". what is a corporation?",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-1102432-5"
+    ],
+    "query_id": 1102432
+  },
+  {
+    "query": "র‍্যাচেল কারসন কেন একটি বাধ্যবাধকতা সহ্য করার জন্য লিখেছিলেন",
+    "eng_query": "why did rachel carson write an obligation to endure",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-1102431-4",
+      "msmarco-xi-bn-1102431-5"
+    ],
+    "query_id": 1102431
+  },
+  {
+    "query": "সততা বা সততার সংজ্ঞা",
+    "eng_query": "honesty or integrity definition",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-205107-2",
+      "msmarco-xi-bn-205107-4"
+    ],
+    "query_id": 205107
+  },
+  {
+    "query": "ফ্র্যাঙ্ক গিফোর্ড কতজন মহিলাকে বিয়ে করেছিলেন",
+    "eng_query": "how many women did frank gifford marry",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-300122-1"
+    ],
+    "query_id": 300122
+  },
+  {
+    "query": "একটি ঈগল কত দ্রুত ভ্রমণ করে।",
+    "eng_query": "how fast does an eagle travel",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-233826-0"
+    ],
+    "query_id": 233826
+  },
+  {
+    "query": "স্টাবহাব টোল ফ্রি নম্বর",
+    "eng_query": "stubhub toll free number",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-1090355-7"
+    ],
+    "query_id": 1090355
+  },
+  {
+    "query": "ডুবলুমধ্য বাঁক বাঁগালোরে উড়ে যায়",
+    "eng_query": "does delta fly to bangalore",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-165349-0"
+    ],
+    "query_id": 165349
+  },
+  {
+    "query": "কতদিন করে ক্যান্টালুপ পাকাবে।",
+    "eng_query": "how long for cantaloupe to mature",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-260880-7"
+    ],
+    "query_id": 260880
+  },
+  {
+    "query": "সংজ্ঞা নির্ধারণ নির্বিচারে",
+    "eng_query": "defination arbitrary",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-116898-0"
+    ],
+    "query_id": 116898
+  },
+  {
+    "query": "বার্টার সিস্টেম এবং এর সমস্যা কী",
+    "eng_query": "what is barter system and its problems",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-1060361-1",
+      "msmarco-xi-bn-1060361-9"
+    ],
+    "query_id": 1060361
+  },
+  {
+    "query": "জলবায়ু আবহাওয়ার অধ্যয়ন",
+    "eng_query": "study of climate weather",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-1090353-4"
+    ],
+    "query_id": 1090353
+  },
+  {
+    "query": "সমাজতত্ত্বের সংস্কৃতি সংজ্ঞা",
+    "eng_query": "culture of sociology definition",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-113570-4"
+    ],
+    "query_id": 113570
+  },
+  {
+    "query": "মৌলিক ঘাড়",
+    "eng_query": "define radical neck",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-126172-2"
+    ],
+    "query_id": 126172
+  },
+  {
+    "query": "ইউনিক্সবক্স গেমের দাম কত?",
+    "eng_query": "how much xbox games cost",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-331047-0"
+    ],
+    "query_id": 331047
+  },
+  {
+    "query": "যা বেসাল ইনলা",
+    "eng_query": "what is basal in dna",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-1060359-2"
+    ],
+    "query_id": 1060359
+  },
+  {
+    "query": "আপনার কতদিন কার্বন চক্র করতে হবে",
+    "eng_query": "how long should you carb cycle",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-267380-2"
+    ],
+    "query_id": 267380
+  },
+  {
+    "query": "স্টাই কারণ",
+    "eng_query": "sty causes",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-1090352-4"
+    ],
+    "query_id": 1090352
+  },
+  {
+    "query": "লাল রঙের জন্য সর্বোচ্চ রেকর্ড তাপমাত্রা",
+    "eng_query": "highest record temperature for redding ca",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-202891-8"
+    ],
+    "query_id": 202891
+  },
+  {
+    "query": "ম্যাট লাউয়ার বছরে কত টাকা উপার্জন করে।",
+    "eng_query": "how much does matt lauer make a year",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-317450-8"
+    ],
+    "query_id": 317450
+  },
+  {
+    "query": "এক্সেল শীট কীভাবে প্রিন্ট করবেন",
+    "eng_query": "how to print an excel sheet",
+    "language": "bn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-bn-373460-9"
+    ],
+    "query_id": 373460
+  },
+  {
+    "query": ". શું એક કોર્પોરેશન છે?",
+    "eng_query": ". what is a corporation?",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-1102432-5"
+    ],
+    "query_id": 1102432
+  },
+  {
+    "query": "રશેલ કાર્સને શા માટે સહન કરવાની જવાબદારી લખી?",
+    "eng_query": "why did rachel carson write an obligation to endure",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-1102431-4",
+      "msmarco-xi-gu-1102431-5"
+    ],
+    "query_id": 1102431
+  },
+  {
+    "query": "પ્રામાણિકતા અથવા સત્યનિષ્ઠાની વ્યાખ્યા",
+    "eng_query": "honesty or integrity definition",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-205107-2",
+      "msmarco-xi-gu-205107-4"
+    ],
+    "query_id": 205107
+  },
+  {
+    "query": "ફ્રેન્ક ગિફોર્ડે કેટલી સ્ત્રીઓ સાથે લગ્ન કર્યા હતા",
+    "eng_query": "how many women did frank gifford marry",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-300122-1"
+    ],
+    "query_id": 300122
+  },
+  {
+    "query": "ગરુડ કેટલી ઝડપથી મુસાફરી કરે છે",
+    "eng_query": "how fast does an eagle travel",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-233826-0"
+    ],
+    "query_id": 233826
+  },
+  {
+    "query": "સ્ટબહબ ટોલ ફ્રી નંબર",
+    "eng_query": "stubhub toll free number",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-1090355-7"
+    ],
+    "query_id": 1090355
+  },
+  {
+    "query": "શું ડેલ્ટા બેંગ્લોર તરફ ઉડે છે?",
+    "eng_query": "does delta fly to bangalore",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-165349-0"
+    ],
+    "query_id": 165349
+  },
+  {
+    "query": "કેન્ટાલૂપ પાકવા માટે કેટલો સમય લાગે છે",
+    "eng_query": "how long for cantaloupe to mature",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-260880-7"
+    ],
+    "query_id": 260880
+  },
+  {
+    "query": "વ્યાખ્યા મનમાની",
+    "eng_query": "defination arbitrary",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-116898-0"
+    ],
+    "query_id": 116898
+  },
+  {
+    "query": "બાર્ટર સિસ્ટમ શું છે અને તેની સમસ્યાઓ શું છે",
+    "eng_query": "what is barter system and its problems",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-1060361-1",
+      "msmarco-xi-gu-1060361-9"
+    ],
+    "query_id": 1060361
+  },
+  {
+    "query": "આબોહવાના અભ્યાસ",
+    "eng_query": "study of climate weather",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-1090353-4"
+    ],
+    "query_id": 1090353
+  },
+  {
+    "query": "સમાજશાસ્ત્રની વ્યાખ્યાની સંસ્કૃતિ",
+    "eng_query": "culture of sociology definition",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-113570-4"
+    ],
+    "query_id": 113570
+  },
+  {
+    "query": "કટ્ટરપંથી ગરદનની વ્યાખ્યા",
+    "eng_query": "define radical neck",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-126172-2"
+    ],
+    "query_id": 126172
+  },
+  {
+    "query": "યુનિક્સ ગેમ્સની કિંમત કેટલી છે",
+    "eng_query": "how much xbox games cost",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-331047-0"
+    ],
+    "query_id": 331047
+  },
+  {
+    "query": "આધારભૂત શું છે એલ.એન.એ.માં",
+    "eng_query": "what is basal in dna",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-1060359-2"
+    ],
+    "query_id": 1060359
+  },
+  {
+    "query": "તમારે કેટલો સમય કાર્બ ચક્ર ચલાવવું જોઈએ",
+    "eng_query": "how long should you carb cycle",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-267380-2"
+    ],
+    "query_id": 267380
+  },
+  {
+    "query": "સ્ટાઇ કારણે",
+    "eng_query": "sty causes",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-1090352-4"
+    ],
+    "query_id": 1090352
+  },
+  {
+    "query": "લાલ રંગના રેકોર્ડ માટે સૌથી વધુ તાપમાન",
+    "eng_query": "highest record temperature for redding ca",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-202891-8"
+    ],
+    "query_id": 202891
+  },
+  {
+    "query": "મેટ લોઅર એક વર્ષમાં કેટલું બનાવે છે",
+    "eng_query": "how much does matt lauer make a year",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-317450-8"
+    ],
+    "query_id": 317450
+  },
+  {
+    "query": "એક્સેલ શીટ કેવી રીતે છાપવી",
+    "eng_query": "how to print an excel sheet",
+    "language": "gu",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-gu-373460-9"
+    ],
+    "query_id": 373460
+  },
+  {
+    "query": "कॉर्पोरेशन क्या है?",
+    "eng_query": ". what is a corporation?",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-1102432-5"
+    ],
+    "query_id": 1102432
+  },
+  {
+    "query": "रेचल कार्सन ने क्यों एक दायित्व बर्दाश्त करने के लिए लिखा",
+    "eng_query": "why did rachel carson write an obligation to endure",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-1102431-4",
+      "msmarco-xi-hi-1102431-5"
+    ],
+    "query_id": 1102431
+  },
+  {
+    "query": "ईमानदारी या सच्चाई की परिभाषा",
+    "eng_query": "honesty or integrity definition",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-205107-2",
+      "msmarco-xi-hi-205107-4"
+    ],
+    "query_id": 205107
+  },
+  {
+    "query": "फ्रैंक गिफोर्ड ने कितनी महिलाओं से शादी की",
+    "eng_query": "how many women did frank gifford marry",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-300122-1"
+    ],
+    "query_id": 300122
+  },
+  {
+    "query": "बाज़ कितनी तेजी से यात्रा करता है",
+    "eng_query": "how fast does an eagle travel",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-233826-0"
+    ],
+    "query_id": 233826
+  },
+  {
+    "query": "स्टबहब टोल फ्री नंबर",
+    "eng_query": "stubhub toll free number",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-1090355-7"
+    ],
+    "query_id": 1090355
+  },
+  {
+    "query": "क्या डेल्टा बैंगलोर के लिए उड़ान भरता है?",
+    "eng_query": "does delta fly to bangalore",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-165349-0"
+    ],
+    "query_id": 165349
+  },
+  {
+    "query": "कैंटालूप को कितने समय तक परिपक्व होना है",
+    "eng_query": "how long for cantaloupe to mature",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-260880-7"
+    ],
+    "query_id": 260880
+  },
+  {
+    "query": "परिभाषा मनमानी है",
+    "eng_query": "defination arbitrary",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-116898-0"
+    ],
+    "query_id": 116898
+  },
+  {
+    "query": "किन्ना पारस्परिक आदान-प्रदान होता है और इसकी समस्याएं क्या हैं",
+    "eng_query": "what is barter system and its problems",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-1060361-1",
+      "msmarco-xi-hi-1060361-9"
+    ],
+    "query_id": 1060361
+  },
+  {
+    "query": "जलवायु मौसम का अध्ययन",
+    "eng_query": "study of climate weather",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-1090353-4"
+    ],
+    "query_id": 1090353
+  },
+  {
+    "query": "समाजशास्त्र की परिभाषा की संस्कृति",
+    "eng_query": "culture of sociology definition",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-113570-4"
+    ],
+    "query_id": 113570
+  },
+  {
+    "query": "मूलगामी गर्दन को परिभाषित करें",
+    "eng_query": "define radical neck",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-126172-2"
+    ],
+    "query_id": 126172
+  },
+  {
+    "query": "कितने खर्च होते हैं यू.एस.एक्स. गेम्स?",
+    "eng_query": "how much xbox games cost",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-331047-0"
+    ],
+    "query_id": 331047
+  },
+  {
+    "query": "आधारभूत क्या है जीने में?",
+    "eng_query": "what is basal in dna",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-1060359-2"
+    ],
+    "query_id": 1060359
+  },
+  {
+    "query": "आपको कितने समय तक कार्ब चक्र लगाना चाहिए",
+    "eng_query": "how long should you carb cycle",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-267380-2"
+    ],
+    "query_id": 267380
+  },
+  {
+    "query": "स्टाई कारण होता है",
+    "eng_query": "sty causes",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-1090352-4"
+    ],
+    "query_id": 1090352
+  },
+  {
+    "query": "रेडिंग का उच्चतम रिकॉर्ड तापमान",
+    "eng_query": "highest record temperature for redding ca",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-202891-8"
+    ],
+    "query_id": 202891
+  },
+  {
+    "query": "मैट लॉयर एक साल में कितना कमाता है",
+    "eng_query": "how much does matt lauer make a year",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-317450-8"
+    ],
+    "query_id": 317450
+  },
+  {
+    "query": "एक 'एक्सेल शीट' कैसे प्रिंट करें",
+    "eng_query": "how to print an excel sheet",
+    "language": "hi",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-hi-373460-9"
+    ],
+    "query_id": 373460
+  },
+  {
+    "query": ". ಕಾರ್ಪೊರೇಷನ್ ಎಂದರೇನು?",
+    "eng_query": ". what is a corporation?",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-1102432-5"
+    ],
+    "query_id": 1102432
+  },
+  {
+    "query": "ರಾಚೆಲ್ ಕಾರ್ಸನ್ ಅವರು ಸಹಿಸಿಕೊಳ್ಳಬೇಕಾದ ಒಂದು ಬಾಧ್ಯತೆಯನ್ನು ಏಕೆ ಬರೆದರು?",
+    "eng_query": "why did rachel carson write an obligation to endure",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-1102431-4",
+      "msmarco-xi-kn-1102431-5"
+    ],
+    "query_id": 1102431
+  },
+  {
+    "query": "ಪ್ರಾಮಾಣಿಕತೆ ಅಥವಾ ಸಮಗ್ರತೆಯ ವ್ಯಾಖ್ಯಾನ",
+    "eng_query": "honesty or integrity definition",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-205107-2",
+      "msmarco-xi-kn-205107-4"
+    ],
+    "query_id": 205107
+  },
+  {
+    "query": "ಫ್ರಾಂಕ್ ಗಿಫೋರ್ಡ್ ಎಷ್ಟು ಮಹಿಳೆಯರನ್ನು ಮದುವೆಯಾಗಿದ್ದಾರೆ",
+    "eng_query": "how many women did frank gifford marry",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-300122-1"
+    ],
+    "query_id": 300122
+  },
+  {
+    "query": "ಹದ್ದು ಎಷ್ಟು ವೇಗವಾಗಿ ಪ್ರಯಾಣಿಸುತ್ತದೆ",
+    "eng_query": "how fast does an eagle travel",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-233826-0"
+    ],
+    "query_id": 233826
+  },
+  {
+    "query": "ಸ್ಟಬ್‌ಹಬ್ ಟೋಲ್ ಉಚಿತ ಸಂಖ್ಯೆ",
+    "eng_query": "stubhub toll free number",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-1090355-7"
+    ],
+    "query_id": 1090355
+  },
+  {
+    "query": "ಡೆಲ್ಟಾ ಬೆಂಗಳೂರಿಗೆ ಹೋಗುತ್ತದೆಯೇ?",
+    "eng_query": "does delta fly to bangalore",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-165349-0"
+    ],
+    "query_id": 165349
+  },
+  {
+    "query": "ಕ್ಯಾಂಟಲೂಪ್ ಮಾಗಲು ಎಷ್ಟು ಸಮಯ ತೆಗೆದುಕೊಳ್ಳುತ್ತದೆ",
+    "eng_query": "how long for cantaloupe to mature",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-260880-7"
+    ],
+    "query_id": 260880
+  },
+  {
+    "query": "ನಿರ್ವಚನ ನಿರ್ಬಂಧಿತ ಎಂದು ಹೇಳಬಹುದು.",
+    "eng_query": "defination arbitrary",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-116898-0"
+    ],
+    "query_id": 116898
+  },
+  {
+    "query": "ವಿನಿಮಯ ವ್ಯವಸ್ಥೆ ಮತ್ತು ಅದರ ಸಮಸ್ಯೆಗಳೇನು",
+    "eng_query": "what is barter system and its problems",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-1060361-1",
+      "msmarco-xi-kn-1060361-9"
+    ],
+    "query_id": 1060361
+  },
+  {
+    "query": "ಹವಾಮಾನ ಪರಿಸ್ಥಿತಿಯ ಅಧ್ಯಯನ",
+    "eng_query": "study of climate weather",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-1090353-4"
+    ],
+    "query_id": 1090353
+  },
+  {
+    "query": "ಸಮಾಜಶಾಸ್ತ್ರದ ಸಂಸ್ಕೃತಿ ವ್ಯಾಖ್ಯಾನ",
+    "eng_query": "culture of sociology definition",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-113570-4"
+    ],
+    "query_id": 113570
+  },
+  {
+    "query": "ರೇಡಿಕಲ್ ಕುತ್ತಿಗೆಯನ್ನು ವ್ಯಾಖ್ಯಾನಿಸಿ",
+    "eng_query": "define radical neck",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-126172-2"
+    ],
+    "query_id": 126172
+  },
+  {
+    "query": "ಎಷ್ಟು ಎಕ್ಸ್‌ಬಾಕ್ಸ್‌ ಗೇಮ್‌ಗಳು ಖರ್ಚಾಗುತ್ತವೆ",
+    "eng_query": "how much xbox games cost",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-331047-0"
+    ],
+    "query_id": 331047
+  },
+  {
+    "query": "ವಂಶವಾಹಿಗಳ ಆಧಾರವಾಗಿರುವುದು ಯಾವುದು?",
+    "eng_query": "what is basal in dna",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-1060359-2"
+    ],
+    "query_id": 1060359
+  },
+  {
+    "query": "ನೀವು ಎಷ್ಟು ಸಮಯದವರೆಗೆ ಕಾರ್ಬ್ ಸೈಕಲ್ ಓಡಿಸಬೇಕು?",
+    "eng_query": "how long should you carb cycle",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-267380-2"
+    ],
+    "query_id": 267380
+  },
+  {
+    "query": "ಸ್ಟೈ ಕಾರಣಗಳು",
+    "eng_query": "sty causes",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-1090352-4"
+    ],
+    "query_id": 1090352
+  },
+  {
+    "query": "ಕೆಂಪು ಬಣ್ಣಕ್ಕೆ ಬರುವ ಗರಿಷ್ಠ ದಾಖಲೆಯ ತಾಪಮಾನ.",
+    "eng_query": "highest record temperature for redding ca",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-202891-8"
+    ],
+    "query_id": 202891
+  },
+  {
+    "query": "ಮ್ಯಾಟ್ ಲಾವರ್ ವರ್ಷವೊಂದಕ್ಕೆ ಎಷ್ಟು ಮಾಡುತ್ತಾರೆ",
+    "eng_query": "how much does matt lauer make a year",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-317450-8"
+    ],
+    "query_id": 317450
+  },
+  {
+    "query": "ಎಕ್ಸೆಲ್ ಶೀಟ್ ಅನ್ನು ಹೇಗೆ ಮುದ್ರಿಸುವುದು",
+    "eng_query": "how to print an excel sheet",
+    "language": "kn",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-kn-373460-9"
+    ],
+    "query_id": 373460
+  },
+  {
+    "query": "ഒരു കോർപ്പറേഷൻ എന്താണ്?",
+    "eng_query": ". what is a corporation?",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-1102432-5"
+    ],
+    "query_id": 1102432
+  },
+  {
+    "query": "റേച്ചൽ കാർസൺ എന്തുകൊണ്ട് സഹിക്കാനുള്ള ഒരു ബാധ്യത എഴുതിയത്?",
+    "eng_query": "why did rachel carson write an obligation to endure",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-1102431-4",
+      "msmarco-xi-ml-1102431-5"
+    ],
+    "query_id": 1102431
+  },
+  {
+    "query": "സത്യസന്ധതയോ സത്യസന്ധതയുടെ നിർവചനമോ",
+    "eng_query": "honesty or integrity definition",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-205107-2",
+      "msmarco-xi-ml-205107-4"
+    ],
+    "query_id": 205107
+  },
+  {
+    "query": "ഫ്രാങ്ക് ഗിഫോർഡ് എത്ര സ്ത്രീകളെ വിവാഹം കഴിച്ചു",
+    "eng_query": "how many women did frank gifford marry",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-300122-1"
+    ],
+    "query_id": 300122
+  },
+  {
+    "query": "ഒരു കഴുകൻ എത്ര വേഗത്തിൽ സഞ്ചരിക്കുന്നു?",
+    "eng_query": "how fast does an eagle travel",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-233826-0"
+    ],
+    "query_id": 233826
+  },
+  {
+    "query": "സ്റ്റബ്ഹബ് ടോൾ ഫ്രീ നമ്പർ",
+    "eng_query": "stubhub toll free number",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-1090355-7"
+    ],
+    "query_id": 1090355
+  },
+  {
+    "query": "ഡെൽറ്റ ബാംഗ്ലൂരിലേക്ക് പറക്കുന്നുണ്ടോ?",
+    "eng_query": "does delta fly to bangalore",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-165349-0"
+    ],
+    "query_id": 165349
+  },
+  {
+    "query": "കാന്റലൂപ്പ് പഴുത്തുവരാൻ എത്ര സമയമെടുക്കും",
+    "eng_query": "how long for cantaloupe to mature",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-260880-7"
+    ],
+    "query_id": 260880
+  },
+  {
+    "query": "നിർവചനം നിർബന്ധമല്ലാത്തത്",
+    "eng_query": "defination arbitrary",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-116898-0"
+    ],
+    "query_id": 116898
+  },
+  {
+    "query": "ബാർട്ടർ സിസ്റ്റം എന്താണ്, അതിന്‍റെ പ്രശ്നങ്ങൾ എന്തെല്ലാം",
+    "eng_query": "what is barter system and its problems",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-1060361-1",
+      "msmarco-xi-ml-1060361-9"
+    ],
+    "query_id": 1060361
+  },
+  {
+    "query": "കാലാവസ്ഥാ പഠനം",
+    "eng_query": "study of climate weather",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-1090353-4"
+    ],
+    "query_id": 1090353
+  },
+  {
+    "query": "സോഷ്യോളജിയുടെ സംസ്കാരം നിർവചനം",
+    "eng_query": "culture of sociology definition",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-113570-4"
+    ],
+    "query_id": 113570
+  },
+  {
+    "query": "റാഡിക്കൽ നെക്ക് നിർവചിക്കുക",
+    "eng_query": "define radical neck",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-126172-2"
+    ],
+    "query_id": 126172
+  },
+  {
+    "query": "എത്ര വിലയാണ് യുഎസ്എക്സ്ബോക്സ് ഗെയിമുകൾക്ക്?",
+    "eng_query": "how much xbox games cost",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-331047-0"
+    ],
+    "query_id": 331047
+  },
+  {
+    "query": "എന്‍റെ ജീവിതത്തില്‍ എന്താണ് അടിസ്ഥാനം.",
+    "eng_query": "what is basal in dna",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-1060359-2"
+    ],
+    "query_id": 1060359
+  },
+  {
+    "query": "നിങ്ങൾ എത്രകാലം കാർബൺ ചക്രം ഉപയോഗിക്കണം",
+    "eng_query": "how long should you carb cycle",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-267380-2"
+    ],
+    "query_id": 267380
+  },
+  {
+    "query": "സ്റ്റൈ മൂലം",
+    "eng_query": "sty causes",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-1090352-4"
+    ],
+    "query_id": 1090352
+  },
+  {
+    "query": "റെഡ്ഡിംഗ് കായ്ക്കുള്ള ഏറ്റവും ഉയർന്ന റെക്കോർഡ് താപനില",
+    "eng_query": "highest record temperature for redding ca",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-202891-8"
+    ],
+    "query_id": 202891
+  },
+  {
+    "query": "മാറ്റ് ലോവർ ഒരു വർഷം എത്ര സമ്പാദിക്കുന്നു",
+    "eng_query": "how much does matt lauer make a year",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-317450-8"
+    ],
+    "query_id": 317450
+  },
+  {
+    "query": "എക്സൽ ഷീറ്റ് എങ്ങനെ പ്രിന്റ് ചെയ്യാം",
+    "eng_query": "how to print an excel sheet",
+    "language": "ml",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ml-373460-9"
+    ],
+    "query_id": 373460
+  },
+  {
+    "query": "कॉर्पोरेशन म्हणजे काय?",
+    "eng_query": ". what is a corporation?",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-1102432-5"
+    ],
+    "query_id": 1102432
+  },
+  {
+    "query": "रॅचेल कार्सनला काय करावे लागले असे लिहिले गेले का?",
+    "eng_query": "why did rachel carson write an obligation to endure",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-1102431-4",
+      "msmarco-xi-mr-1102431-5"
+    ],
+    "query_id": 1102431
+  },
+  {
+    "query": "प्रामाणिकपणा किंवा सचोटीची व्याख्या",
+    "eng_query": "honesty or integrity definition",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-205107-2",
+      "msmarco-xi-mr-205107-4"
+    ],
+    "query_id": 205107
+  },
+  {
+    "query": "फ्रँक गिफर्डने किती स्त्रियांशी लग्न केले",
+    "eng_query": "how many women did frank gifford marry",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-300122-1"
+    ],
+    "query_id": 300122
+  },
+  {
+    "query": "गरुड किती वेगाने प्रवास करतो",
+    "eng_query": "how fast does an eagle travel",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-233826-0"
+    ],
+    "query_id": 233826
+  },
+  {
+    "query": "स्टबहब टोल फ्री नंबर",
+    "eng_query": "stubhub toll free number",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-1090355-7"
+    ],
+    "query_id": 1090355
+  },
+  {
+    "query": "ते डेल्टा बंगलोरला जाते का?",
+    "eng_query": "does delta fly to bangalore",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-165349-0"
+    ],
+    "query_id": 165349
+  },
+  {
+    "query": "कॅन्टालूप किती काळ परिपक्व होईल",
+    "eng_query": "how long for cantaloupe to mature",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-260880-7"
+    ],
+    "query_id": 260880
+  },
+  {
+    "query": "व्याख्या मनमानीपणे",
+    "eng_query": "defination arbitrary",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-116898-0"
+    ],
+    "query_id": 116898
+  },
+  {
+    "query": "बार्टर प्रणाली आणि तिच्या समस्या काय आहेत",
+    "eng_query": "what is barter system and its problems",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-1060361-1",
+      "msmarco-xi-mr-1060361-9"
+    ],
+    "query_id": 1060361
+  },
+  {
+    "query": "हवामानाचा अभ्यास",
+    "eng_query": "study of climate weather",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-1090353-4"
+    ],
+    "query_id": 1090353
+  },
+  {
+    "query": "समाजशास्त्राच्या संस्कृतीची व्याख्या",
+    "eng_query": "culture of sociology definition",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-113570-4"
+    ],
+    "query_id": 113570
+  },
+  {
+    "query": "मूलगामी मान",
+    "eng_query": "define radical neck",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-126172-2"
+    ],
+    "query_id": 126172
+  },
+  {
+    "query": "युजनक्सच्या गेम्सची किंमत किती आहे?",
+    "eng_query": "how much xbox games cost",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-331047-0"
+    ],
+    "query_id": 331047
+  },
+  {
+    "query": "आधारभूत गोष्ट म्हणजे",
+    "eng_query": "what is basal in dna",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-1060359-2"
+    ],
+    "query_id": 1060359
+  },
+  {
+    "query": "तुम्ही किती काळ कार्ब चक्र करावे",
+    "eng_query": "how long should you carb cycle",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-267380-2"
+    ],
+    "query_id": 267380
+  },
+  {
+    "query": "स्टायमुळे",
+    "eng_query": "sty causes",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-1090352-4"
+    ],
+    "query_id": 1090352
+  },
+  {
+    "query": "लालसर तापमानासाठी सर्वोच्च विक्रम",
+    "eng_query": "highest record temperature for redding ca",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-202891-8"
+    ],
+    "query_id": 202891
+  },
+  {
+    "query": "मॅट लॉअर एका वर्षात किती कमावतो",
+    "eng_query": "how much does matt lauer make a year",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-317450-8"
+    ],
+    "query_id": 317450
+  },
+  {
+    "query": "एक्सेल शीट कसे प्रिंट करावे",
+    "eng_query": "how to print an excel sheet",
+    "language": "mr",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-mr-373460-9"
+    ],
+    "query_id": 373460
+  },
+  {
+    "query": "के हो निगम?",
+    "eng_query": ". what is a corporation?",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-1102432-5"
+    ],
+    "query_id": 1102432
+  },
+  {
+    "query": "राचेल कार्सनले किन सहन गर्ने दायित्व लेख्नु भयो",
+    "eng_query": "why did rachel carson write an obligation to endure",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-1102431-4",
+      "msmarco-xi-ne-1102431-5"
+    ],
+    "query_id": 1102431
+  },
+  {
+    "query": "इमानदारी वा निष्ठाको परिभाषा",
+    "eng_query": "honesty or integrity definition",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-205107-2",
+      "msmarco-xi-ne-205107-4"
+    ],
+    "query_id": 205107
+  },
+  {
+    "query": "फ्रान्क गिफोर्डले कति महिलाहरूसँग विवाह गरे",
+    "eng_query": "how many women did frank gifford marry",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-300122-1"
+    ],
+    "query_id": 300122
+  },
+  {
+    "query": "चिल कति छिटो यात्रा गर्छ।",
+    "eng_query": "how fast does an eagle travel",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-233826-0"
+    ],
+    "query_id": 233826
+  },
+  {
+    "query": "स्टबहब टोल फ्री नम्बर",
+    "eng_query": "stubhub toll free number",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-1090355-7"
+    ],
+    "query_id": 1090355
+  },
+  {
+    "query": "के डेल्टा ब्याङ्गलोर उड्छ?",
+    "eng_query": "does delta fly to bangalore",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-165349-0"
+    ],
+    "query_id": 165349
+  },
+  {
+    "query": "क्यान्टालुप पाकुन्जेल कति समय लाग्छ",
+    "eng_query": "how long for cantaloupe to mature",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-260880-7"
+    ],
+    "query_id": 260880
+  },
+  {
+    "query": "निर्धारण मनमानी",
+    "eng_query": "defination arbitrary",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-116898-0"
+    ],
+    "query_id": 116898
+  },
+  {
+    "query": "बार्टर प्रणाली के हो र यसका समस्याहरू के हुन्",
+    "eng_query": "what is barter system and its problems",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-1060361-1",
+      "msmarco-xi-ne-1060361-9"
+    ],
+    "query_id": 1060361
+  },
+  {
+    "query": "जलवायु मौसमको अध्ययन",
+    "eng_query": "study of climate weather",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-1090353-4"
+    ],
+    "query_id": 1090353
+  },
+  {
+    "query": "समाजशास्त्रको परिभाषा संस्कृति",
+    "eng_query": "culture of sociology definition",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-113570-4"
+    ],
+    "query_id": 113570
+  },
+  {
+    "query": "आमूल परिवर्तनवादी गर्दन",
+    "eng_query": "define radical neck",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-126172-2"
+    ],
+    "query_id": 126172
+  },
+  {
+    "query": "यो कति खर्च लाग्छ?",
+    "eng_query": "how much xbox games cost",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-331047-0"
+    ],
+    "query_id": 331047
+  },
+  {
+    "query": "आधारभूत के हो",
+    "eng_query": "what is basal in dna",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-1060359-2"
+    ],
+    "query_id": 1060359
+  },
+  {
+    "query": "तपाईँ कार्ब चक्कर कति लामो समयसम्म गर्नुपर्छ",
+    "eng_query": "how long should you carb cycle",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-267380-2"
+    ],
+    "query_id": 267380
+  },
+  {
+    "query": "शैलीका कारणले",
+    "eng_query": "sty causes",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-1090352-4"
+    ],
+    "query_id": 1090352
+  },
+  {
+    "query": "रातोपनका लागि उच्चतम रेकर्ड तापमान।",
+    "eng_query": "highest record temperature for redding ca",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-202891-8"
+    ],
+    "query_id": 202891
+  },
+  {
+    "query": "म्याट लाउरले एक वर्ष कति कमाउँछन्",
+    "eng_query": "how much does matt lauer make a year",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-317450-8"
+    ],
+    "query_id": 317450
+  },
+  {
+    "query": "एक्सेल सिट प्रिन्ट गर्ने तरिका कस्तो छ भन्ने कुरा",
+    "eng_query": "how to print an excel sheet",
+    "language": "ne",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ne-373460-9"
+    ],
+    "query_id": 373460
+  },
+  {
+    "query": ". ଏକ କର୍ପୋରେସନ୍ କ'ଣ?",
+    "eng_query": ". what is a corporation?",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-1102432-5"
+    ],
+    "query_id": 1102432
+  },
+  {
+    "query": "ରାଚେଲ କାର୍ସନ କାହିଁକି ଏକ ବାଧ୍ୟତା ସହିତ ଏକ ଦାୟିତ୍ୱ ଲେଖିଲେ?",
+    "eng_query": "why did rachel carson write an obligation to endure",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-1102431-4",
+      "msmarco-xi-or-1102431-5"
+    ],
+    "query_id": 1102431
+  },
+  {
+    "query": "ସତ୍ୟତା ବା ସତ୍ୟନିଷ୍ଠତା ସଂଜ୍ଞା",
+    "eng_query": "honesty or integrity definition",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-205107-2",
+      "msmarco-xi-or-205107-4"
+    ],
+    "query_id": 205107
+  },
+  {
+    "query": "ଫ୍ରାଙ୍କ ଗିଫୋର୍ଡ କେତେ ଜଣ ମହିଳାଙ୍କୁ ବିବାହ କରିଥିଲେ?",
+    "eng_query": "how many women did frank gifford marry",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-300122-1"
+    ],
+    "query_id": 300122
+  },
+  {
+    "query": "ଏକ ଈଗଲ କେତେ ଦ୍ରୁତ ଗତିରେ ଯାତ୍ରା କରେ?",
+    "eng_query": "how fast does an eagle travel",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-233826-0"
+    ],
+    "query_id": 233826
+  },
+  {
+    "query": "ସ୍ଟବହବ ଟୋଲ ଫ୍ରି ନମ୍ବର",
+    "eng_query": "stubhub toll free number",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-1090355-7"
+    ],
+    "query_id": 1090355
+  },
+  {
+    "query": "ଡେଲ୍ଟା ବାଙ୍ଗାଲୋର ଉଡ଼ି ଯାଏ।",
+    "eng_query": "does delta fly to bangalore",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-165349-0"
+    ],
+    "query_id": 165349
+  },
+  {
+    "query": "କେନ୍ଟାଲୁପି ପରିପକ୍ୱ ହେବା ପାଇଁ କେତେ ସମୟ ଲାଗିବ",
+    "eng_query": "how long for cantaloupe to mature",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-260880-7"
+    ],
+    "query_id": 260880
+  },
+  {
+    "query": "ନିର୍ଦ୍ଧାରଣ ନିର୍ଭରଶୀଳ",
+    "eng_query": "defination arbitrary",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-116898-0"
+    ],
+    "query_id": 116898
+  },
+  {
+    "query": "ବାର୍ଟର ସିଷ୍ଟମ କ'ଣ ଏବଂ ଏହାର ସମସ୍ୟାଗୁଡ଼ିକ କ'ଣ",
+    "eng_query": "what is barter system and its problems",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-1060361-1",
+      "msmarco-xi-or-1060361-9"
+    ],
+    "query_id": 1060361
+  },
+  {
+    "query": "ଜଳବାୟୁ ପାଣିପାଗ ଅଧ୍ୟୟନ",
+    "eng_query": "study of climate weather",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-1090353-4"
+    ],
+    "query_id": 1090353
+  },
+  {
+    "query": "ସମାଜ ବିଜ୍ଞାନ ସଂସ୍କୃତି ସଂଜ୍ଞା",
+    "eng_query": "culture of sociology definition",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-113570-4"
+    ],
+    "query_id": 113570
+  },
+  {
+    "query": "ରାଡିକାଲ ନେକ୍‌କୁ ପରିଭାଷିତ କରନ୍ତୁ।",
+    "eng_query": "define radical neck",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-126172-2"
+    ],
+    "query_id": 126172
+  },
+  {
+    "query": "କେତେ ମୂଲ୍ୟ ଆସେ ଏକ ଉଇକ୍‌ଷୋର୍ଡ ଗେମ୍‌?",
+    "eng_query": "how much xbox games cost",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-331047-0"
+    ],
+    "query_id": 331047
+  },
+  {
+    "query": "ଏଲିଏନଏ ରେ କ'ଣ ମୂଳ ଅଟେ ।",
+    "eng_query": "what is basal in dna",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-1060359-2"
+    ],
+    "query_id": 1060359
+  },
+  {
+    "query": "ଆପଣ କେତେ ଦିନ ପର୍ଯ୍ୟନ୍ତ କାର୍ବ ସାଇକେଲ ଚଳାଇବେ?",
+    "eng_query": "how long should you carb cycle",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-267380-2"
+    ],
+    "query_id": 267380
+  },
+  {
+    "query": "ଷ୍ଟାଇ କାରଣରୁ",
+    "eng_query": "sty causes",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-1090352-4"
+    ],
+    "query_id": 1090352
+  },
+  {
+    "query": "ଲାଲ ରଙ୍ଗ ପାଇଁ ସର୍ବୋଚ୍ଚ ରେକର୍ଡ ତାପମାତ୍ରା",
+    "eng_query": "highest record temperature for redding ca",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-202891-8"
+    ],
+    "query_id": 202891
+  },
+  {
+    "query": "ମାଟ୍ ଲାଉର ବର୍ଷକୁ କେତେ ଆୟ କରେ?",
+    "eng_query": "how much does matt lauer make a year",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-317450-8"
+    ],
+    "query_id": 317450
+  },
+  {
+    "query": "ଏକ ଏକ୍ସେଲ ଶୀଟ୍ କିପରି ପ୍ରିଣ୍ଟ କରିବେ",
+    "eng_query": "how to print an excel sheet",
+    "language": "or",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-or-373460-9"
+    ],
+    "query_id": 373460
+  },
+  {
+    "query": ". ਕੋਰਪੋਰੇਸ਼ਨ ਕੀ ਹੈ?",
+    "eng_query": ". what is a corporation?",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-1102432-5"
+    ],
+    "query_id": 1102432
+  },
+  {
+    "query": "ਰੇਚਲ ਕਾਰਸਨ ਨੇ ਇੱਕ ਜ਼ਿੰਮੇਵਾਰੀ ਕਿਉਂ ਲਿਖੀ ਸੀ।",
+    "eng_query": "why did rachel carson write an obligation to endure",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-1102431-4",
+      "msmarco-xi-pa-1102431-5"
+    ],
+    "query_id": 1102431
+  },
+  {
+    "query": "ਇਮਾਨਦਾਰੀ ਜਾਂ ਇਮਾਨਦਾਰੀ ਦੀ ਪਰਿਭਾਸ਼ਾ",
+    "eng_query": "honesty or integrity definition",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-205107-2",
+      "msmarco-xi-pa-205107-4"
+    ],
+    "query_id": 205107
+  },
+  {
+    "query": "ਫਰੈਂਕ ਗਿਫੋਰਡ ਨੇ ਕਿੰਨੀਆਂ ਔਰਤਾਂ ਨਾਲ ਵਿਆਹ ਕੀਤਾ",
+    "eng_query": "how many women did frank gifford marry",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-300122-1"
+    ],
+    "query_id": 300122
+  },
+  {
+    "query": "ਇੱਕ ਬਾਜ਼ ਕਿੰਨੀ ਤੇਜ਼ੀ ਨਾਲ ਯਾਤਰਾ ਕਰਦਾ ਹੈ",
+    "eng_query": "how fast does an eagle travel",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-233826-0"
+    ],
+    "query_id": 233826
+  },
+  {
+    "query": "ਸਟਬਹੱਬ ਟੋਲ ਮੁਫ਼ਤ ਨੰਬਰ",
+    "eng_query": "stubhub toll free number",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-1090355-7"
+    ],
+    "query_id": 1090355
+  },
+  {
+    "query": "ਡੈਲਟਾ ਬੰਗਲੌਰ ਲਈ ਉਡਾਣ ਭਰਦਾ ਹੈ",
+    "eng_query": "does delta fly to bangalore",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-165349-0"
+    ],
+    "query_id": 165349
+  },
+  {
+    "query": "ਕੈਂਟਾਲੂਪ ਨੂੰ ਪੱਕਣ ਲਈ ਕਿੰਨਾ ਸਮਾਂ ਲੱਗੇਗਾ",
+    "eng_query": "how long for cantaloupe to mature",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-260880-7"
+    ],
+    "query_id": 260880
+  },
+  {
+    "query": "ਪਰਿਭਾਸ਼ਾ ਮਨਮਰਜ਼ੀ ਨਾਲ ਪਰਿਭਾਸ਼ਿਤ ਕੀਤੀ ਗਈ ਹੈ।",
+    "eng_query": "defination arbitrary",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-116898-0"
+    ],
+    "query_id": 116898
+  },
+  {
+    "query": "ਬਾਰਟਰ ਸਿਸਟਮ ਕੀ ਹੈ ਅਤੇ ਇਸ ਦੀਆਂ ਸਮੱਸਿਆਵਾਂ ਕੀ ਹਨ।",
+    "eng_query": "what is barter system and its problems",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-1060361-1",
+      "msmarco-xi-pa-1060361-9"
+    ],
+    "query_id": 1060361
+  },
+  {
+    "query": "ਜਲਵਾਯੂ ਮੌਸਮ ਦਾ ਅਧਿਐਨ",
+    "eng_query": "study of climate weather",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-1090353-4"
+    ],
+    "query_id": 1090353
+  },
+  {
+    "query": "ਸਮਾਜ ਸ਼ਾਸਤਰ ਦੀ ਪਰਿਭਾਸ਼ਾ ਦੀ ਸੰਸਕ੍ਰਿਤੀ",
+    "eng_query": "culture of sociology definition",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-113570-4"
+    ],
+    "query_id": 113570
+  },
+  {
+    "query": "ਕੱਟੜਪੰਥੀ ਗਰਦਨ ਨੂੰ ਪਰਿਭਾਸ਼ਿਤ ਕਰੋ",
+    "eng_query": "define radical neck",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-126172-2"
+    ],
+    "query_id": 126172
+  },
+  {
+    "query": "ਕਿੰਨੀ ਕੀਮਤ ਹੈ ਇਹ ਖੇਡਾਂ ਖੇਡਣ ਦੀ ਲਾਗਤ",
+    "eng_query": "how much xbox games cost",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-331047-0"
+    ],
+    "query_id": 331047
+  },
+  {
+    "query": "ਬੇਸਲ ਵਿੱਚ ਕੀ ਹੈ",
+    "eng_query": "what is basal in dna",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-1060359-2"
+    ],
+    "query_id": 1060359
+  },
+  {
+    "query": "ਤੁਹਾਨੂੰ ਕਿੰਨੀ ਦੇਰ ਤੱਕ ਕਾਰਬਨ ਡਾਈਆਕਸਾਈਡ ਚੱਕਰ ਲਗਾਉਣਾ ਚਾਹੀਦਾ ਹੈ।",
+    "eng_query": "how long should you carb cycle",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-267380-2"
+    ],
+    "query_id": 267380
+  },
+  {
+    "query": "ਸਟਾਈ ਕਾਰਨ",
+    "eng_query": "sty causes",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-1090352-4"
+    ],
+    "query_id": 1090352
+  },
+  {
+    "query": "ਲਾਲ ਰੰਗ ਲਈ ਸਭ ਤੋਂ ਵੱਧ ਰਿਕਾਰਡ ਤਾਪਮਾਨ",
+    "eng_query": "highest record temperature for redding ca",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-202891-8"
+    ],
+    "query_id": 202891
+  },
+  {
+    "query": "ਮੈਟ ਲਾਊਰ ਇੱਕ ਸਾਲ ਵਿੱਚ ਕਿੰਨਾ ਕਮਾਉਂਦਾ ਹੈ",
+    "eng_query": "how much does matt lauer make a year",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-317450-8"
+    ],
+    "query_id": 317450
+  },
+  {
+    "query": "ਇੱਕ ਐਕਸਲੈਂਟ ਸ਼ੀਟ ਕਿਵੇਂ ਪ੍ਰਿੰਟ ਕਰਨੀ ਹੈ",
+    "eng_query": "how to print an excel sheet",
+    "language": "pa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-pa-373460-9"
+    ],
+    "query_id": 373460
+  },
+  {
+    "query": "कार्पोरेशन् किमिति?",
+    "eng_query": ". what is a corporation?",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-1102432-5"
+    ],
+    "query_id": 1102432
+  },
+  {
+    "query": "रेचेल् कार्सन् इत्यनेन किमर्थं दायित्वं सोढव्यम् इति लिखितम्।",
+    "eng_query": "why did rachel carson write an obligation to endure",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-1102431-4",
+      "msmarco-xi-sa-1102431-5"
+    ],
+    "query_id": 1102431
+  },
+  {
+    "query": "नैष्ठिकी वा सत्यनिष्ठा वा परिभाषा",
+    "eng_query": "honesty or integrity definition",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-205107-2",
+      "msmarco-xi-sa-205107-4"
+    ],
+    "query_id": 205107
+  },
+  {
+    "query": "फ़्राङ्क् गिफ़ोर्ड् इत्ययं कति स्त्रीः परिणीतवान्?",
+    "eng_query": "how many women did frank gifford marry",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-300122-1"
+    ],
+    "query_id": 300122
+  },
+  {
+    "query": "गरुडः कियद्वेगेन याति?",
+    "eng_query": "how fast does an eagle travel",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-233826-0"
+    ],
+    "query_id": 233826
+  },
+  {
+    "query": "स्टबहब् टोल् फ़्री नम्बर",
+    "eng_query": "stubhub toll free number",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-1090355-7"
+    ],
+    "query_id": 1090355
+  },
+  {
+    "query": "डिस्टा बेङ्गलूरु-नगरं प्रति उड्डयते वा?",
+    "eng_query": "does delta fly to bangalore",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-165349-0"
+    ],
+    "query_id": 165349
+  },
+  {
+    "query": "कदा केन्टालूप् पक्वं भवति",
+    "eng_query": "how long for cantaloupe to mature",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-260880-7"
+    ],
+    "query_id": 260880
+  },
+  {
+    "query": "निर्वचनमनिर्दिष्टं विधानं विधिपूर्वकम्। विधानं विधिना स्वीकृतं विधिपूर्वकं निर्दिष्टम्॥",
+    "eng_query": "defination arbitrary",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-116898-0"
+    ],
+    "query_id": 116898
+  },
+  {
+    "query": "विनिमयव्यवस्था का व्यवस्था अस्ति तथा तस्याः समस्याः काः सन्ति।",
+    "eng_query": "what is barter system and its problems",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-1060361-1",
+      "msmarco-xi-sa-1060361-9"
+    ],
+    "query_id": 1060361
+  },
+  {
+    "query": "वायुगुणस्य अध्ययनम्",
+    "eng_query": "study of climate weather",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-1090353-4"
+    ],
+    "query_id": 1090353
+  },
+  {
+    "query": "सामाजिकशास्त्रस्य परिभाषा",
+    "eng_query": "culture of sociology definition",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-113570-4"
+    ],
+    "query_id": 113570
+  },
+  {
+    "query": "रेडिकल्-नेक् इत्येतत्",
+    "eng_query": "define radical neck",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-126172-2"
+    ],
+    "query_id": 126172
+  },
+  {
+    "query": "कियत् मूल्यं भवति?",
+    "eng_query": "how much xbox games cost",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-331047-0"
+    ],
+    "query_id": 331047
+  },
+  {
+    "query": "आधारभूतं",
+    "eng_query": "what is basal in dna",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-1060359-2"
+    ],
+    "query_id": 1060359
+  },
+  {
+    "query": "कियत्कालं यावत् भवान् कार्ब्-चक्रं कुर्यात्",
+    "eng_query": "how long should you carb cycle",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-267380-2"
+    ],
+    "query_id": 267380
+  },
+  {
+    "query": "स्टै कारणम्",
+    "eng_query": "sty causes",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-1090352-4"
+    ],
+    "query_id": 1090352
+  },
+  {
+    "query": "रेड्डिन्ग् का इत्यस्य उच्चतमः अभिलेखः तापमानः",
+    "eng_query": "highest record temperature for redding ca",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-202891-8"
+    ],
+    "query_id": 202891
+  },
+  {
+    "query": "म्याट्-लावर् इत्यनेन एकवर्षं कियान् धनराशिः सञ्जातः",
+    "eng_query": "how much does matt lauer make a year",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-317450-8"
+    ],
+    "query_id": 317450
+  },
+  {
+    "query": "एक्सेल्-पत्रकं मुद्रयितुं कथं करणीयम्।",
+    "eng_query": "how to print an excel sheet",
+    "language": "sa",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-sa-373460-9"
+    ],
+    "query_id": 373460
+  },
+  {
+    "query": "ஒரு நிறுவனம் என்பது என்ன?",
+    "eng_query": ". what is a corporation?",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-1102432-5"
+    ],
+    "query_id": 1102432
+  },
+  {
+    "query": "ஏன் ரேச்சல் கார்சன் ஒரு கடமையை நிறைவேற்ற வேண்டும் என்று எழுதினார்",
+    "eng_query": "why did rachel carson write an obligation to endure",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-1102431-4",
+      "msmarco-xi-ta-1102431-5"
+    ],
+    "query_id": 1102431
+  },
+  {
+    "query": "நேர்மை அல்லது நேர்மையின் வரையறை",
+    "eng_query": "honesty or integrity definition",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-205107-2",
+      "msmarco-xi-ta-205107-4"
+    ],
+    "query_id": 205107
+  },
+  {
+    "query": "ஃபிராங்க் கிஃபோர்டு எத்தனை பெண்களை திருமணம் செய்து கொண்டார்",
+    "eng_query": "how many women did frank gifford marry",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-300122-1"
+    ],
+    "query_id": 300122
+  },
+  {
+    "query": "கழுகு எவ்வளவு வேகமாக பயணிக்கிறது?",
+    "eng_query": "how fast does an eagle travel",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-233826-0"
+    ],
+    "query_id": 233826
+  },
+  {
+    "query": "ஸ்டப்ஹப் டோல் இலவச எண்",
+    "eng_query": "stubhub toll free number",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-1090355-7"
+    ],
+    "query_id": 1090355
+  },
+  {
+    "query": "டெல்டா பெங்களூருக்கு செல்கிறதா?",
+    "eng_query": "does delta fly to bangalore",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-165349-0"
+    ],
+    "query_id": 165349
+  },
+  {
+    "query": "கருவைக்கூடைகள் முதிர்ச்சியடைய எவ்வளவு காலம் ஆகும்",
+    "eng_query": "how long for cantaloupe to mature",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-260880-7"
+    ],
+    "query_id": 260880
+  },
+  {
+    "query": "வரையறை நிர்ணயம் தன்னிச்சையாக",
+    "eng_query": "defination arbitrary",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-116898-0"
+    ],
+    "query_id": 116898
+  },
+  {
+    "query": "பர்ட்டர் அமைப்பு என்றால் என்ன மற்றும் அதன் பிரச்சனைகள் என்ன?",
+    "eng_query": "what is barter system and its problems",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-1060361-1",
+      "msmarco-xi-ta-1060361-9"
+    ],
+    "query_id": 1060361
+  },
+  {
+    "query": "பருவநிலை வானிலை ஆய்வு",
+    "eng_query": "study of climate weather",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-1090353-4"
+    ],
+    "query_id": 1090353
+  },
+  {
+    "query": "சமூகவியல் வரையறையின் கலாச்சாரம்",
+    "eng_query": "culture of sociology definition",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-113570-4"
+    ],
+    "query_id": 113570
+  },
+  {
+    "query": "தீவிரமான கழுத்துப் பின்புறத்தை வரையறுக்கவும்.",
+    "eng_query": "define radical neck",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-126172-2"
+    ],
+    "query_id": 126172
+  },
+  {
+    "query": "எவ்வளவு எக்ஸ்போன் கேம்ஸ் விலை",
+    "eng_query": "how much xbox games cost",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-331047-0"
+    ],
+    "query_id": 331047
+  },
+  {
+    "query": "அடிப்படை மரபணுக்கள் என்பது என்ன?",
+    "eng_query": "what is basal in dna",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-1060359-2"
+    ],
+    "query_id": 1060359
+  },
+  {
+    "query": "எவ்வளவு நேரம் நீங்கள் கார்பன் சுழற்சி செய்ய வேண்டும்",
+    "eng_query": "how long should you carb cycle",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-267380-2"
+    ],
+    "query_id": 267380
+  },
+  {
+    "query": "ஸ்டை காரணமாக",
+    "eng_query": "sty causes",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-1090352-4"
+    ],
+    "query_id": 1090352
+  },
+  {
+    "query": "சிவப்பு நிறமாக மாறும் வெப்பநிலையின் அதிகபட்ச பதிவு",
+    "eng_query": "highest record temperature for redding ca",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-202891-8"
+    ],
+    "query_id": 202891
+  },
+  {
+    "query": "மேட் லாயர் ஒரு வருடத்தில் எவ்வளவு சம்பாதிக்கிறார்",
+    "eng_query": "how much does matt lauer make a year",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-317450-8"
+    ],
+    "query_id": 317450
+  },
+  {
+    "query": "எக்ஸ்செல் தாளை எப்படி அச்சிடுவது",
+    "eng_query": "how to print an excel sheet",
+    "language": "ta",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ta-373460-9"
+    ],
+    "query_id": 373460
+  },
+  {
+    "query": "కార్పొరేషన్ అంటే ఏమిటి?",
+    "eng_query": ". what is a corporation?",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-1102432-5"
+    ],
+    "query_id": 1102432
+  },
+  {
+    "query": "రాచెల్ కార్సన్ ఎందుకు సహించాల్సిన బాధ్యతను వ్రాశారు",
+    "eng_query": "why did rachel carson write an obligation to endure",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-1102431-4",
+      "msmarco-xi-te-1102431-5"
+    ],
+    "query_id": 1102431
+  },
+  {
+    "query": "నిజాయితీ లేదా సమగ్రత నిర్వచనం",
+    "eng_query": "honesty or integrity definition",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-205107-2",
+      "msmarco-xi-te-205107-4"
+    ],
+    "query_id": 205107
+  },
+  {
+    "query": "ఫ్రాంక్ గిఫోర్డ్ ఎంత మంది మహిళలను వివాహం చేసుకున్నాడు",
+    "eng_query": "how many women did frank gifford marry",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-300122-1"
+    ],
+    "query_id": 300122
+  },
+  {
+    "query": "గద్దలు ఎంత వేగంగా ప్రయాణిస్తాయో",
+    "eng_query": "how fast does an eagle travel",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-233826-0"
+    ],
+    "query_id": 233826
+  },
+  {
+    "query": "స్టబ్‌హబ్ టోల్ ఉచిత నంబర్",
+    "eng_query": "stubhub toll free number",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-1090355-7"
+    ],
+    "query_id": 1090355
+  },
+  {
+    "query": "డెల్టా బెంగళూరుకు ఎలా చేరుకుంటుంది",
+    "eng_query": "does delta fly to bangalore",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-165349-0"
+    ],
+    "query_id": 165349
+  },
+  {
+    "query": "కంటాలూప్ పండుకు ఎంత సమయం పడుతుంది",
+    "eng_query": "how long for cantaloupe to mature",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-260880-7"
+    ],
+    "query_id": 260880
+  },
+  {
+    "query": "నిర్వచనం అనేది అనుమానాస్పదంగా",
+    "eng_query": "defination arbitrary",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-116898-0"
+    ],
+    "query_id": 116898
+  },
+  {
+    "query": "బార్టర్ సిస్టమ్ మరియు దాని సమస్యలు ఏమిటి",
+    "eng_query": "what is barter system and its problems",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-1060361-1",
+      "msmarco-xi-te-1060361-9"
+    ],
+    "query_id": 1060361
+  },
+  {
+    "query": "వాతావరణ వాతావరణ శాస్త్ర అధ్యయనం",
+    "eng_query": "study of climate weather",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-1090353-4"
+    ],
+    "query_id": 1090353
+  },
+  {
+    "query": "సమాజశాస్త్ర నిర్వచన సంస్కృతి",
+    "eng_query": "culture of sociology definition",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-113570-4"
+    ],
+    "query_id": 113570
+  },
+  {
+    "query": "రాడికల్ నెక్‌ని నిర్వచించండి",
+    "eng_query": "define radical neck",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-126172-2"
+    ],
+    "query_id": 126172
+  },
+  {
+    "query": "ఎంత ఖర్చు అవుతుంది యూనిక్స్ గేమ్స్‌కి?",
+    "eng_query": "how much xbox games cost",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-331047-0"
+    ],
+    "query_id": 331047
+  },
+  {
+    "query": "జన్యువులో ఏది మూలం",
+    "eng_query": "what is basal in dna",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-1060359-2"
+    ],
+    "query_id": 1060359
+  },
+  {
+    "query": "మీరు ఎంతసేపు కార్బ్ సైకిల్ తొక్కాలి",
+    "eng_query": "how long should you carb cycle",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-267380-2"
+    ],
+    "query_id": 267380
+  },
+  {
+    "query": "స్టై కారణంగా",
+    "eng_query": "sty causes",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-1090352-4"
+    ],
+    "query_id": 1090352
+  },
+  {
+    "query": "ఎర్రబడిన కాల్చిన తరువాత అత్యధిక రికార్డు ఉష్ణోగ్రత",
+    "eng_query": "highest record temperature for redding ca",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-202891-8"
+    ],
+    "query_id": 202891
+  },
+  {
+    "query": "మాట్ లాయర్ సంవత్సరానికి ఎంత సంపాదిస్తాడు",
+    "eng_query": "how much does matt lauer make a year",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-317450-8"
+    ],
+    "query_id": 317450
+  },
+  {
+    "query": "ఎక్సెల్ షీట్‌ను ఎలా ప్రింట్ చేయాలి",
+    "eng_query": "how to print an excel sheet",
+    "language": "te",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-te-373460-9"
+    ],
+    "query_id": 373460
+  },
+  {
+    "query": "کارپوریشن کیا ہے؟",
+    "eng_query": ". what is a corporation?",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-1102432-5"
+    ],
+    "query_id": 1102432
+  },
+  {
+    "query": "کیا راحیل کارسن نے برداشت کرنے کی ذمہ داری کیوں لکھی؟",
+    "eng_query": "why did rachel carson write an obligation to endure",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-1102431-4",
+      "msmarco-xi-ur-1102431-5"
+    ],
+    "query_id": 1102431
+  },
+  {
+    "query": "دیانت داری یا دیانت کی تعریف",
+    "eng_query": "honesty or integrity definition",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-205107-2",
+      "msmarco-xi-ur-205107-4"
+    ],
+    "query_id": 205107
+  },
+  {
+    "query": "فرینک گفورڈ نے کتنی خواتین سے شادی کی",
+    "eng_query": "how many women did frank gifford marry",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-300122-1"
+    ],
+    "query_id": 300122
+  },
+  {
+    "query": "ایک عقاب کتنی تیزی سے سفر کرتا ہے",
+    "eng_query": "how fast does an eagle travel",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-233826-0"
+    ],
+    "query_id": 233826
+  },
+  {
+    "query": "اسٹب ہب ٹول فری نمبر",
+    "eng_query": "stubhub toll free number",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-1090355-7"
+    ],
+    "query_id": 1090355
+  },
+  {
+    "query": "کیا ڈیلٹا بنگلور کی طرف اڑتا ہے",
+    "eng_query": "does delta fly to bangalore",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-165349-0"
+    ],
+    "query_id": 165349
+  },
+  {
+    "query": "کینٹالوپ کو پختہ ہونے میں کتنا وقت لگتا ہے",
+    "eng_query": "how long for cantaloupe to mature",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-260880-7"
+    ],
+    "query_id": 260880
+  },
+  {
+    "query": "تعریف من پسند",
+    "eng_query": "defination arbitrary",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-116898-0"
+    ],
+    "query_id": 116898
+  },
+  {
+    "query": "بارٹر سسٹم کیا ہے اور اس کے مسائل",
+    "eng_query": "what is barter system and its problems",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-1060361-1",
+      "msmarco-xi-ur-1060361-9"
+    ],
+    "query_id": 1060361
+  },
+  {
+    "query": "موسمیاتی موسم کا مطالعہ",
+    "eng_query": "study of climate weather",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-1090353-4"
+    ],
+    "query_id": 1090353
+  },
+  {
+    "query": "سociology definition culture",
+    "eng_query": "culture of sociology definition",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-113570-4"
+    ],
+    "query_id": 113570
+  },
+  {
+    "query": "ریڈیکل گردن کی تعریف",
+    "eng_query": "define radical neck",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-126172-2"
+    ],
+    "query_id": 126172
+  },
+  {
+    "query": "‏کسپین کے کھیلوں کی قیمت کتنی ہے‏",
+    "eng_query": "how much xbox games cost",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-331047-0"
+    ],
+    "query_id": 331047
+  },
+  {
+    "query": "جو بنیادی ہے وہ آلناہے۔",
+    "eng_query": "what is basal in dna",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-1060359-2"
+    ],
+    "query_id": 1060359
+  },
+  {
+    "query": "آپ کو کتنی دیر تک کارب سائیکل چلانی چاہیے",
+    "eng_query": "how long should you carb cycle",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-267380-2"
+    ],
+    "query_id": 267380
+  },
+  {
+    "query": "اسٹائی کے سبب",
+    "eng_query": "sty causes",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-1090352-4"
+    ],
+    "query_id": 1090352
+  },
+  {
+    "query": "ریڈنگ کا سب سے زیادہ ریکارڈ درجہ حرارت",
+    "eng_query": "highest record temperature for redding ca",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-202891-8"
+    ],
+    "query_id": 202891
+  },
+  {
+    "query": "‏میٹ لاؤر ایک سال میں کتنا کماتا ہے‏",
+    "eng_query": "how much does matt lauer make a year",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-317450-8"
+    ],
+    "query_id": 317450
+  },
+  {
+    "query": "ایک ایکسل شیٹ پرنٹ کرنے کا طریقہ",
+    "eng_query": "how to print an excel sheet",
+    "language": "ur",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-ur-373460-9"
+    ],
+    "query_id": 373460
+  },
+  {
+    "query": ". what is a corporation?",
+    "eng_query": ". what is a corporation?",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-1102432-5"
+    ],
+    "query_id": 1102432
+  },
+  {
+    "query": "why did rachel carson write an obligation to endure",
+    "eng_query": "why did rachel carson write an obligation to endure",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-1102431-4",
+      "msmarco-xi-en-1102431-5"
+    ],
+    "query_id": 1102431
+  },
+  {
+    "query": "honesty or integrity definition",
+    "eng_query": "honesty or integrity definition",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-205107-2",
+      "msmarco-xi-en-205107-4"
+    ],
+    "query_id": 205107
+  },
+  {
+    "query": "how many women did frank gifford marry",
+    "eng_query": "how many women did frank gifford marry",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-300122-1"
+    ],
+    "query_id": 300122
+  },
+  {
+    "query": "how fast does an eagle travel",
+    "eng_query": "how fast does an eagle travel",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-233826-0"
+    ],
+    "query_id": 233826
+  },
+  {
+    "query": "stubhub toll free number",
+    "eng_query": "stubhub toll free number",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-1090355-7"
+    ],
+    "query_id": 1090355
+  },
+  {
+    "query": "does delta fly to bangalore",
+    "eng_query": "does delta fly to bangalore",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-165349-0"
+    ],
+    "query_id": 165349
+  },
+  {
+    "query": "how long for cantaloupe to mature",
+    "eng_query": "how long for cantaloupe to mature",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-260880-7"
+    ],
+    "query_id": 260880
+  },
+  {
+    "query": "defination arbitrary",
+    "eng_query": "defination arbitrary",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-116898-0"
+    ],
+    "query_id": 116898
+  },
+  {
+    "query": "what is barter system and its problems",
+    "eng_query": "what is barter system and its problems",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-1060361-1",
+      "msmarco-xi-en-1060361-9"
+    ],
+    "query_id": 1060361
+  },
+  {
+    "query": "study of climate weather",
+    "eng_query": "study of climate weather",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-1090353-4"
+    ],
+    "query_id": 1090353
+  },
+  {
+    "query": "culture of sociology definition",
+    "eng_query": "culture of sociology definition",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-113570-4"
+    ],
+    "query_id": 113570
+  },
+  {
+    "query": "define radical neck",
+    "eng_query": "define radical neck",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-126172-2"
+    ],
+    "query_id": 126172
+  },
+  {
+    "query": "how much xbox games cost",
+    "eng_query": "how much xbox games cost",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-331047-0"
+    ],
+    "query_id": 331047
+  },
+  {
+    "query": "what is basal in dna",
+    "eng_query": "what is basal in dna",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-1060359-2"
+    ],
+    "query_id": 1060359
+  },
+  {
+    "query": "how long should you carb cycle",
+    "eng_query": "how long should you carb cycle",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-267380-2"
+    ],
+    "query_id": 267380
+  },
+  {
+    "query": "sty causes",
+    "eng_query": "sty causes",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-1090352-4"
+    ],
+    "query_id": 1090352
+  },
+  {
+    "query": "highest record temperature for redding ca",
+    "eng_query": "highest record temperature for redding ca",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-202891-8"
+    ],
+    "query_id": 202891
+  },
+  {
+    "query": "how much does matt lauer make a year",
+    "eng_query": "how much does matt lauer make a year",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-317450-8"
+    ],
+    "query_id": 317450
+  },
+  {
+    "query": "how to print an excel sheet",
+    "eng_query": "how to print an excel sheet",
+    "language": "en",
+    "expected_domain": "msmarco_xi",
+    "expected_topic": "passage",
+    "expected_doc_ids": [
+      "msmarco-xi-en-373460-9"
+    ],
+    "query_id": 373460
+  }
+]

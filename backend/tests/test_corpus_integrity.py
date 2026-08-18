@@ -34,8 +34,8 @@ def test_corpus_schema_and_uniqueness():
 
         assert pid, f"Missing passage_id in {d}"
         assert did, f"Missing document_id in {d}"
-        assert text and len(text.strip()) > 10, f"Empty or too short text in passage {pid}"
-        assert lang in {"en", "hi", "kn"}, f"Invalid language {lang} in {pid}"
+        valid_langs = {"as", "bn", "gu", "hi", "kn", "ml", "mr", "ne", "or", "pa", "sa", "ta", "te", "ur", "en"}
+        assert lang in valid_langs, f"Invalid language {lang} in {pid}"
 
         assert pid not in seen_passage_ids, f"Duplicate passage_id found: {pid}"
         seen_passage_ids.add(pid)

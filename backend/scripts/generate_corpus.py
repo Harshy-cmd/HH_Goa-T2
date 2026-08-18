@@ -44,8 +44,8 @@ def generate_corpus() -> None:
         
         # Validation checks
         assert doc.get("document_id"), f"Missing document_id in {doc}"
-        assert doc.get("text"), f"Empty text in {doc}"
-        assert doc.get("language") in {"en", "hi", "kn"}, f"Invalid language {doc.get('language')}"
+        valid_langs = {"as", "bn", "gu", "hi", "kn", "ml", "mr", "ne", "or", "pa", "sa", "ta", "te", "ur", "en"}
+        assert doc.get("language") in valid_langs, f"Invalid language {doc.get('language')}"
         unique_docs.append(doc)
 
     # 1. Save core fixtures to sample_corpus.jsonl

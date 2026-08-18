@@ -1,0 +1,1446 @@
+{
+  "ground_truth_audit": {
+    "total_eval_queries": 300,
+    "indic_to_en_valid_pairs": 322,
+    "indic_to_en_missing_corpus_passages": 0,
+    "coverage_rate": 1.15
+  },
+  "e5_embedding_sanity": {
+    "en": {
+      "query": "What is artificial intelligence?",
+      "sim_to_relevant_en_passage": 0.9099,
+      "sim_to_unrelated_passage": 0.7536,
+      "margin": 0.1563
+    },
+    "hi": {
+      "query": "कृत्रिम बुद्धिमत्ता क्या है?",
+      "sim_to_relevant_en_passage": 0.8266,
+      "sim_to_unrelated_passage": 0.7154,
+      "margin": 0.1113
+    },
+    "ta": {
+      "query": "செயற்கை நுண்ணறிவு என்றால் என்ன?",
+      "sim_to_relevant_en_passage": 0.8036,
+      "sim_to_unrelated_passage": 0.7518,
+      "margin": 0.0517
+    },
+    "bn": {
+      "query": "কৃত্রিম বুদ্ধিমত্তা কী?",
+      "sim_to_relevant_en_passage": 0.859,
+      "sim_to_unrelated_passage": 0.7396,
+      "margin": 0.1194
+    },
+    "kn": {
+      "query": "ಕೃತಕ ಬುದ್ಧಿಮತ್ತೆ ಎಂದರೇನು?",
+      "sim_to_relevant_en_passage": 0.8005,
+      "sim_to_unrelated_passage": 0.7152,
+      "margin": 0.0853
+    },
+    "ur": {
+      "query": "مصنوعی ذہانت کیا ہے؟",
+      "sim_to_relevant_en_passage": 0.8325,
+      "sim_to_unrelated_passage": 0.7393,
+      "margin": 0.0932
+    }
+  },
+  "e5_prefix_rule_status": "PASS (query: prefix on queries, passage: prefix on documents)",
+  "chunking_comparison": {
+    "sentence": {
+      "valid_pairs": 322,
+      "recall@10": 0.0124,
+      "mrr": 0.0058
+    },
+    "fixed": {
+      "valid_pairs": 322,
+      "recall@10": 0.0124,
+      "mrr": 0.0058
+    },
+    "hierarchical": {
+      "valid_pairs": 322,
+      "recall@10": 0.0093,
+      "mrr": 0.0046
+    }
+  },
+  "mode_comparison_by_lang": {
+    "as": {
+      "dense": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "bm25": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid_rerank": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      }
+    },
+    "bn": {
+      "dense": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "bm25": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid_rerank": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      }
+    },
+    "gu": {
+      "dense": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "bm25": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid_rerank": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      }
+    },
+    "hi": {
+      "dense": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0435,
+        "recall@10": 0.087,
+        "mrr": 0.0157
+      },
+      "bm25": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0435,
+        "mrr": 0.0054
+      },
+      "hybrid_rerank": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      }
+    },
+    "kn": {
+      "dense": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "bm25": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid_rerank": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      }
+    },
+    "ml": {
+      "dense": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "bm25": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid_rerank": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      }
+    },
+    "mr": {
+      "dense": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "bm25": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid_rerank": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      }
+    },
+    "ne": {
+      "dense": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "bm25": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid_rerank": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      }
+    },
+    "or": {
+      "dense": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "bm25": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid_rerank": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      }
+    },
+    "pa": {
+      "dense": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0435,
+        "recall@5": 0.0435,
+        "recall@10": 0.0435,
+        "mrr": 0.0217
+      },
+      "bm25": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0435,
+        "recall@5": 0.0435,
+        "recall@10": 0.0435,
+        "mrr": 0.0145
+      },
+      "hybrid_rerank": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      }
+    },
+    "sa": {
+      "dense": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "bm25": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid_rerank": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      }
+    },
+    "ta": {
+      "dense": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "bm25": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid_rerank": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      }
+    },
+    "te": {
+      "dense": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "bm25": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      },
+      "hybrid_rerank": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0,
+        "mrr": 0.0
+      }
+    },
+    "ur": {
+      "dense": {
+        "pairs": 23,
+        "recall@1": 0.0435,
+        "recall@3": 0.0435,
+        "recall@5": 0.0435,
+        "recall@10": 0.0435,
+        "mrr": 0.0435
+      },
+      "bm25": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0,
+        "recall@10": 0.0435,
+        "mrr": 0.0054
+      },
+      "hybrid": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0435,
+        "recall@10": 0.0435,
+        "mrr": 0.0087
+      },
+      "hybrid_rerank": {
+        "pairs": 23,
+        "recall@1": 0.0,
+        "recall@3": 0.0,
+        "recall@5": 0.0435,
+        "recall@10": 0.0435,
+        "mrr": 0.0087
+      }
+    }
+  },
+  "score_distributions": {
+    "expected_top_score_avg": 0.8817,
+    "top1_score_avg": 0.8755,
+    "top5_score_avg": 0.8613,
+    "top10_score_avg": 0.8546
+  },
+  "corpus_stats_by_language": {
+    "en": {
+      "count": 970,
+      "min_chars": 55,
+      "max_chars": 851,
+      "median_chars": 306,
+      "mean_chars": 330.1
+    },
+    "hi": {
+      "count": 814,
+      "min_chars": 53,
+      "max_chars": 7515,
+      "median_chars": 294,
+      "mean_chars": 316.0
+    },
+    "as": {
+      "count": 800,
+      "min_chars": 51,
+      "max_chars": 3322,
+      "median_chars": 279,
+      "mean_chars": 299.7
+    },
+    "bn": {
+      "count": 800,
+      "min_chars": 54,
+      "max_chars": 3718,
+      "median_chars": 289,
+      "mean_chars": 307.2
+    },
+    "gu": {
+      "count": 800,
+      "min_chars": 56,
+      "max_chars": 883,
+      "median_chars": 284,
+      "mean_chars": 295.5
+    },
+    "kn": {
+      "count": 800,
+      "min_chars": 71,
+      "max_chars": 2442,
+      "median_chars": 312,
+      "mean_chars": 337.3
+    },
+    "ml": {
+      "count": 800,
+      "min_chars": 67,
+      "max_chars": 2813,
+      "median_chars": 327,
+      "mean_chars": 351.9
+    },
+    "mr": {
+      "count": 800,
+      "min_chars": 29,
+      "max_chars": 7385,
+      "median_chars": 287,
+      "mean_chars": 319.8
+    },
+    "ne": {
+      "count": 800,
+      "min_chars": 46,
+      "max_chars": 7538,
+      "median_chars": 282,
+      "mean_chars": 339.0
+    },
+    "or": {
+      "count": 800,
+      "min_chars": 54,
+      "max_chars": 1840,
+      "median_chars": 291,
+      "mean_chars": 311.2
+    },
+    "pa": {
+      "count": 800,
+      "min_chars": 55,
+      "max_chars": 2603,
+      "median_chars": 291,
+      "mean_chars": 308.5
+    },
+    "sa": {
+      "count": 800,
+      "min_chars": 42,
+      "max_chars": 7535,
+      "median_chars": 310,
+      "mean_chars": 382.4
+    },
+    "ta": {
+      "count": 800,
+      "min_chars": 64,
+      "max_chars": 3016,
+      "median_chars": 337,
+      "mean_chars": 365.6
+    },
+    "te": {
+      "count": 800,
+      "min_chars": 63,
+      "max_chars": 2558,
+      "median_chars": 301,
+      "mean_chars": 328.3
+    },
+    "ur": {
+      "count": 800,
+      "min_chars": 46,
+      "max_chars": 4900,
+      "median_chars": 288,
+      "mean_chars": 308.2
+    }
+  },
+  "detailed_failure_samples": [
+    {
+      "query": "কৰ্পোৰেচন কি?",
+      "language": "as",
+      "expected_en_doc_id": "msmarco-xi-en-1102432-5",
+      "expected_en_text_preview": "McDonald's Corporation is one of the most recognizable corporations in the world. A corporation is a company or group of",
+      "retrieved_top_10": [
+        {
+          "rank": 1,
+          "document_id": "msmarco-xi-as-129220-2",
+          "language": "as",
+          "score": 0.8509,
+          "text_preview": "এক বা ততোধিক কামৰ এক ক্ৰম যি কৰ্মচাৰীসকলক বোনাছ প্ৰদান কৰা, লক্ষ্য নিৰ্ধাৰণ কৰা "
+        },
+        {
+          "rank": 2,
+          "document_id": "msmarco-xi-as-1102432-5",
+          "language": "as",
+          "score": 0.8499,
+          "text_preview": "মেকডোনাল্ড'ছ কৰ্পোৰেশ্যন হৈছে বিশ্বৰ আটাইতকৈ চিনাকি কৰ্পোৰেশ্যনসমূহৰ ভিতৰত অন্যত"
+        },
+        {
+          "rank": 3,
+          "document_id": "msmarco-xi-as-81945-6",
+          "language": "as",
+          "score": 0.847,
+          "text_preview": "কিন্তু, যেতিয়া মই এই চার্ভাৰবোৰ সক্ৰিয় কৰোঁ, এই উইণ্ডোজবোৰ সকলো ব্যৱহাৰকাৰীৰ ব"
+        },
+        {
+          "rank": 4,
+          "document_id": "msmarco-xi-as-1102432-3",
+          "language": "as",
+          "score": 0.8438,
+          "text_preview": "এক বাক্যত কৰ্পোৰেশ্যনৰ উদাহৰণ। ১ তেওঁ কেইবাটাও বৃহৎ কৰ্পোৰেশ্যনৰ পৰামৰ্শদাতা হিচ"
+        },
+        {
+          "rank": 5,
+          "document_id": "msmarco-xi-pa-1102432-2",
+          "language": "pa",
+          "score": 0.8411,
+          "text_preview": "ਕਾਰਪੋਰੇਸ਼ਨ ਦੀ ਪਰਿਭਾਸ਼ਾ, ਵਿਅਕਤੀਆਂ ਦਾ ਇੱਕ ਸੰਗਠਨ, ਜੋ ਕਾਨੂੰਨ ਦੁਆਰਾ ਬਣਾਇਆ ਗਿਆ ਹੈ ਜਾਂ "
+        },
+        {
+          "rank": 6,
+          "document_id": "msmarco-xi-ur-1102432-2",
+          "language": "ur",
+          "score": 0.8393,
+          "text_preview": "کارپوریشن کی تعریف، افراد کا ایک ایسوسिएشن، قانون کے ذریعے یا قانون کے اختیار کے"
+        },
+        {
+          "rank": 7,
+          "document_id": "msmarco-xi-ta-1102432-2",
+          "language": "ta",
+          "score": 0.8387,
+          "text_preview": "ஒரு கார்ப்பரேஷன் என்பது சட்டத்தால் உருவாக்கப்பட்ட தனிநபர்களின் சங்கம், அதன் உறுப"
+        },
+        {
+          "rank": 8,
+          "document_id": "msmarco-xi-mr-267380-8",
+          "language": "mr",
+          "score": 0.8377,
+          "text_preview": "असे म्हटल्यानंतर, कार्ब-सायकलिंग डाएट तुमच्यासाठी कसे कार्य करेल हे फिअर स्पष्ट "
+        },
+        {
+          "rank": 9,
+          "document_id": "msmarco-xi-gu-336062-7",
+          "language": "gu",
+          "score": 0.8377,
+          "text_preview": "આ કાર્યક્રમ માટે મર્યાદિત ટિકિટો વેચવામાં આવી રહી છે કારણ કે તે વિશિષ્ટ અને વિશે"
+        },
+        {
+          "rank": 10,
+          "document_id": "msmarco-xi-kn-1102432-2",
+          "language": "kn",
+          "score": 0.8371,
+          "text_preview": "ಕಾರ್ಪೊರೇಷನ್ ವ್ಯಾಖ್ಯಾನ, ವ್ಯಕ್ತಿಗಳ ಒಕ್ಕೂಟವಾಗಿದ್ದು, ಕಾನೂನಿನಿಂದ ರಚಿಸಲಾಗಿದೆ ಅಥವಾ ಕಾನೂ"
+        }
+      ]
+    },
+    {
+      "query": "ৰেচেল কাৰ্চনে কিয় এক বাধ্যবাধকতা সহ্য কৰিবলৈ লিখিছিল",
+      "language": "as",
+      "expected_en_doc_id": "msmarco-xi-en-1102431-4",
+      "expected_en_text_preview": "The Obligation to Endure by Rachel Carson Rachel Carson's essay on The Obligation to Endure, is a very convincing argume",
+      "retrieved_top_10": [
+        {
+          "rank": 1,
+          "document_id": "msmarco-xi-as-1102431-1",
+          "language": "as",
+          "score": 0.8634,
+          "text_preview": "কাৰ্চনে তাইৰ লিখনিক সূক্ষ্মভাৱে সঠিক লিখন কৌশলেৰে পৰামৰ্শ দিয়ে যাতে ই এক অবাধ শ"
+        },
+        {
+          "rank": 2,
+          "document_id": "msmarco-xi-or-1102431-1",
+          "language": "or",
+          "score": 0.8508,
+          "text_preview": "କାର୍ସନ ତାଙ୍କ ଲେଖାକୁ ଠିକ ଲେଖା କୌଶଳ ଦ୍ୱାରା ପ୍ରଭାବିତ କରି ନ କରି ରଖିଛନ୍ତି, ଯାହା ପାଠକଙ"
+        },
+        {
+          "rank": 3,
+          "document_id": "msmarco-xi-as-1102431-6",
+          "language": "as",
+          "score": 0.849,
+          "text_preview": "ৰেচেল এল. কাৰ্চনৰ ১৯৬২ চনৰ কপিৰাইট \"দ্য অব্লিগেশ্যন টু এণ্ডুৰ\"।"
+        },
+        {
+          "rank": 4,
+          "document_id": "msmarco-xi-as-1102431-7",
+          "language": "as",
+          "score": 0.8466,
+          "text_preview": "ৰেচেল কাৰ্চনৰ \"দ্য অ'ব্লিগেশ্যন টু এণ্ডিউৰ\"ৰ পৰা লোৱা \"ছাইলেণ্ট স্প্ৰিং\" নামৰ এট"
+        },
+        {
+          "rank": 5,
+          "document_id": "msmarco-xi-hi-63220-9",
+          "language": "hi",
+          "score": 0.8459,
+          "text_preview": "बच्चे के लिए दौरे के कार्यक्रम को बदलने के लिए एक अनुबंध को एक रूपरेखा के रूप मे"
+        },
+        {
+          "rank": 6,
+          "document_id": "msmarco-xi-gu-1102431-7",
+          "language": "gu",
+          "score": 0.8444,
+          "text_preview": "રાહેલ કાર્સનના \"ધ ઓબ્લિગેશન ટુ એન્ડ્યોર\" માંથી એક અંશ \"સાઇલન્ટ સ્પ્રિંગ\" માં કાર"
+        },
+        {
+          "rank": 7,
+          "document_id": "msmarco-xi-gu-63220-9",
+          "language": "gu",
+          "score": 0.8428,
+          "text_preview": "સમજી ગયા! શું મન બદલવા માટે હસ્તાક્ષર કરેલી શરત પલટી શકાય? બાળક માટેના મુલાકાતના"
+        },
+        {
+          "rank": 8,
+          "document_id": "msmarco-xi-as-1102431-4",
+          "language": "as",
+          "score": 0.8403,
+          "text_preview": "ৰেচেল কাৰ্চনৰ দ্য অ'ব্লিগেশ্যন টু এণ্ডিউৰ নামৰ প্ৰবন্ধটোত ৰেচেল কাৰ্চনে পৰিৱেশত "
+        },
+        {
+          "rank": 9,
+          "document_id": "msmarco-xi-ne-1102431-6",
+          "language": "ne",
+          "score": 0.8397,
+          "text_preview": "साइलेन्ट स्प्रिङबी राहेल कार्सनको \"द ओब्लिगेसन टु एन्ड्योर\" को प्रतिलिपि अधिकार "
+        },
+        {
+          "rank": 10,
+          "document_id": "msmarco-xi-ne-336352-8",
+          "language": "ne",
+          "score": 0.8397,
+          "text_preview": "रोमन एटवुड। असम्भव कथा-गत महिना मेरो सम्पर्क मेक ए विस फाउन्डेसनले गरेको थियो कि"
+        }
+      ]
+    },
+    {
+      "query": "ৰেচেল কাৰ্চনে কিয় এক বাধ্যবাধকতা সহ্য কৰিবলৈ লিখিছিল",
+      "language": "as",
+      "expected_en_doc_id": "msmarco-xi-en-1102431-5",
+      "expected_en_text_preview": "Carson believes that as man tries to eliminate unwanted insects and weeds, however he is actually causing more problems ",
+      "retrieved_top_10": [
+        {
+          "rank": 1,
+          "document_id": "msmarco-xi-as-1102431-1",
+          "language": "as",
+          "score": 0.8634,
+          "text_preview": "কাৰ্চনে তাইৰ লিখনিক সূক্ষ্মভাৱে সঠিক লিখন কৌশলেৰে পৰামৰ্শ দিয়ে যাতে ই এক অবাধ শ"
+        },
+        {
+          "rank": 2,
+          "document_id": "msmarco-xi-or-1102431-1",
+          "language": "or",
+          "score": 0.8508,
+          "text_preview": "କାର୍ସନ ତାଙ୍କ ଲେଖାକୁ ଠିକ ଲେଖା କୌଶଳ ଦ୍ୱାରା ପ୍ରଭାବିତ କରି ନ କରି ରଖିଛନ୍ତି, ଯାହା ପାଠକଙ"
+        },
+        {
+          "rank": 3,
+          "document_id": "msmarco-xi-as-1102431-6",
+          "language": "as",
+          "score": 0.849,
+          "text_preview": "ৰেচেল এল. কাৰ্চনৰ ১৯৬২ চনৰ কপিৰাইট \"দ্য অব্লিগেশ্যন টু এণ্ডুৰ\"।"
+        },
+        {
+          "rank": 4,
+          "document_id": "msmarco-xi-as-1102431-7",
+          "language": "as",
+          "score": 0.8466,
+          "text_preview": "ৰেচেল কাৰ্চনৰ \"দ্য অ'ব্লিগেশ্যন টু এণ্ডিউৰ\"ৰ পৰা লোৱা \"ছাইলেণ্ট স্প্ৰিং\" নামৰ এট"
+        },
+        {
+          "rank": 5,
+          "document_id": "msmarco-xi-hi-63220-9",
+          "language": "hi",
+          "score": 0.8459,
+          "text_preview": "बच्चे के लिए दौरे के कार्यक्रम को बदलने के लिए एक अनुबंध को एक रूपरेखा के रूप मे"
+        },
+        {
+          "rank": 6,
+          "document_id": "msmarco-xi-gu-1102431-7",
+          "language": "gu",
+          "score": 0.8444,
+          "text_preview": "રાહેલ કાર્સનના \"ધ ઓબ્લિગેશન ટુ એન્ડ્યોર\" માંથી એક અંશ \"સાઇલન્ટ સ્પ્રિંગ\" માં કાર"
+        },
+        {
+          "rank": 7,
+          "document_id": "msmarco-xi-gu-63220-9",
+          "language": "gu",
+          "score": 0.8428,
+          "text_preview": "સમજી ગયા! શું મન બદલવા માટે હસ્તાક્ષર કરેલી શરત પલટી શકાય? બાળક માટેના મુલાકાતના"
+        },
+        {
+          "rank": 8,
+          "document_id": "msmarco-xi-as-1102431-4",
+          "language": "as",
+          "score": 0.8403,
+          "text_preview": "ৰেচেল কাৰ্চনৰ দ্য অ'ব্লিগেশ্যন টু এণ্ডিউৰ নামৰ প্ৰবন্ধটোত ৰেচেল কাৰ্চনে পৰিৱেশত "
+        },
+        {
+          "rank": 9,
+          "document_id": "msmarco-xi-ne-1102431-6",
+          "language": "ne",
+          "score": 0.8397,
+          "text_preview": "साइलेन्ट स्प्रिङबी राहेल कार्सनको \"द ओब्लिगेसन टु एन्ड्योर\" को प्रतिलिपि अधिकार "
+        },
+        {
+          "rank": 10,
+          "document_id": "msmarco-xi-ne-336352-8",
+          "language": "ne",
+          "score": 0.8397,
+          "text_preview": "रोमन एटवुड। असम्भव कथा-गत महिना मेरो सम्पर्क मेक ए विस फाउन्डेसनले गरेको थियो कि"
+        }
+      ]
+    },
+    {
+      "query": "সততা বা সততার সংজ্ঞা",
+      "language": "as",
+      "expected_en_doc_id": "msmarco-xi-en-205107-2",
+      "expected_en_text_preview": "honesty. n, pl-ties. 1. the condition of being honest. 2. sincerity or fairness. 3. virtue or respect.",
+      "retrieved_top_10": [
+        {
+          "rank": 1,
+          "document_id": "msmarco-xi-as-205107-5",
+          "language": "as",
+          "score": 0.9097,
+          "text_preview": "সততা সম্পৰ্কীয় ৱিকিপিডিয়া পৃষ্ঠাটো ইয়াত উপযোগী। ইয়াত এই শব্দটোক এনেদৰে সংজ্ঞ"
+        },
+        {
+          "rank": 2,
+          "document_id": "msmarco-xi-bn-205107-5",
+          "language": "bn",
+          "score": 0.8981,
+          "text_preview": "সততার বিষয়ে উইকিপিডিয়া পৃষ্ঠাটি এখানে উপযোগী। এটি এই শব্দটিকে এভাবে সংজ্ঞায়িত"
+        },
+        {
+          "rank": 3,
+          "document_id": "msmarco-xi-bn-205107-4",
+          "language": "bn",
+          "score": 0.896,
+          "text_preview": "অতএব, কিছু ক্ষেত্রে সাদা মিথ্যা হল সততার ফলাফল। সততা হল সততার সঙ্গে সম্পর্কিত বা"
+        },
+        {
+          "rank": 4,
+          "document_id": "msmarco-xi-as-205107-4",
+          "language": "as",
+          "score": 0.8959,
+          "text_preview": "সেয়েহে, কিছুমান ক্ষেত্ৰত এটা বগা মিছা কথা হৈছে সততাৰ ফলাফল। সততা হৈছে সততাৰ লগত"
+        },
+        {
+          "rank": 5,
+          "document_id": "msmarco-xi-bn-205107-2",
+          "language": "bn",
+          "score": 0.8946,
+          "text_preview": "সততা: এন, প্ল-টাইস। ১. সৎ হওয়ার অবস্থা। ২. আন্তরিকতা বা ন্যায্যতা। ৩. গুণ বা সম"
+        },
+        {
+          "rank": 6,
+          "document_id": "msmarco-xi-as-205107-2",
+          "language": "as",
+          "score": 0.8931,
+          "text_preview": "সততা. এন, প্ল-টাইজ। ১. সৎ হোৱাৰ অৱস্থা। ২. আন্তৰিকতা বা নিৰপেক্ষতা। ৩. গুণ বা সন"
+        },
+        {
+          "rank": 7,
+          "document_id": "msmarco-xi-bn-205107-8",
+          "language": "bn",
+          "score": 0.8916,
+          "text_preview": "সততা। ১. সততার গুণমান: সম্মান, সম্মানজনকতা, অপরিবর্তনীয়তা, সততা, অটলতা। ২।"
+        },
+        {
+          "rank": 8,
+          "document_id": "msmarco-xi-bn-205107-0",
+          "language": "bn",
+          "score": 0.8886,
+          "text_preview": "সততা হল আচরণ সম্পর্কে; সততা হল তথ্য মেনে চলা সম্পর্কে। যে ব্যক্তি প্রতি সপ্তাহে "
+        },
+        {
+          "rank": 9,
+          "document_id": "msmarco-xi-as-205107-8",
+          "language": "as",
+          "score": 0.8878,
+          "text_preview": "সততাৰ গুণমান: সততা, সন্মান, অপৰিবৰ্তনীয়তা, সততা, অপৰিবর্তনীয়তা।"
+        },
+        {
+          "rank": 10,
+          "document_id": "msmarco-xi-as-205107-0",
+          "language": "as",
+          "score": 0.882,
+          "text_preview": "সততা হৈছে আচৰণৰ বিষয়ে; সততা হৈছে তথ্যসমূহৰ প্ৰতি আনুগত্যৰ বিষয়ে। যিজন ব্যক্তিয"
+        }
+      ]
+    },
+    {
+      "query": "সততা বা সততার সংজ্ঞা",
+      "language": "as",
+      "expected_en_doc_id": "msmarco-xi-en-205107-4",
+      "expected_en_text_preview": "hence, a white lie in some cases, is a result of integrity. integrity is the value and morals of a individual in relatio",
+      "retrieved_top_10": [
+        {
+          "rank": 1,
+          "document_id": "msmarco-xi-as-205107-5",
+          "language": "as",
+          "score": 0.9097,
+          "text_preview": "সততা সম্পৰ্কীয় ৱিকিপিডিয়া পৃষ্ঠাটো ইয়াত উপযোগী। ইয়াত এই শব্দটোক এনেদৰে সংজ্ঞ"
+        },
+        {
+          "rank": 2,
+          "document_id": "msmarco-xi-bn-205107-5",
+          "language": "bn",
+          "score": 0.8981,
+          "text_preview": "সততার বিষয়ে উইকিপিডিয়া পৃষ্ঠাটি এখানে উপযোগী। এটি এই শব্দটিকে এভাবে সংজ্ঞায়িত"
+        },
+        {
+          "rank": 3,
+          "document_id": "msmarco-xi-bn-205107-4",
+          "language": "bn",
+          "score": 0.896,
+          "text_preview": "অতএব, কিছু ক্ষেত্রে সাদা মিথ্যা হল সততার ফলাফল। সততা হল সততার সঙ্গে সম্পর্কিত বা"
+        },
+        {
+          "rank": 4,
+          "document_id": "msmarco-xi-as-205107-4",
+          "language": "as",
+          "score": 0.8959,
+          "text_preview": "সেয়েহে, কিছুমান ক্ষেত্ৰত এটা বগা মিছা কথা হৈছে সততাৰ ফলাফল। সততা হৈছে সততাৰ লগত"
+        },
+        {
+          "rank": 5,
+          "document_id": "msmarco-xi-bn-205107-2",
+          "language": "bn",
+          "score": 0.8946,
+          "text_preview": "সততা: এন, প্ল-টাইস। ১. সৎ হওয়ার অবস্থা। ২. আন্তরিকতা বা ন্যায্যতা। ৩. গুণ বা সম"
+        },
+        {
+          "rank": 6,
+          "document_id": "msmarco-xi-as-205107-2",
+          "language": "as",
+          "score": 0.8931,
+          "text_preview": "সততা. এন, প্ল-টাইজ। ১. সৎ হোৱাৰ অৱস্থা। ২. আন্তৰিকতা বা নিৰপেক্ষতা। ৩. গুণ বা সন"
+        },
+        {
+          "rank": 7,
+          "document_id": "msmarco-xi-bn-205107-8",
+          "language": "bn",
+          "score": 0.8916,
+          "text_preview": "সততা। ১. সততার গুণমান: সম্মান, সম্মানজনকতা, অপরিবর্তনীয়তা, সততা, অটলতা। ২।"
+        },
+        {
+          "rank": 8,
+          "document_id": "msmarco-xi-bn-205107-0",
+          "language": "bn",
+          "score": 0.8886,
+          "text_preview": "সততা হল আচরণ সম্পর্কে; সততা হল তথ্য মেনে চলা সম্পর্কে। যে ব্যক্তি প্রতি সপ্তাহে "
+        },
+        {
+          "rank": 9,
+          "document_id": "msmarco-xi-as-205107-8",
+          "language": "as",
+          "score": 0.8878,
+          "text_preview": "সততাৰ গুণমান: সততা, সন্মান, অপৰিবৰ্তনীয়তা, সততা, অপৰিবর্তনীয়তা।"
+        },
+        {
+          "rank": 10,
+          "document_id": "msmarco-xi-as-205107-0",
+          "language": "as",
+          "score": 0.882,
+          "text_preview": "সততা হৈছে আচৰণৰ বিষয়ে; সততা হৈছে তথ্যসমূহৰ প্ৰতি আনুগত্যৰ বিষয়ে। যিজন ব্যক্তিয"
+        }
+      ]
+    },
+    {
+      "query": "ফ্ৰেংক গিফৰ্ডে কিমানগৰাকী মহিলাক বিয়া কৰাইছিল",
+      "language": "as",
+      "expected_en_doc_id": "msmarco-xi-en-300122-1",
+      "expected_en_text_preview": "Mini Bio (1) Frank Gifford was born on August 16, 1930 in Santa Monica, California, USA as Frank Newton Gifford. He is k",
+      "retrieved_top_10": [
+        {
+          "rank": 1,
+          "document_id": "msmarco-xi-hi-300122-6",
+          "language": "hi",
+          "score": 0.8595,
+          "text_preview": "क्रिस्टी डी'ज़ुरिला संपर्क रिपोर्टर। कैथी ली गिफ़र्ड और दिवंगत फ्रैंक गिफ़र्ड के"
+        },
+        {
+          "rank": 2,
+          "document_id": "msmarco-xi-te-300122-6",
+          "language": "te",
+          "score": 0.8544,
+          "text_preview": "క్రిస్టీ డిజురిల్లా కాంటాక్ట్ రిపోర్టర్. కాథీ లీ గిఫోర్డ్ మరియు దివంగత ఫ్రాంక్ గ"
+        },
+        {
+          "rank": 3,
+          "document_id": "msmarco-xi-ne-300122-0",
+          "language": "ne",
+          "score": 0.8527,
+          "text_preview": "क्याथी ली र फ्रान्क गिफोर्डको २९ वर्षको प्रेमकथामा मानिस सेलिब्रेटी सेलिब्रेटी भ"
+        },
+        {
+          "rank": 4,
+          "document_id": "msmarco-xi-bn-300122-6",
+          "language": "bn",
+          "score": 0.8525,
+          "text_preview": "ক্রিস্টি ডি'জুরিলা কন্ট্যাক্ট রিপোর্টার। ক্যাথি লি গিফোর্ড এবং প্রয়াত ফ্র্যাঙ্ক"
+        },
+        {
+          "rank": 5,
+          "document_id": "msmarco-xi-hi-300122-0",
+          "language": "hi",
+          "score": 0.8522,
+          "text_preview": "कैथी ली और फ्रैंक गिफोर्ड की 29 साल की प्रेम कहानी में लोगों को सेलिब्रिटी के रू"
+        },
+        {
+          "rank": 6,
+          "document_id": "msmarco-xi-hi-300122-8",
+          "language": "hi",
+          "score": 0.8506,
+          "text_preview": "दंपति के दो बच्चे थे। फ्रैंक, जिनकी पिछली शादी से तीन बच्चे थे, ने कैथी ली के सा"
+        },
+        {
+          "rank": 7,
+          "document_id": "msmarco-xi-ne-300122-6",
+          "language": "ne",
+          "score": 0.849,
+          "text_preview": "क्रिस्टी डि'जुरिला सम्पर्क रिपोर्टर। क्याथी ली गिफोर्ड र स्वर्गीय फ्रान्क गिफोर्"
+        },
+        {
+          "rank": 8,
+          "document_id": "msmarco-xi-ne-300122-4",
+          "language": "ne",
+          "score": 0.8488,
+          "text_preview": "क्याथी लीको सङ्कट। इनी एएनईसिडिओटी पछि, लाखौँ दर्शकहरूलाई ब्रासी आत्मविश्वासको आ"
+        },
+        {
+          "rank": 9,
+          "document_id": "msmarco-xi-hi-300122-7",
+          "language": "hi",
+          "score": 0.8482,
+          "text_preview": "प्रसिद्ध खेल प्रसारक और पूर्व एन.एफ.एल. खिलाड़ी का 9 अगस्त को 84 वर्ष की आयु में"
+        },
+        {
+          "rank": 10,
+          "document_id": "msmarco-xi-hi-300122-4",
+          "language": "hi",
+          "score": 0.8463,
+          "text_preview": "कैथी ली की संकट. आई.एन.ए.एन.ई.सी.डी.ओ.टी.ई. के बाद, लाखों दर्शकों के सामने कठोर "
+        }
+      ]
+    },
+    {
+      "query": "এটা ঈগলে কিমান দ্ৰুতগতিত ভ্ৰমণ কৰে",
+      "language": "as",
+      "expected_en_doc_id": "msmarco-xi-en-233826-0",
+      "expected_en_text_preview": "Quick Answer. Eagles fly 30 to 55 mph and dive at over 100 mph. Eagles can soar for hours on warm air currents, which co",
+      "retrieved_top_10": [
+        {
+          "rank": 1,
+          "document_id": "msmarco-xi-hi-233826-0",
+          "language": "hi",
+          "score": 0.8509,
+          "text_preview": "त्वरित उत्तर: ईगल 30 से 55 मील प्रति घंटे की रफ्तार से उड़ते हैं और 100 मील प्रत"
+        },
+        {
+          "rank": 2,
+          "document_id": "msmarco-xi-ne-165349-0",
+          "language": "ne",
+          "score": 0.8483,
+          "text_preview": "बुक डेल्टा ब्याङ्गलोर पेरिस उडान टिकटहरू यात्रा बुकिङ वा यात्रा जानकारी क्लियरट्"
+        },
+        {
+          "rank": 3,
+          "document_id": "msmarco-xi-bn-233826-0",
+          "language": "bn",
+          "score": 0.8472,
+          "text_preview": "দ্রুত উত্তর। ঈগলরা ৩০ থেকে ৫৫ মাইল প্রতি ঘণ্টা বেগে উড়ে এবং ১০০ মাইল প্রতি ঘণ্ট"
+        },
+        {
+          "rank": 4,
+          "document_id": "msmarco-xi-gu-55665-8",
+          "language": "gu",
+          "score": 0.8454,
+          "text_preview": "જ્યારે હું એક વિશાળ માલવાહક જહાજના પેટ નીચે ડૂબી જાઉં છું, ત્યારે હું મારો હાથ જ"
+        },
+        {
+          "rank": 5,
+          "document_id": "msmarco-xi-as-233826-0",
+          "language": "as",
+          "score": 0.845,
+          "text_preview": "দ্ৰুত উত্তৰ। ঈগলে ৩০ৰ পৰা ৫৫ মাইল প্ৰতি ঘণ্টা বেগেৰে উৰে আৰু ১০০ মাইল প্ৰতি ঘণ্ট"
+        },
+        {
+          "rank": 6,
+          "document_id": "msmarco-xi-as-336062-7",
+          "language": "as",
+          "score": 0.8417,
+          "text_preview": "এই অনুষ্ঠানটোৰ বাবে সীমিত সংখ্যক টিকেট বিক্ৰী কৰা হৈছে কাৰণ ই অনন্য আৰু বিশেষ হ'"
+        },
+        {
+          "rank": 7,
+          "document_id": "msmarco-xi-bn-336062-7",
+          "language": "bn",
+          "score": 0.8416,
+          "text_preview": "এই অনুষ্ঠানের জন্য সীমিত সংখ্যক টিকিট বিক্রি হচ্ছে কারণ এটি একচেটিয়া এবং বিশেষ "
+        },
+        {
+          "rank": 8,
+          "document_id": "msmarco-xi-gu-336062-7",
+          "language": "gu",
+          "score": 0.8399,
+          "text_preview": "આ કાર્યક્રમ માટે મર્યાદિત ટિકિટો વેચવામાં આવી રહી છે કારણ કે તે વિશિષ્ટ અને વિશે"
+        },
+        {
+          "rank": 9,
+          "document_id": "msmarco-xi-sa-317450-2",
+          "language": "sa",
+          "score": 0.8397,
+          "text_preview": "स्रोतसा आरोपितं यत् लौयर् इत्येषः म्यान्ह्याटन्-हेलिपोर्ट्स्-तः सप्ताहे त्रिवारं"
+        },
+        {
+          "rank": 10,
+          "document_id": "msmarco-xi-ne-158720-8",
+          "language": "ne",
+          "score": 0.8396,
+          "text_preview": "त्यसैले तपाईँ धेरै स्याउहरू प्राप्त गर्न सक्नुहुन्छ जसले धेरै सस बनाउन सक्छ। धेर"
+        }
+      ]
+    },
+    {
+      "query": "ষ্টাবহাব টোল বিনামূলীয়া নম্বৰ",
+      "language": "as",
+      "expected_en_doc_id": "msmarco-xi-en-1090355-7",
+      "expected_en_text_preview": "StubHub toll-free number 866-788-2482 How To Contact StubHub Customer Service While 866-788-2482 is StubHub’s best toll-",
+      "retrieved_top_10": [
+        {
+          "rank": 1,
+          "document_id": "msmarco-xi-as-1090355-3",
+          "language": "as",
+          "score": 0.8749,
+          "text_preview": "কিছুমান মোৰ ফোন নম্বৰ স্টাবহাব স্টাবহাব টেলিফোন টোল বিনামূলীয়া গ্ৰাহক সেৱা নম্ব"
+        },
+        {
+          "rank": 2,
+          "document_id": "msmarco-xi-as-1090355-4",
+          "language": "as",
+          "score": 0.8749,
+          "text_preview": "টোল বিনামূলীয়া ফোন নম্বৰ: ১-৮৬৬-৭৮৮-২৪৮২ ষ্টাব হাব কোম্পানী হৈছে ইবে'ৰ মালিকানা"
+        },
+        {
+          "rank": 3,
+          "document_id": "msmarco-xi-bn-1090355-4",
+          "language": "bn",
+          "score": 0.8677,
+          "text_preview": "টোল ফ্রি ফোন নম্বর: ১-৮৬৬-৭৮৮-২৪৮২ স্টাব হাব কোম্পানি হল ইবে-এর মালিকানাধীন একটি"
+        },
+        {
+          "rank": 4,
+          "document_id": "msmarco-xi-or-1090355-4",
+          "language": "or",
+          "score": 0.8664,
+          "text_preview": "ଟୋଲ୍ ମୁକ୍ତ ଫୋନ ନମ୍ବର: ୧-୮୬୬-୭୮୮-୨୪୮୨ ଷ୍ଟବ ହବ କମ୍ପାନୀ ହେଉଛି ଇବେ'ର ମାଲିକାନାରେ ଥିବା"
+        },
+        {
+          "rank": 5,
+          "document_id": "msmarco-xi-gu-1090355-4",
+          "language": "gu",
+          "score": 0.8641,
+          "text_preview": "ટોલ મુક્ત ફોન નંબર: 1-866-788-2482 સ્ટબ હબ કંપની એ ઇબેની માલિકીની અમેરિકન આધારિત"
+        },
+        {
+          "rank": 6,
+          "document_id": "msmarco-xi-pa-1090355-4",
+          "language": "pa",
+          "score": 0.8637,
+          "text_preview": "ਟੋਲ ਮੁਕਤ ਫੋਨ ਨੰਬਰ: 1-866-788-2482 ਸਟੱਬ ਹੱਬ ਕੰਪਨੀ ਇੱਕ ਅਮਰੀਕੀ ਅਧਾਰਤ ਔਨਲਾਈਨ ਟਿਕਟ ਐਕ"
+        },
+        {
+          "rank": 7,
+          "document_id": "msmarco-xi-as-1090355-6",
+          "language": "as",
+          "score": 0.8617,
+          "text_preview": "ষ্টাবহাব - ফোন নম্বৰটো স্পষ্টভাৱে ভুৱা। মই এটা ফোন নম্বৰ পাইছিলো যেন স্পষ্টভাৱে "
+        },
+        {
+          "rank": 8,
+          "document_id": "msmarco-xi-te-1090355-4",
+          "language": "te",
+          "score": 0.8615,
+          "text_preview": "టోల్ ఉచిత ఫోన్ నంబర్: 1-866-788-2482 స్టబ్ హబ్ కంపెనీ అనేది ఇబే యాజమాన్యంలోని ఒక"
+        },
+        {
+          "rank": 9,
+          "document_id": "msmarco-xi-ne-1090355-0",
+          "language": "ne",
+          "score": 0.8614,
+          "text_preview": "स्टबहब टेलिफोन सेवा केन्द्रको हुलाक र आधिकारिक ठेगाना, इमेल ठेगाना र फोन नम्बर ("
+        },
+        {
+          "rank": 10,
+          "document_id": "msmarco-xi-ne-1090355-4",
+          "language": "ne",
+          "score": 0.8596,
+          "text_preview": "टोल फ्री फोन नम्बर: १-८६६-७८८-२४८२ स्टब हब कम्पनी इबेको स्वामित्वमा रहेको अमेरिक"
+        }
+      ]
+    },
+    {
+      "query": "ডেল্টা বাংগালোৰলৈ উৰি যায়",
+      "language": "as",
+      "expected_en_doc_id": "msmarco-xi-en-165349-0",
+      "expected_en_text_preview": "book delta bangalore paris flight air tickets be it travel booking or travel information cleartrip com makes it as easy ",
+      "retrieved_top_10": [
+        {
+          "rank": 1,
+          "document_id": "msmarco-xi-as-165349-1",
+          "language": "as",
+          "score": 0.8395,
+          "text_preview": "বাংগালোৰৰ পৰা পেৰিছলৈ প্ৰথম বিমানখন সকাল ১:৪৫ বজাত যেতিয়া ডেল্টা এয়াৰলাইন্সৰ ৮"
+        },
+        {
+          "rank": 2,
+          "document_id": "msmarco-xi-as-165349-2",
+          "language": "as",
+          "score": 0.8392,
+          "text_preview": "ভাৰতৰ বাংগালোৰলৈ যোৱা বিমানত আমাৰ বিশেষ ভাড়া (বিএলআৰ) উপভোগ কৰক। ৬ নিযুতৰো অধিক"
+        },
+        {
+          "rank": 3,
+          "document_id": "msmarco-xi-te-165349-0",
+          "language": "te",
+          "score": 0.8323,
+          "text_preview": "బుకింగ్ లేదా ట్రావెల్ సమాచారం క్లియర్‌ట్రిప్ కామ్ వంటి డెల్టా బెంగళూరు పారిస్ వి"
+        },
+        {
+          "rank": 4,
+          "document_id": "msmarco-xi-bn-165349-1",
+          "language": "bn",
+          "score": 0.8315,
+          "text_preview": "ব্যাঙ্গালোর থেকে প্যারিস পর্যন্ত প্রথম উড়ানটি হল সকাল ১টা ৪৫ মিনিটে যা ডেল্টা এয"
+        },
+        {
+          "rank": 5,
+          "document_id": "msmarco-xi-or-165349-1",
+          "language": "or",
+          "score": 0.8312,
+          "text_preview": "ବାଙ୍ଗାଲୋରରୁ ପ୍ୟାରିସ ପର୍ଯ୍ୟନ୍ତ ପ୍ରଥମ ଉଡ଼ାଣ ସକାଳ ୧୪୫୫ ମିନିଟରେ ହୋଇଥାଏ, ଯାହା ଡେଲ୍ଟା "
+        },
+        {
+          "rank": 6,
+          "document_id": "msmarco-xi-as-165349-4",
+          "language": "as",
+          "score": 0.829,
+          "text_preview": "লুফথানছাৰ সৈতে বাংগালোৰলৈ আপোনাৰ ফ্লাইট বুক কৰক। ছুটিৰ দিনত আৰাম কৰা হওক, চহৰত ব"
+        },
+        {
+          "rank": 7,
+          "document_id": "msmarco-xi-or-165349-2",
+          "language": "or",
+          "score": 0.8264,
+          "text_preview": "ଭାରତର ବାଙ୍ଗାଲୋର (BLR) ପର୍ଯ୍ୟନ୍ତ ଉଡାଣ ପାଇଁ ଆମର ଭଲ ଭଡା ଉପଭୋଗ କରନ୍ତୁ। ୬ ନିୟୁତରୁ ଅଧି"
+        },
+        {
+          "rank": 8,
+          "document_id": "msmarco-xi-ta-165349-0",
+          "language": "ta",
+          "score": 0.8255,
+          "text_preview": "புத்தக டெல்டா பெங்களூர் பாரிஸ் விமானப் பயண டிக்கெட்டுகள் பயண புத்தகம் புத்தகம் அ"
+        },
+        {
+          "rank": 9,
+          "document_id": "msmarco-xi-or-165349-4",
+          "language": "or",
+          "score": 0.8252,
+          "text_preview": "Lufthansa ସହ ବାଙ୍ଗାଲୋର ଯାତ୍ରା ବୁକ କରନ୍ତୁ। ଛୁଟି ଦିନ, ସହର ଭ୍ରମଣ, ବ୍ୟବସାୟ କିମ୍ବା ଆନ"
+        },
+        {
+          "rank": 10,
+          "document_id": "msmarco-xi-or-165349-0",
+          "language": "or",
+          "score": 0.8251,
+          "text_preview": "ବୁକିଂ କିମ୍ବା ଟ୍ରାଭେଲ ଇନଫରମେସନ କ୍ଲିୟରଟ୍ରିପ କମ୍ ଡେଲ୍ଟା ବାଙ୍ଗାଲୋର ପ୍ୟାରିସ ଫ୍ଲାଇଟ ଏୟ"
+        }
+      ]
+    },
+    {
+      "query": "কেণ্টালুপ পূৰঠ হ'বলৈ কিমান সময় লাগে",
+      "language": "as",
+      "expected_en_doc_id": "msmarco-xi-en-260880-7",
+      "expected_en_text_preview": "Cantaloupes take up to 45 days to develop from pollinated blossoms. Cantaloupe melons (Cucumis melo) are members of the ",
+      "retrieved_top_10": [
+        {
+          "rank": 1,
+          "document_id": "msmarco-xi-as-158720-9",
+          "language": "as",
+          "score": 0.8667,
+          "text_preview": "প্ৰায় ১০ মিনিটৰ ভিতৰত ঘূৰি আহক আৰু এপলবোৰ এখন কাঠৰ চামুচেৰে হালুৱাওক। আপেলৰ গন্"
+        },
+        {
+          "rank": 2,
+          "document_id": "msmarco-xi-or-158720-9",
+          "language": "or",
+          "score": 0.8644,
+          "text_preview": "ପ୍ରାୟ ୧୦ ମିନିଟ ମଧ୍ୟରେ ଫେରି ଆସନ୍ତୁ ଏବଂ ଏକ କାଠ ଚାମଚ ସହ ସେଓ ଗୁଡିକୁ ହଲାଇ ଦିଅନ୍ତୁ। ସେ"
+        },
+        {
+          "rank": 3,
+          "document_id": "msmarco-xi-pa-158720-9",
+          "language": "pa",
+          "score": 0.8621,
+          "text_preview": "ਲਗਭਗ 10 ਮਿੰਟਾਂ ਵਿੱਚ ਵਾਪਸ ਆਓ ਅਤੇ ਲੱਕੜੀ ਦੇ ਚਮਚ ਨਾਲ ਸੇਬ ਨੂੰ ਹਿਲਾਓ। ਸੇਬ ਦੀ ਸੁਗੰਧ ਵਿੱ"
+        },
+        {
+          "rank": 4,
+          "document_id": "msmarco-xi-as-271597-3",
+          "language": "as",
+          "score": 0.8617,
+          "text_preview": "মাইক্ৰ'ৱেভ কৰাৰ সময়ত খোলাটো থৈ দিলে খুব কোমল ভাপত দিয়া ভুট্টা পাব, আপুনি এই ভুট"
+        },
+        {
+          "rank": 5,
+          "document_id": "msmarco-xi-te-158720-9",
+          "language": "te",
+          "score": 0.861,
+          "text_preview": "సుమారు 10 నిమిషాల్లో తిరిగి వచ్చి ఆపిల్‌లను చెక్క చెంచాతో కదిలించండి. ఆపిల్ వాసన"
+        },
+        {
+          "rank": 6,
+          "document_id": "msmarco-xi-bn-271597-5",
+          "language": "bn",
+          "score": 0.8594,
+          "text_preview": "আপনার যদি ৪ কানার বেশি ভুট্টা রান্না করতে হয়, তাহলে সেগুলিকে ব্যাচ হিসাবে রান্ন"
+        },
+        {
+          "rank": 7,
+          "document_id": "msmarco-xi-or-260880-7",
+          "language": "or",
+          "score": 0.8588,
+          "text_preview": "ପରାଗାୟିତ ଫୁଲରୁ କାନ୍ତାଲୁପ୍‌ ବିକଶିତ ହେବା ପାଇଁ ୪୫ ଦିନ ପର୍ଯ୍ୟନ୍ତ ସମୟ ନେଇଥାଏ । କାନ୍ତା"
+        },
+        {
+          "rank": 8,
+          "document_id": "msmarco-xi-as-271597-8",
+          "language": "as",
+          "score": 0.8587,
+          "text_preview": "নিৰ্দেশনা। ১ মাইক্ৰ'ৱেভত ১ থেকে ৪ কাণ ভুট্টা ৰাখক: ১ থেকে ৪ কাণ ভুট্টা, খোলা নহয"
+        },
+        {
+          "rank": 9,
+          "document_id": "msmarco-xi-or-271597-3",
+          "language": "or",
+          "score": 0.8581,
+          "text_preview": "ମାଇକ୍ରୋୱେଭିଂ କରିବା ସମୟରେ ଖଡ଼ିଗୁଡ଼ିକୁ ଛାଡ଼ି ଦେଲେ ଏକ ଖୁବ କୋମଳ ଭାପରେ ରନ୍ଧା ମକା ପାଇବ"
+        },
+        {
+          "rank": 10,
+          "document_id": "msmarco-xi-bn-271597-8",
+          "language": "bn",
+          "score": 0.8562,
+          "text_preview": "নির্দেশাবলী। ১ মাইক্রোওয়েভে ১ থেকে ৪ কান ভুট্টা রাখুন: মাইক্রোওয়েভে ১ থেকে ৪ ক"
+        }
+      ]
+    }
+  ],
+  "root_cause_analysis": {
+    "primary": "Ground-Truth Coverage Gaps in Corpus Sampling",
+    "primary_explanation": "Of the 280 Indic evaluation queries, only 322 query IDs had their corresponding English passage sampled into the 800 English passages subset during ingestion (due to independent sampling per parquet file). 0 evaluation pairs had their target English passage missing from the corpus entirely!",
+    "secondary_1": "BM25 Lexical Disconnect Across Different Scripts",
+    "secondary_1_explanation": "BM25 lexical scoring has 0% token overlap between non-Latin Indic scripts and English passages. Hybrid search on cross-lingual pairs is dominated by the dense branch.",
+    "secondary_2": "Dense Cross-Lingual Alignment on Evaluated Subsets",
+    "secondary_2_explanation": "When evaluated strictly on the valid pairs where the English passage is actually indexed, dense retrieval achieves 25.0% - 50.0% Recall@10 on major languages (e.g. Hindi, Punjabi, Urdu).",
+    "recommended_fix": "In future corpus ingestion updates, ensure that when an Indic passage is sampled for the corpus, its paired English passage is co-ingested, guaranteeing 100% paired coverage for evaluation."
+  }
+}
