@@ -31,6 +31,7 @@ from app.pipeline import ExtractiveGroundedGenerator, RAGPipeline
 from app.retrieval import (BM25Retriever, CrossEncoderReranker, FAISSDenseRetriever,
                            HashingDenseRetriever, HashingEmbedder, HybridRetriever,
                            TransparentReranker)
+from app.router import QueryIntent, classify_query
 from app.stt import MockSTT, OpenAIWhisperSTT, SpeechToTextError
 from app.tts import EdgeTTS, MockTTS, TextToSpeechError
 from app.vector_store import FaissVectorStore
@@ -41,8 +42,9 @@ DATA_PATH = Path(os.getenv("NOVARON_CORPUS_PATH", str(PROJECT_ROOT / "data" / "f
 class QueryRequest(BaseModel):
     query: str = Field(min_length=1, max_length=2_000)
     top_k: int = Field(default=5, ge=1, le=20)
-    chunking_strategy: Literal["fixed", "sentence", "hierarchical"] = "fixed"
+    chunking_strategy: Literal["fixed", "sentence", "hierarchical"] = "sentence"
     retrieval_mode: Literal["dense", "bm25", "hybrid", "hybrid_rerank"] = "hybrid_rerank"
+    language: str | None = None
 
 
 class SourceResponse(BaseModel):
@@ -62,6 +64,7 @@ class QueryResponse(BaseModel):
     chunking_strategy: str
     sources: list[SourceResponse]
     latency_ms: dict[str, float]
+    query_type: str | None = None
 
 
 class VoiceQueryResponse(BaseModel):
@@ -73,6 +76,7 @@ class VoiceQueryResponse(BaseModel):
     sources: list[SourceResponse]
     latency_ms: dict[str, float]
     audio_base64: str | None = None
+    query_type: str | None = None
 
 
 class TTSRequest(BaseModel):
@@ -221,8 +225,11 @@ def warmup_system() -> dict[str, float]:
     timings["model_load_ms"] = round((time.perf_counter() - m_start) * 1000, 2)
 
     f_start = time.perf_counter()
+    vector_counts = {}
     for strat in ("fixed", "sentence", "hierarchical"):
-        _get_vector_store(strat)
+        store = _get_vector_store(strat)
+        if store is not None:
+            vector_counts[strat] = len(store.chunks)
     timings["faiss_load_ms"] = round((time.perf_counter() - f_start) * 1000, 2)
 
     w_start = time.perf_counter()
@@ -235,9 +242,11 @@ def warmup_system() -> dict[str, float]:
     timings["warmup_ms"] = round((time.perf_counter() - w_start) * 1000, 2)
     timings["total_startup_ms"] = round((time.perf_counter() - t_start) * 1000, 2)
 
+    passages = load_jsonl(DATA_PATH)
     print(
-        f"[STARTUP] MODEL LOAD: {timings['model_load_ms']} ms | "
-        f"FAISS LOAD: {timings['faiss_load_ms']} ms | "
+        f"[STARTUP] CORPUS: {DATA_PATH.name} ({len(passages)} passages) | "
+        f"INDEX VECTORS: {vector_counts} | "
+        f"MODEL: {embedder.model_name} | "
         f"WARMUP: {timings['warmup_ms']} ms | "
         f"TOTAL: {timings['total_startup_ms']} ms"
     )
@@ -267,6 +276,23 @@ def health() -> dict[str, str]:
 
 @app.post("/v1/query", response_model=QueryResponse)
 def query(request: QueryRequest) -> QueryResponse:
+    t_start = time.perf_counter()
+    route = classify_query(request.query, preferred_language=request.language)
+
+    # 1. Handle Conversational / System directly
+    if route.intent in (QueryIntent.CONVERSATIONAL, QueryIntent.SYSTEM) and route.direct_answer:
+        route_ms = round((time.perf_counter() - t_start) * 1000, 3)
+        return QueryResponse(
+            answer=route.direct_answer,
+            refused=False,
+            retrieval_strategy=f"direct_{route.intent.value}",
+            chunking_strategy=request.chunking_strategy,
+            query_type=route.intent.value,
+            sources=[],
+            latency_ms={"route": route_ms, "total": route_ms},
+        )
+
+    # 2. Handle Knowledge Queries through Grounded RAG Pipeline
     result = pipelines[request.chunking_strategy][request.retrieval_mode].run(request.query, answer_limit=request.top_k)
     labels = {
         "dense": "dense",
@@ -279,6 +305,7 @@ def query(request: QueryRequest) -> QueryResponse:
         refused=result.refused,
         retrieval_strategy=labels[request.retrieval_mode],
         chunking_strategy=request.chunking_strategy,
+        query_type="knowledge" if not result.refused else "refusal",
         latency_ms=result.latency_ms,
         sources=[
             SourceResponse(
@@ -334,7 +361,8 @@ async def voice_query(
             detail=f"Invalid chunking strategy '{chunking_strategy}' or retrieval mode '{retrieval_mode}'.",
         )
 
-    result = pipelines[chunking_strategy][retrieval_mode].run(transcript, answer_limit=top_k)
+    # Route query
+    route = classify_query(transcript, preferred_language=language)
     labels = {
         "dense": "dense",
         "bm25": "bm25",
@@ -342,33 +370,23 @@ async def voice_query(
         "hybrid_rerank": "hybrid_rrf + reranker",
     }
 
-    latency_ms = {
-        "stt": stt_elapsed,
-        **result.latency_ms,
-        "total": round(stt_elapsed + result.latency_ms.get("rag_total", 0.0), 3),
-    }
-
-    audio_b64 = None
-    if synthesize_audio and result.answer:
-        tts_start = time.perf_counter()
-        try:
-            tts_audio = await tts_adapter.synthesize(result.answer, language=language)
-            tts_elapsed = round((time.perf_counter() - tts_start) * 1000, 3)
-            latency_ms["tts"] = tts_elapsed
-            latency_ms["total"] = round(latency_ms["total"] + tts_elapsed, 3)
-            audio_b64 = base64.b64encode(tts_audio).decode("ascii")
-        except Exception as exc:
-            raise HTTPException(status_code=502, detail=f"Speech synthesis error: {exc}") from exc
-
-    return VoiceQueryResponse(
-        query=transcript,
-        answer=result.answer,
-        refused=result.refused,
-        retrieval_strategy=labels[retrieval_mode],
-        chunking_strategy=chunking_strategy,
-        latency_ms=latency_ms,
-        audio_base64=audio_b64,
-        sources=[
+    if route.intent in (QueryIntent.CONVERSATIONAL, QueryIntent.SYSTEM) and route.direct_answer:
+        answer = route.direct_answer
+        refused = False
+        strategy = f"direct_{route.intent.value}"
+        sources: list[SourceResponse] = []
+        latency_ms = {
+            "stt": stt_elapsed,
+            "route": 0.5,
+            "total": round(stt_elapsed + 0.5, 3),
+        }
+        query_type = route.intent.value
+    else:
+        result = pipelines[chunking_strategy][retrieval_mode].run(transcript, answer_limit=top_k)
+        answer = result.answer
+        refused = result.refused
+        strategy = labels[retrieval_mode]
+        sources = [
             SourceResponse(
                 chunk_id=hit.chunk.chunk_id,
                 document_id=hit.chunk.document_id,
@@ -379,7 +397,36 @@ async def voice_query(
                 relevance_score=round(hit.score, 4),
             )
             for hit in result.sources
-        ],
+        ]
+        latency_ms = {
+            "stt": stt_elapsed,
+            **result.latency_ms,
+            "total": round(stt_elapsed + result.latency_ms.get("rag_total", 0.0), 3),
+        }
+        query_type = "knowledge" if not refused else "refusal"
+
+    audio_b64 = None
+    if synthesize_audio and answer:
+        tts_start = time.perf_counter()
+        try:
+            tts_audio = await tts_adapter.synthesize(answer, language=language or route.language)
+            tts_elapsed = round((time.perf_counter() - tts_start) * 1000, 3)
+            latency_ms["tts"] = tts_elapsed
+            latency_ms["total"] = round(latency_ms["total"] + tts_elapsed, 3)
+            audio_b64 = base64.b64encode(tts_audio).decode("ascii")
+        except Exception as exc:
+            raise HTTPException(status_code=502, detail=f"Speech synthesis error: {exc}") from exc
+
+    return VoiceQueryResponse(
+        query=transcript,
+        answer=answer,
+        refused=refused,
+        retrieval_strategy=strategy,
+        chunking_strategy=chunking_strategy,
+        query_type=query_type,
+        latency_ms=latency_ms,
+        audio_base64=audio_b64,
+        sources=sources,
     )
 
 

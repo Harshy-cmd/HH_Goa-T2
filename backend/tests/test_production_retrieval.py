@@ -9,7 +9,7 @@ from app.domain import Chunk, SearchHit
 from app.embeddings import SentenceTransformerEmbeddingProvider, normalize_embedding_text
 from app.generation import OpenAIGroundedLLM
 from app.ingestion import fixed_chunks, load_jsonl
-from app.main import QueryRequest, query
+from app.main import QueryRequest, pipelines, query
 from app.pipeline import ExtractiveGroundedGenerator, RAGPipeline, REFUSAL
 from app.retrieval import (BM25Retriever, CrossEncoderReranker, HashingDenseRetriever,
                            HashingEmbedder, HybridRetriever, TransparentReranker)

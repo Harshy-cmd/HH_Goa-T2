@@ -50,18 +50,36 @@ export const AnswerCard: React.FC<AnswerCardProps> = ({
 
         {/* Top Metadata Header Row */}
         <div className="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b border-goa-line/20">
-          {/* Left: Grounded Badge */}
-          <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-emerald-950/80 border border-emerald-500/50 text-emerald-300">
-            <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-            <span>GROUNDED</span>
-          </div>
+          {/* Left: Badge based on Query Type */}
+          {data.query_type === 'conversational' ? (
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-sky-950/80 border border-sky-500/50 text-sky-300">
+              <CheckCircle className="w-3.5 h-3.5 text-sky-400" />
+              <span>CONVERSATIONAL</span>
+            </div>
+          ) : data.query_type === 'system' ? (
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-amber-950/80 border border-goa-yellow/50 text-goa-yellow">
+              <CheckCircle className="w-3.5 h-3.5 text-goa-yellow" />
+              <span>NOVARON SYSTEM</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-emerald-950/80 border border-emerald-500/50 text-emerald-300">
+              <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
+              <span>GROUNDED</span>
+            </div>
+          )}
 
           {/* Right: Sources Count & Latency */}
           <div className="flex items-center gap-2 font-mono text-xs">
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-goa-cream/10 border border-goa-line/40 text-goa-cream font-semibold">
-              <Database className="w-3.5 h-3.5 text-goa-yellow" />
-              <span>{sources.length} SOURCES</span>
-            </div>
+            {sources.length > 0 ? (
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-goa-cream/10 border border-goa-line/40 text-goa-cream font-semibold">
+                <Database className="w-3.5 h-3.5 text-goa-yellow" />
+                <span>{sources.length} SOURCES</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-goa-cream/10 border border-goa-line/40 text-goa-cream/80 font-semibold">
+                <span>DIRECT ASSISTANT</span>
+              </div>
+            )}
 
             <button
               onClick={() => setLatencyExpanded(!latencyExpanded)}
@@ -129,54 +147,56 @@ export const AnswerCard: React.FC<AnswerCardProps> = ({
           </div>
         </div>
 
-        {/* Expandable Sources Strip */}
-        <div className="border-t border-goa-line/20 pt-3">
-          <button
-            onClick={() => setSourcesExpanded(!sourcesExpanded)}
-            className="w-full flex items-center justify-between py-1 text-xs font-mono font-semibold text-goa-cream/80 hover:text-goa-cream transition-colors"
-          >
-            <div className="flex items-center gap-2">
-              <Database className="w-3.5 h-3.5 text-goa-yellow" />
-              <span className="uppercase tracking-wider">SOURCES ({sources.length})</span>
-            </div>
-            {sourcesExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-          </button>
+        {/* Expandable Sources Strip (when sources exist) */}
+        {sources.length > 0 && (
+          <div className="border-t border-goa-line/20 pt-3">
+            <button
+              onClick={() => setSourcesExpanded(!sourcesExpanded)}
+              className="w-full flex items-center justify-between py-1 text-xs font-mono font-semibold text-goa-cream/80 hover:text-goa-cream transition-colors"
+            >
+              <div className="flex items-center gap-2">
+                <Database className="w-3.5 h-3.5 text-goa-yellow" />
+                <span className="uppercase tracking-wider">SOURCES ({sources.length})</span>
+              </div>
+              {sourcesExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
 
-          {sourcesExpanded && (
-            <div className="mt-3 space-y-2 max-h-60 overflow-y-auto pr-1">
-              {sources.map((src, i) => (
-                <div
-                  key={src.chunk_id || i}
-                  className="p-3 rounded-2xl bg-goa-forest/80 border border-goa-line/30 text-xs font-mono"
-                >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="font-bold text-goa-cream">
-                      {String(i + 1).padStart(2, '0')} {src.document_id || 'Corpus Document'}
-                    </span>
-                    <span className="text-goa-yellow font-bold text-[11px]">
-                      {(src.relevance_score).toFixed(2)}
-                    </span>
-                  </div>
-                  <div className="text-[10px] text-goa-cream/60 mb-2 truncate">
-                    Chunk ID: {src.chunk_id}
-                  </div>
+            {sourcesExpanded && (
+              <div className="mt-3 space-y-2 max-h-60 overflow-y-auto pr-1">
+                {sources.map((src, i) => (
+                  <div
+                    key={src.chunk_id || i}
+                    className="p-3 rounded-2xl bg-goa-forest/80 border border-goa-line/30 text-xs font-mono"
+                  >
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="font-bold text-goa-cream">
+                        {String(i + 1).padStart(2, '0')} {src.document_id || 'Corpus Document'}
+                      </span>
+                      <span className="text-goa-yellow font-bold text-[11px]">
+                        {(src.relevance_score).toFixed(2)}
+                      </span>
+                    </div>
+                    <div className="text-[10px] text-goa-cream/60 mb-2 truncate">
+                      Chunk ID: {src.chunk_id}
+                    </div>
 
-                  {/* Horizontal Relevance Bar */}
-                  <div className="w-full h-1.5 bg-goa-forest-deep rounded-full overflow-hidden mb-2">
-                    <div
-                      style={{ width: `${Math.min(100, Math.max(10, src.relevance_score * 100))}%` }}
-                      className="h-full bg-emerald-400 rounded-full"
-                    />
-                  </div>
+                    {/* Horizontal Relevance Bar */}
+                    <div className="w-full h-1.5 bg-goa-forest-deep rounded-full overflow-hidden mb-2">
+                      <div
+                        style={{ width: `${Math.min(100, Math.max(10, src.relevance_score * 100))}%` }}
+                        className="h-full bg-emerald-400 rounded-full"
+                      />
+                    </div>
 
-                  <p className="text-goa-cream/80 font-sans text-xs line-clamp-3 leading-relaxed">
-                    "{src.text}"
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+                    <p className="text-goa-cream/80 font-sans text-xs line-clamp-3 leading-relaxed">
+                      "{src.text}"
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Expandable Detailed Latency Breakdown */}
         {latencyExpanded && (

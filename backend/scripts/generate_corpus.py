@@ -1,0 +1,279 @@
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+DATA_DIR = ROOT / "data"
+FIXTURES_DIR = DATA_DIR / "fixtures"
+FIXTURES_DIR.mkdir(parents=True, exist_ok=True)
+
+# 1. NOVARON SYSTEM KNOWLEDGE
+novaron_docs = [
+    {
+        "document_id": "novaron-system-identity",
+        "passage_id": "novaron-system-identity-1",
+        "language": "en",
+        "title": "NOVARON Voice-Enabled Grounded RAG Assistant",
+        "text": "NOVARON is a voice-enabled, grounded retrieval-augmented generation (RAG) assistant designed for zero hallucination and multilingual accessibility. NOVARON provides factual, cited answers strictly grounded in retrieved evidence, with support for English and Hindi voice interaction."
+    },
+    {
+        "document_id": "novaron-system-identity",
+        "passage_id": "novaron-system-identity-2",
+        "language": "en",
+        "title": "NOVARON Name and Mission",
+        "text": "The name NOVARON represents a next-generation grounded conversational intelligence. NOVARON was created for the Hackathon (HH Goa 2026 Task #2) to prove that voice-enabled AI can deliver instant, verifiable responses with strict evidence attribution and zero factual guessing."
+    },
+    {
+        "document_id": "novaron-system-capabilities",
+        "passage_id": "novaron-system-capabilities-1",
+        "language": "en",
+        "title": "NOVARON Capabilities and Features",
+        "text": "NOVARON capabilities include real-time browser microphone audio recording, OpenAI Whisper speech-to-text (STT), multilingual dense vector retrieval with FAISS, lexical BM25 search, Reciprocal Rank Fusion (Hybrid RRF), cross-encoder neural reranking, grounded LLM generation with strict citation validation, refusal guardrails ('We chose not to guess.'), neural text-to-speech (EdgeTTS), full latency telemetry HUD, interactive source inspection, and a Three.js MagicRings reactive UI."
+    },
+    {
+        "document_id": "novaron-system-capabilities-hi",
+        "passage_id": "novaron-system-capabilities-hi-1",
+        "language": "hi",
+        "title": "नोवारॉन की विशेषताएं एवं क्षमताएं",
+        "text": "नोवारॉन (NOVARON) एक आवाज़-सक्षम (Voice-Enabled) और ग्राउंडेड आरएजी (RAG) सहायक है। यह उपयोगकर्ताओं के प्रश्नों के सटीक और सत्यापित उत्तर प्रदान करता है, जिसमें अंग्रेज़ी और हिंदी दोनों भाषाओं में वाक् पहचान (STT) और वाक् संश्लेषण (TTS) का समर्थन शामिल है।"
+    },
+    {
+        "document_id": "novaron-system-architecture",
+        "passage_id": "novaron-system-architecture-1",
+        "language": "en",
+        "title": "NOVARON Architecture and Pipeline",
+        "text": "NOVARON's end-to-end voice RAG architecture executes in sequential stages: (1) Voice Capture via MediaRecorder, (2) Speech-to-Text using OpenAI Whisper, (3) Multilingual Query Embedding via intfloat/multilingual-e5-small (384-d), (4) Dense FAISS Inner-Product Search and Lexical BM25, (5) Hybrid Reciprocal Rank Fusion (RRF k=60), (6) Optional Neural Cross-Encoder Reranking, (7) Grounded LLM Generation with JSON citation mapping, (8) Evidence Citation Validation, (9) Neural TTS via EdgeTTS (Jenny for English, Swara for Hindi), and (10) Browser Audio Playback."
+    },
+    {
+        "document_id": "novaron-grounding-policy",
+        "passage_id": "novaron-grounding-policy-1",
+        "language": "en",
+        "title": "NOVARON Grounding and Refusal Policy",
+        "text": "NOVARON adheres to a strict Zero-Hallucination Policy: NO EVIDENCE = NO GUESSING. If retrieved passage relevance scores fall below safety thresholds (0.85 for unreranked dense, 0.12 for reranked), or if the LLM cannot verify claims against explicit chunk IDs, NOVARON refuses to guess with the message 'I don't have enough information in the indexed knowledge base to answer that reliably.'"
+    },
+    {
+        "document_id": "novaron-frontend-features",
+        "passage_id": "novaron-frontend-features-1",
+        "language": "en",
+        "title": "NOVARON Frontend and Visual Design",
+        "text": "The NOVARON frontend is built with React, TypeScript, Tailwind CSS, and Three.js. Key visual components include the dynamic VoiceOrb, Three.js MagicRings audio-reactive shader underlay, AnswerCard with citation badges and audio player, RefusalCard for grounded safety, SourcesDrawer for knowledge inspection, HistoryDrawer for session history, and SettingsDrawer for configuring retrieval modes and top-k."
+    }
+]
+
+# 2. GENERAL TECHNICAL KNOWLEDGE
+tech_docs = [
+    {
+        "document_id": "tech-python",
+        "passage_id": "tech-python-1",
+        "language": "en",
+        "title": "Python Programming Language",
+        "text": "Python is a high-level, interpreted, dynamically typed programming language known for its clear syntax, readability, and versatile ecosystem. Created by Guido van Rossum and released in 1991, Python is widely used for artificial intelligence, machine learning, data science, web development, and automation."
+    },
+    {
+        "document_id": "tech-fastapi",
+        "passage_id": "tech-fastapi-1",
+        "language": "en",
+        "title": "FastAPI Web Framework",
+        "text": "FastAPI is a modern, high-performance web framework for building APIs with Python 3.8+ based on standard Python type hints. It is built on Starlette for ASGI web routing and Pydantic for fast data validation, serialization, and automatic OpenAPI interactive documentation."
+    },
+    {
+        "document_id": "tech-react",
+        "passage_id": "tech-react-1",
+        "language": "en",
+        "title": "React JavaScript Library",
+        "text": "React is an open-source front-end JavaScript library developed by Meta for building declarative, component-based user interfaces. React uses a Virtual DOM and reactive state management (hooks like useState, useEffect, useRef) to efficiently update and render interactive web applications."
+    },
+    {
+        "document_id": "tech-typescript",
+        "passage_id": "tech-typescript-1",
+        "language": "en",
+        "title": "TypeScript Language",
+        "text": "TypeScript is a strongly typed, open-source programming language developed by Microsoft that builds on JavaScript by adding static type definitions. TypeScript code compiles to clean JavaScript and helps developers catch errors early during development with advanced type checking."
+    },
+    {
+        "document_id": "tech-ai-ml",
+        "passage_id": "tech-ai-ml-1",
+        "language": "en",
+        "title": "Artificial Intelligence and Machine Learning",
+        "text": "Artificial Intelligence (AI) is the broad field of computer science focused on creating systems capable of performing tasks that typically require human intelligence, such as visual perception, reasoning, speech recognition, and decision-making. Machine Learning (ML) is a subset of AI where algorithms learn patterns from data without being explicitly programmed."
+    },
+    {
+        "document_id": "tech-neural-networks",
+        "passage_id": "tech-neural-networks-1",
+        "language": "en",
+        "title": "Neural Networks and Deep Learning",
+        "text": "Neural networks are computational models inspired by biological brain structures, composed of interconnected layers of artificial nodes (neurons). Deep learning uses multi-layered neural networks (such as Transformers, CNNs, and RNNs) to learn hierarchical representations from complex data like text, audio, and images."
+    },
+    {
+        "document_id": "tech-embeddings",
+        "passage_id": "tech-embeddings-1",
+        "language": "en",
+        "title": "Vector Embeddings",
+        "text": "Vector embeddings are numerical vector representations of text, images, or audio in a continuous mathematical space. In natural language processing, embedding models map semantic meaning into dense vectors such that semantically similar texts are placed close together as measured by cosine similarity or dot product."
+    },
+    {
+        "document_id": "tech-faiss",
+        "passage_id": "tech-faiss-1",
+        "language": "en",
+        "title": "FAISS Vector Database and Search Library",
+        "text": "FAISS (Facebook AI Similarity Search) is an open-source library developed by Meta AI for efficient similarity search, clustering, and dense vector indexing. FAISS provides optimized C++ implementations with Python bindings for exact L2/Inner-Product search (IndexFlatIP) and approximate nearest neighbor search (IVFFlat, HNSW) across millions of vectors."
+    },
+    {
+        "document_id": "tech-bm25",
+        "passage_id": "tech-bm25-1",
+        "language": "en",
+        "title": "BM25 Lexical Information Retrieval",
+        "text": "Okapi BM25 (Best Matching 25) is a ranking function used by search engines to estimate the relevance of documents to a given search query based on term frequency (TF) and inverse document frequency (IDF). It includes saturation parameters (k1) and document length normalization (b) to score exact keyword matches accurately."
+    },
+    {
+        "document_id": "tech-hybrid-rrf",
+        "passage_id": "tech-hybrid-rrf-1",
+        "language": "en",
+        "title": "Hybrid Search and Reciprocal Rank Fusion",
+        "text": "Hybrid search combines dense vector retrieval (semantic search) and sparse lexical retrieval (BM25 keyword search) to maximize recall. Reciprocal Rank Fusion (RRF) merges multiple ranked lists by scoring each document as the sum of 1/(k + rank), providing balanced rankings without requiring score calibration."
+    },
+    {
+        "document_id": "tech-rag",
+        "passage_id": "tech-rag-1",
+        "language": "en",
+        "title": "Retrieval-Augmented Generation (RAG)",
+        "text": "Retrieval-Augmented Generation (RAG) is an AI architectural pattern where a language model's prompt is dynamically augmented with authoritative passages retrieved from an external knowledge base. Grounded RAG systems verify that generated assertions are backed by specific retrieved citations, preventing hallucinations."
+    },
+    {
+        "document_id": "tech-stt-tts",
+        "passage_id": "tech-stt-tts-1",
+        "language": "en",
+        "title": "Speech-to-Text and Text-to-Speech",
+        "text": "Speech-to-Text (STT) or automatic speech recognition converts spoken acoustic waveforms into text (e.g., OpenAI Whisper). Text-to-Speech (TTS) synthesizes human-like spoken audio from text using neural vocoders and acoustic models (e.g., Microsoft EdgeTTS, Jenny, Swara)."
+    },
+    {
+        "document_id": "tech-databases",
+        "passage_id": "tech-databases-1",
+        "language": "en",
+        "title": "Databases: SQL and NoSQL",
+        "text": "Databases are structured systems for storing, querying, and managing data. Relational databases (SQL like PostgreSQL, MySQL, SQLite) use structured tables with schemas and ACID transactions. NoSQL databases (document stores like MongoDB, key-value stores like Redis, graph stores like Neo4j) offer flexible schemas and horizontal scalability."
+    },
+    {
+        "document_id": "tech-rest-api",
+        "passage_id": "tech-rest-api-1",
+        "language": "en",
+        "title": "REST APIs and HTTP",
+        "text": "Representational State Transfer (REST) is an architectural style for networked applications. RESTful APIs use standard HTTP methods (GET for retrieving data, POST for creating resources, PUT/PATCH for updating, DELETE for removal) and standard status codes (200 OK, 400 Bad Request, 404 Not Found, 500 Server Error) typically formatting payloads as JSON."
+    }
+]
+
+# 3. GENERAL EDUCATIONAL KNOWLEDGE
+edu_docs = [
+    {
+        "document_id": "science-photosynthesis-en",
+        "passage_id": "science-photosynthesis-en-1",
+        "language": "en",
+        "title": "Photosynthesis in Plants",
+        "text": "Photosynthesis is the biological process by which green plants, algae, and cyanobacteria convert light energy into chemical energy. Using sunlight, water, and carbon dioxide, plants produce glucose (sugars) and release oxygen as a vital by-product. Chlorophyll in the chloroplasts absorbs light primarily in the blue and red wavelengths."
+    },
+    {
+        "document_id": "science-photosynthesis-hi",
+        "passage_id": "science-photosynthesis-hi-1",
+        "language": "hi",
+        "title": "प्रकाश संश्लेषण (Photosynthesis)",
+        "text": "प्रकाश संश्लेषण (Photosynthesis) वह जैविक प्रक्रिया है जिसमें पौधे सूर्य के प्रकाश, पानी और कार्बन डाइऑक्साइड की मदद से अपना भोजन (ग्लूकोज) बनाते हैं। इस प्रक्रिया में क्लोरोफिल प्रकाश ऊर्जा को अवशोषित करता है और ऑक्सीजन गैस सह-उत्पाद के रूप में वातावरण में निकलती है।"
+    },
+    {
+        "document_id": "science-photosynthesis-kn",
+        "passage_id": "science-photosynthesis-kn-1",
+        "language": "kn",
+        "title": "ದ್ಯುತಿಸಂಶ್ಲೇಷಣೆ",
+        "text": "ದ್ಯುತಿಸಂಶ್ಲೇಷಣೆ ಎಂಬುದು ಸಸ್ಯಗಳು ಸೂರ್ಯನ ಬೆಳಕು, ನೀರು ಮತ್ತು ಕಾರ್ಬನ್ ಡೈಆಕ್ಸೈಡ್ ಬಳಸಿ ಆಹಾರ ತಯಾರಿಸುವ ಪ್ರಕ್ರಿಯೆ. ಈ ಪ್ರಕ್ರಿಯೆಯಲ್ಲಿ ಆಮ್ಲಜನಕ ಬಿಡುಗಡೆಯಾಗುತ್ತದೆ."
+    },
+    {
+        "document_id": "science-solar-system",
+        "passage_id": "science-solar-system-1",
+        "language": "en",
+        "title": "The Solar System and Planets",
+        "text": "The Solar System consists of the Sun and the gravitationally bound planetary system orbiting it. The eight recognized planets in order of distance from the Sun are Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune. Terrestrial planets have rocky surfaces, while the outer planets are gas and ice giants."
+    },
+    {
+        "document_id": "science-gravity",
+        "passage_id": "science-gravity-1",
+        "language": "en",
+        "title": "Gravity and Universal Gravitation",
+        "text": "Gravity is a fundamental natural force by which objects with mass or energy are attracted toward one another. Sir Isaac Newton formulated the law of universal gravitation, stating that gravitational attraction is proportional to mass and inversely proportional to the square of distance. Albert Einstein's General Theory of Relativity describes gravity as the curvature of spacetime."
+    },
+    {
+        "document_id": "science-water-cycle",
+        "passage_id": "science-water-cycle-1",
+        "language": "en",
+        "title": "The Water Cycle (Hydrologic Cycle)",
+        "text": "The water cycle describes the continuous movement of water on, above, and below the surface of the Earth. The primary stages include evaporation (water turning to vapor), transpiration from plants, condensation into clouds, precipitation (rain, snow, hail), and collection in oceans, rivers, and groundwater aquifers."
+    },
+    {
+        "document_id": "science-climate-atmosphere",
+        "passage_id": "science-climate-atmosphere-1",
+        "language": "en",
+        "title": "Earth's Atmosphere and Climate",
+        "text": "Earth's atmosphere is composed primarily of nitrogen (78%), oxygen (21%), argon (0.93%), and trace gases including carbon dioxide and water vapor. The atmosphere protects life by absorbing harmful solar ultraviolet radiation, warming the surface via the greenhouse effect, and reducing temperature extremes between day and night."
+    },
+    {
+        "document_id": "science-biology-cells",
+        "passage_id": "science-biology-cells-1",
+        "language": "en",
+        "title": "Cell Biology and Cellular Structure",
+        "text": "The cell is the basic structural, functional, and biological unit of all known living organisms. Prokaryotic cells (like bacteria) lack a membrane-bound nucleus, while eukaryotic cells (plants, animals, fungi) contain distinct organelles including the nucleus (housing DNA), mitochondria (energy production via ATP), and ribosomes (protein synthesis)."
+    },
+    {
+        "document_id": "science-mathematics-basics",
+        "passage_id": "science-mathematics-basics-1",
+        "language": "en",
+        "title": "Foundations of Mathematics",
+        "text": "Mathematics is the abstract science of number, quantity, space, and change. Major foundational branches include arithmetic (numbers and calculations), algebra (symbols and equations), geometry (shapes and spatial relations), trigonometry (angles and triangles), and calculus (rates of change and accumulation)."
+    },
+    {
+        "document_id": "science-computer-algorithms",
+        "passage_id": "science-computer-algorithms-1",
+        "language": "en",
+        "title": "Computer Algorithms and Data Structures",
+        "text": "An algorithm is a finite, step-by-step sequence of well-defined instructions for solving a computational problem. Core data structures include arrays, linked lists, hash tables, trees, and graphs. Algorithmic computational efficiency is measured using Big-O asymptotic notation for time and space complexity."
+    }
+]
+
+# 4. LOAD EXISTING EVALUATION MS MARCO PASSAGES IF AVAILABLE
+eval_corpus_path = DATA_DIR / "evaluation" / "msmarco_xi_dev" / "corpus.jsonl"
+msmarco_docs = []
+if eval_corpus_path.exists():
+    with open(eval_corpus_path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                msmarco_docs.append(json.loads(line))
+
+all_docs = novaron_docs + tech_docs + edu_docs + msmarco_docs
+
+# Deduplicate by passage_id
+seen_ids = set()
+unique_docs = []
+for doc in all_docs:
+    pid = doc.get("passage_id") or doc.get("document_id")
+    if pid not in seen_ids:
+        seen_ids.add(pid)
+        unique_docs.append(doc)
+
+core_fixtures = novaron_docs + tech_docs + edu_docs
+
+# Save core multi-domain fixtures to data/fixtures/sample_corpus.jsonl
+sample_corpus_file = FIXTURES_DIR / "sample_corpus.jsonl"
+with open(sample_corpus_file, "w", encoding="utf-8") as f:
+    for doc in core_fixtures:
+        f.write(json.dumps(doc, ensure_ascii=False) + "\n")
+
+# Save full multi-domain + MS MARCO to data/novaron_corpus.jsonl
+novaron_corpus_file = DATA_DIR / "novaron_corpus.jsonl"
+with open(novaron_corpus_file, "w", encoding="utf-8") as f:
+    for doc in unique_docs:
+        f.write(json.dumps(doc, ensure_ascii=False) + "\n")
+
+print(f"Generated unified corpus with {len(unique_docs)} passages:")
+print(f"  NOVARON identity/system: {len(novaron_docs)}")
+print(f"  General technical: {len(tech_docs)}")
+print(f"  General educational: {len(edu_docs)}")
+print(f"  MS MARCO evaluation passages: {len(msmarco_docs)}")
+print(f"Saved core fixtures ({len(core_fixtures)} docs) to {sample_corpus_file}")
+print(f"Saved full corpus ({len(unique_docs)} docs) to {novaron_corpus_file}")

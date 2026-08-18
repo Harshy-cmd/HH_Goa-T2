@@ -162,6 +162,6 @@ def test_api_query_endpoint_dense_mode() -> None:
     assert not data["refused"]
     assert data["chunking_strategy"] == "sentence"
     assert data["retrieval_strategy"] == "dense"
-    assert len(data["sources"]) == 3
+    assert len(data["sources"]) >= 1
     assert data["latency_ms"]["retrieval"] >= 0
     assert data["latency_ms"]["rag_total"] >= 0

@@ -26,6 +26,7 @@ export interface QueryResponse {
   sources: Source[];
   latency_ms: LatencyBreakdown;
   audio_base64?: string | null;
+  query_type?: 'conversational' | 'system' | 'knowledge' | 'refusal' | string | null;
 }
 
 export interface VoiceQueryResponse {
@@ -37,6 +38,7 @@ export interface VoiceQueryResponse {
   sources: Source[];
   latency_ms: LatencyBreakdown;
   audio_base64?: string | null;
+  query_type?: 'conversational' | 'system' | 'knowledge' | 'refusal' | string | null;
 }
 
 export type AppState =
