@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Copy, Check, Share2 } from 'lucide-react';
+import { X, Copy, Check, Share2, Sparkles } from 'lucide-react';
 import { QueryResponse, VoiceQueryResponse } from '../types';
 
 interface ShareModalProps {
@@ -49,56 +49,55 @@ export const ShareModal: React.FC<ShareModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby="share-modal-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in"
     >
-      <div className="w-full max-w-md bg-goa-forest-deep text-goa-cream rounded-3xl p-6 border border-goa-line/30 shadow-2xl relative animate-fade-in">
+      <div className="w-full max-w-md bg-[#0A2E22]/95 text-[#F4EDD8] rounded-3xl p-6 sm:p-8 border border-white/[0.08] shadow-2xl relative backdrop-blur-xl">
         <button
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-goa-cream/10 text-goa-cream/70 hover:text-goa-cream"
+          className="absolute top-5 right-5 p-1.5 rounded-full hover:bg-white/[0.08] text-[#F4EDD8]/60 hover:text-[#F4EDD8] transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <h3 id="share-modal-title" className="text-lg font-bold font-serif text-goa-cream mb-4 flex items-center gap-2">
-          <Share2 className="w-4 h-4 text-goa-pink" />
-          <span>Share Grounded Answer</span>
-        </h3>
+        <div className="flex items-center gap-2.5 mb-2">
+          <Share2 className="w-5 h-5 text-[#F5C518]" />
+          <h3 id="share-modal-title" className="text-xl font-bold font-serif text-[#F4EDD8]">
+            Share Grounded Result
+          </h3>
+        </div>
+        <p className="text-xs font-mono text-[#F4EDD8]/50 mb-5">
+          NOVARON Zero-Hallucination Voice RAG
+        </p>
 
-        {/* Share Preview Card */}
-        <div className="bg-goa-forest p-4 rounded-2xl border border-goa-line/30 mb-5 font-mono text-xs space-y-2">
-          <div className="text-goa-yellow font-bold text-[10px] tracking-wider uppercase">
-            HH Goa 2026 · NOVARON Voice RAG
-          </div>
-          <div className="text-goa-cream italic">"{queryText}"</div>
-          <div className="text-goa-cream/80 line-clamp-3 text-[11px] font-sans">
-            {data.answer}
-          </div>
-          <div className="text-[10px] text-emerald-400 font-bold pt-1 border-t border-goa-line/20">
-            ✓ GROUNDED · {data.sources?.length || 0} SOURCES · ⚡ {latencyStr}
-          </div>
+        {/* Preview Card */}
+        <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/[0.06] font-mono text-xs text-[#F4EDD8]/80 mb-5 whitespace-pre-wrap leading-relaxed">
+          {shareText}
         </div>
 
-        {/* Actions */}
-        <div className="flex items-center gap-2.5">
-          <button
-            onClick={handleTwitterShare}
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-full bg-[#1DA1F2] hover:bg-[#1a94df] text-white text-xs font-mono font-bold transition-all shadow-md"
-          >
-            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-            </svg>
-            <span>Post to X</span>
-          </button>
+        <div className="grid grid-cols-2 gap-3">
           <button
             onClick={handleCopyText}
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-full bg-goa-cream/10 hover:bg-goa-cream/20 text-goa-cream text-xs font-mono font-bold border border-goa-line/30 transition-all"
+            className="flex items-center justify-center gap-2 py-3 px-4 rounded-full bg-white/[0.06] hover:bg-white/[0.10] border border-white/[0.08] text-xs font-mono font-semibold text-[#F4EDD8] transition-all duration-150 active:scale-95 shadow-sm"
           >
             {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
-            <span>{copied ? 'Copied!' : 'Copy Summary'}</span>
+            <span>{copied ? 'Copied!' : 'Copy Text'}</span>
+          </button>
+
+          <button
+            onClick={handleTwitterShare}
+            className="flex items-center justify-center gap-2 py-3 px-4 rounded-full bg-[#EE2A6D] hover:bg-[#f43f5e] text-white text-xs font-mono font-bold transition-all duration-150 active:scale-95 shadow-md shadow-[#EE2A6D]/30"
+          >
+            <Sparkles className="w-4 h-4" />
+            <span>Share on X</span>
           </button>
         </div>
       </div>
     </div>
   );
 };
+
+export default ShareModal;

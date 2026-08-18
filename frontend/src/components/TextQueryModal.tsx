@@ -46,65 +46,83 @@ export const TextQueryModal: React.FC<TextQueryModalProps> = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby="text-query-title"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md animate-fade-in"
     >
-      <div className="w-full max-w-lg bg-goa-forest-deep text-goa-cream rounded-3xl p-6 sm:p-7 border border-goa-line/30 shadow-2xl relative animate-fade-in">
+      <div className="w-full max-w-lg bg-[#0A2E22]/95 text-[#F4EDD8] rounded-3xl p-6 sm:p-8 border border-white/[0.08] shadow-2xl relative backdrop-blur-xl">
         {/* Close Button */}
         <button
           onClick={onClose}
           aria-label="Close"
-          className="absolute top-5 right-5 p-1.5 rounded-full hover:bg-goa-cream/10 text-goa-cream/70 hover:text-goa-cream transition-colors"
+          className="absolute top-5 right-5 p-1.5 rounded-full hover:bg-white/[0.08] text-[#F4EDD8]/60 hover:text-[#F4EDD8] transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
 
         {/* Headline */}
-        <h3 id="text-query-title" className="text-xl font-bold font-serif text-goa-cream mb-1">
+        <h3 id="text-query-title" className="text-xl font-bold font-serif text-[#F4EDD8] mb-1">
           Type Your Question
         </h3>
-        <p className="text-xs font-mono text-goa-cream/60 mb-4">
-          Grounded against multilingual FAISS knowledge base
+        <p className="text-xs font-mono text-[#F4EDD8]/50 mb-5">
+          Ask NOVARON directly via keyboard input
         </p>
 
         {/* Input Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <textarea
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="e.g. What is photosynthesis? or प्रकाश संश्लेषण क्या है?"
-            rows={3}
-            autoFocus
-            className="w-full bg-goa-forest p-3.5 rounded-2xl text-sm text-goa-cream border border-goa-line/30 focus:outline-none focus:border-goa-pink placeholder:text-goa-cream/30 resize-none font-sans"
-          />
+        <form onSubmit={handleSubmit}>
+          <div className="relative mb-4">
+            <textarea
+              autoFocus
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Ask anything from the verified knowledge base..."
+              rows={3}
+              className="w-full bg-white/[0.03] border border-white/[0.08] focus:border-[#EE2A6D] rounded-2xl p-4 text-sm text-[#F4EDD8] placeholder-[#F4EDD8]/35 focus:outline-none transition-colors font-sans resize-none"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  handleSubmit(e);
+                }
+              }}
+            />
+          </div>
 
-          {/* Quick Suggestions */}
-          <div>
-            <span className="text-[10px] uppercase font-mono tracking-widest text-goa-yellow block mb-2 font-semibold">
-              Suggested Questions
+          {/* Sample Prompts */}
+          <div className="mb-6">
+            <span className="text-[10px] font-mono uppercase tracking-wider text-[#F4EDD8]/40 block mb-2 flex items-center gap-1.5">
+              <Sparkles className="w-3 h-3 text-[#F5C518]" />
+              <span>Suggested Questions</span>
             </span>
             <div className="flex flex-wrap gap-1.5">
-              {sampleSuggestions.map((s, idx) => (
+              {sampleSuggestions.map((suggestion, idx) => (
                 <button
                   key={idx}
                   type="button"
-                  onClick={() => setQuery(s)}
-                  className="text-xs px-2.5 py-1 rounded-full bg-goa-forest border border-goa-line/20 hover:border-goa-yellow/50 text-goa-cream/80 hover:text-goa-cream transition-all flex items-center gap-1"
+                  onClick={() => setQuery(suggestion)}
+                  className="text-left text-[11px] font-mono px-3 py-1.5 rounded-full bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.06] hover:border-white/[0.12] text-[#F4EDD8]/70 hover:text-[#F4EDD8] transition-all duration-150"
                 >
-                  <Sparkles className="w-3 h-3 text-goa-yellow" />
-                  <span>{s}</span>
+                  {suggestion}
                 </button>
               ))}
             </div>
           </div>
 
-          {/* Submit Button */}
-          <div className="flex justify-end pt-2">
+          {/* Actions */}
+          <div className="flex items-center justify-end gap-3">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 rounded-full text-xs font-mono text-[#F4EDD8]/60 hover:text-[#F4EDD8] hover:bg-white/[0.04] transition-colors"
+            >
+              Cancel
+            </button>
             <button
               type="submit"
               disabled={!query.trim()}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-goa-pink hover:bg-goa-pink/90 text-white font-mono text-xs font-bold shadow-lg shadow-goa-pink/30 disabled:opacity-40 transition-all"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#EE2A6D] hover:bg-[#f43f5e] text-white font-mono text-xs font-bold transition-all duration-150 active:scale-95 disabled:opacity-30 disabled:pointer-events-none shadow-md shadow-[#EE2A6D]/30"
             >
-              <span>Submit Question</span>
+              <span>Submit</span>
               <Send className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -113,3 +131,5 @@ export const TextQueryModal: React.FC<TextQueryModalProps> = ({
     </div>
   );
 };
+
+export default TextQueryModal;

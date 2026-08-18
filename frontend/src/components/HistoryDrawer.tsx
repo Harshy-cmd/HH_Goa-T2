@@ -36,42 +36,70 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
 
   if (!isOpen) return null;
 
+  const formatTimestamp = (date: Date) => {
+    try {
+      const now = new Date();
+      const isToday =
+        date.getDate() === now.getDate() &&
+        date.getMonth() === now.getMonth() &&
+        date.getFullYear() === now.getFullYear();
+
+      const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return isToday ? `Today · ${timeStr}` : `${date.toLocaleDateString([], { month: 'short', day: 'numeric' })} · ${timeStr}`;
+    } catch {
+      return 'Recent';
+    }
+  };
+
   return (
     <div
       role="dialog"
       aria-modal="true"
       aria-labelledby="history-drawer-title"
-      className="fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-sm transition-opacity"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+      className="fixed inset-0 z-40 flex justify-end bg-black/60 backdrop-blur-sm lg:left-60 transition-opacity animate-fade-in"
     >
-      <div className="w-full max-w-md bg-goa-forest-deep text-goa-cream h-full p-6 sm:p-8 overflow-y-auto border-l border-goa-line/30 shadow-2xl flex flex-col justify-between">
+      <div className="w-full max-w-md bg-[#0A2E22]/95 text-[#F4EDD8] h-full p-6 sm:p-8 overflow-y-auto border-l border-white/[0.08] shadow-2xl flex flex-col justify-between backdrop-blur-xl">
         <div>
-          <div className="flex items-center justify-between pb-4 border-b border-goa-line/20 mb-6">
-            <div className="flex items-center gap-2">
-              <History className="w-5 h-5 text-goa-yellow" />
-              <h2 id="history-drawer-title" className="text-lg font-bold font-serif tracking-wide">
-                Session History
-              </h2>
+          {/* Header */}
+          <div className="flex items-center justify-between pb-4 border-b border-white/[0.08] mb-6">
+            <div className="flex items-center gap-2.5">
+              <History className="w-5 h-5 text-[#F5C518]" />
+              <div>
+                <h2 id="history-drawer-title" className="text-lg font-bold font-serif tracking-wide text-[#F4EDD8]">
+                  Session History
+                </h2>
+                <p className="text-[10px] font-mono tracking-wider text-[#F4EDD8]/50 uppercase">
+                  Your conversations with NOVARON
+                </p>
+              </div>
             </div>
             <button
               onClick={onClose}
               aria-label="Close History"
-              className="p-1.5 rounded-full hover:bg-goa-cream/10 text-goa-cream/70"
+              className="p-1.5 rounded-full hover:bg-white/[0.08] text-[#F4EDD8]/60 hover:text-[#F4EDD8] transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
           </div>
 
+          {/* Conversation List */}
           {history.length === 0 ? (
-            <div className="text-center py-16 text-goa-cream/50 font-mono text-xs">
-              <History className="w-10 h-10 mx-auto mb-3 opacity-30" />
-              <p>No questions asked in this session yet.</p>
+            <div className="text-center py-20 px-4 text-[#F4EDD8]/50 font-mono text-xs space-y-2.5">
+              <History className="w-9 h-9 mx-auto opacity-30 text-[#F5C518] mb-2" />
+              <p className="font-semibold text-sm text-[#F4EDD8]/80">No conversations yet</p>
+              <p className="text-[11px] text-[#F4EDD8]/45 font-sans leading-relaxed max-w-xs mx-auto">
+                Your recent voice sessions will appear here.
+              </p>
             </div>
           ) : (
             <div className="space-y-3">
               {history.map((item) => {
-                const totalMs = item.data.latency_ms?.total || item.data.latency_ms?.rag_total || 0;
-                const latencyFormatted = `${Math.round(totalMs)}ms`;
-                const sourcesCount = item.data.sources?.length || 0;
+                const isRefused = item.data.refused;
 
                 return (
                   <div
@@ -80,36 +108,36 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
                       onSelectHistory(item);
                       onClose();
                     }}
-                    className="p-3.5 rounded-2xl bg-goa-forest border border-goa-line/30 hover:border-goa-yellow/50 cursor-pointer transition-all hover:scale-[1.01] group"
+                    className="relative p-4 rounded-2xl bg-white/[0.03] border border-white/[0.07] hover:border-white/[0.15] hover:bg-white/[0.055] cursor-pointer transition-all duration-150 group shadow-sm overflow-hidden"
                   >
-                    <div className="flex items-center justify-between text-[10px] font-mono mb-1.5">
-                      <span className="text-goa-cream/50">
-                        {item.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      </span>
-                      <div className="flex items-center gap-1.5">
-                        {item.data.refused ? (
-                          <span className="flex items-center gap-1 text-goa-pink font-semibold">
-                            <ShieldAlert className="w-3 h-3" />
-                            <span>REFUSED</span>
-                          </span>
-                        ) : (
-                          <span className="flex items-center gap-1 text-emerald-400 font-semibold">
-                            <CheckCircle2 className="w-3 h-3" />
-                            <span>GROUNDED ({sourcesCount})</span>
-                          </span>
-                        )}
-                        <span className="text-goa-yellow font-bold">· {latencyFormatted}</span>
-                      </div>
-                    </div>
-                    <h4 className="text-sm font-semibold text-goa-cream group-hover:text-goa-yellow transition-colors line-clamp-1">
+                    {/* Subtle Pink Left Hover Accent */}
+                    <span
+                      className="absolute left-0 top-3 bottom-3 w-[2.5px] bg-[#EE2A6D] rounded-r opacity-0 group-hover:opacity-100 transition-opacity duration-150"
+                      aria-hidden="true"
+                    />
+
+                    {/* Question Title (Primary, max 2 lines) */}
+                    <h4 className="text-sm font-medium text-[#F4EDD8] group-hover:text-[#F5C518] transition-colors line-clamp-2 leading-snug mb-2">
                       "{item.query}"
                     </h4>
-                    <p className="text-xs text-goa-cream/70 font-sans line-clamp-2 mt-1">
-                      {item.data.answer}
-                    </p>
-                    <div className="flex items-center justify-end text-[10px] font-mono text-goa-yellow font-bold mt-2 gap-1">
-                      <span>Re-inspect</span>
-                      <ArrowRight className="w-3 h-3" />
+
+                    {/* Bottom Secondary Metadata Row */}
+                    <div className="flex items-center justify-between text-[11px] font-mono text-[#F4EDD8]/50 pt-1 border-t border-white/[0.04]">
+                      <span>{formatTimestamp(item.timestamp)}</span>
+                      <div className="flex items-center gap-2">
+                        {isRefused ? (
+                          <span className="flex items-center gap-1 text-[#EE2A6D] text-[10px] font-medium">
+                            <ShieldAlert className="w-3 h-3" />
+                            <span>Refusal</span>
+                          </span>
+                        ) : (
+                          <span className="flex items-center gap-1 text-emerald-400 text-[10px] font-medium">
+                            <CheckCircle2 className="w-3 h-3" />
+                            <span>Grounded</span>
+                          </span>
+                        )}
+                        <ArrowRight className="w-3 h-3 text-[#F5C518]/60 group-hover:text-[#F5C518] group-hover:translate-x-0.5 transition-transform" />
+                      </div>
                     </div>
                   </div>
                 );
@@ -118,17 +146,18 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
           )}
         </div>
 
+        {/* Quiet Clear History Footer */}
         {history.length > 0 && (
-          <div className="pt-4 border-t border-goa-line/20 flex justify-between items-center">
+          <div className="pt-4 border-t border-white/[0.06] flex justify-between items-center mt-6">
             <button
               onClick={onClearHistory}
-              className="flex items-center gap-1.5 text-xs font-mono text-goa-pink hover:text-white px-3 py-1.5 rounded-full hover:bg-rose-900/50 transition-colors"
+              className="flex items-center gap-1.5 text-xs font-mono text-[#EE2A6D]/80 hover:text-white px-3 py-1.5 rounded-full hover:bg-rose-950/70 border border-[#EE2A6D]/25 transition-colors"
             >
               <Trash2 className="w-3.5 h-3.5" />
               <span>Clear History</span>
             </button>
-            <span className="text-[11px] font-mono text-goa-cream/40">
-              {history.length} items recorded
+            <span className="text-[11px] font-mono text-[#F4EDD8]/40">
+              {history.length} {history.length === 1 ? 'item' : 'items'} saved
             </span>
           </div>
         )}
@@ -136,3 +165,5 @@ export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({
     </div>
   );
 };
+
+export default HistoryDrawer;

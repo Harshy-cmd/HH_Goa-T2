@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Volume2, VolumeX, CheckCircle, Database, Zap, ChevronDown, ChevronUp, Copy, Check, Share2, Play, Pause } from 'lucide-react';
+import { Volume2, Pause, Copy, Check, Share2, Database, Zap, ChevronDown, ChevronUp, CheckCircle2 } from 'lucide-react';
 import { QueryResponse, VoiceQueryResponse } from '../types';
 
 interface AnswerCardProps {
@@ -33,103 +33,162 @@ export const AnswerCard: React.FC<AnswerCardProps> = ({
     ? `${Math.round(latency.total)}ms`
     : `${Math.round(latency.rag_total || 0)}ms`;
 
+  const renderInlineCitations = (content: string) => {
+    const parts = content.split(/(\[\d+\])/g);
+    return parts.map((part, index) => {
+      const match = part.match(/^\[(\d+)\]$/);
+      if (match) {
+        return (
+          <span
+            key={index}
+            className="inline-flex items-center justify-center font-mono text-[10px] font-bold text-[#F5C518] bg-[#F5C518]/15 border border-[#F5C518]/25 rounded px-1.5 py-0.5 mx-0.5 align-baseline"
+          >
+            {match[1]}
+          </span>
+        );
+      }
+      return part;
+    });
+  };
+
+  const renderParagraph = (block: string, pIdx: number) => {
+    const lines = block.split('\n').map((l) => l.trim()).filter(Boolean);
+    const isListBlock = lines.some((l) => l.startsWith('- ') || l.startsWith('* ') || l.startsWith('• ') || /^\d+\.\s+/.test(l));
+
+    if (isListBlock) {
+      return (
+        <ul key={pIdx} className="space-y-1.5 my-2">
+          {lines.map((line, lIdx) => {
+            const numberedMatch = line.match(/^(\d+)\.\s+(.*)/);
+            if (numberedMatch) {
+              return (
+                <li key={lIdx} className="flex items-start gap-2.5 ml-1">
+                  <span className="font-mono text-xs font-bold text-[#F5C518] mt-0.5 shrink-0">
+                    {numberedMatch[1]}.
+                  </span>
+                  <span className="leading-relaxed">{renderInlineCitations(numberedMatch[2])}</span>
+                </li>
+              );
+            }
+
+            const bulletMatch = line.match(/^[-*•]\s+(.*)/);
+            if (bulletMatch) {
+              return (
+                <li key={lIdx} className="flex items-start gap-2.5 ml-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#F5C518]/80 mt-2 shrink-0" />
+                  <span className="leading-relaxed">{renderInlineCitations(bulletMatch[1])}</span>
+                </li>
+              );
+            }
+
+            return (
+              <li key={lIdx} className="leading-relaxed">
+                {renderInlineCitations(line)}
+              </li>
+            );
+          })}
+        </ul>
+      );
+    }
+
+    return (
+      <p key={pIdx} className="leading-relaxed">
+        {renderInlineCitations(block)}
+      </p>
+    );
+  };
+
   return (
-    <div className="w-full max-w-2xl mx-auto my-2 transition-all duration-500 animate-fade-in">
-      <div className="bg-goa-forest-deep/95 border border-goa-line/30 rounded-3xl p-5 sm:p-7 shadow-2xl backdrop-blur-xl relative">
-        {/* User Query Transcript (if from Voice) */}
+    <article className="w-full max-w-2xl mx-auto my-2 animate-fade-in">
+      <div className="bg-[#0A2E22]/90 border border-white/[0.08] rounded-3xl p-6 sm:p-8 shadow-2xl backdrop-blur-xl relative overflow-hidden transition-all duration-300">
+        
+        {/* Ambient Subtle Accent Glow */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-[#F5C518]/5 via-transparent to-transparent rounded-full blur-3xl pointer-events-none" />
+
+        {/* User Query Header (if from Voice/Text) */}
         {queryText && (
-          <div className="mb-4 pb-3 border-b border-goa-line/20">
-            <span className="text-[10px] uppercase font-mono tracking-widest text-goa-yellow font-semibold">
-              Voice Transcript
-            </span>
-            <p className="text-base sm:text-lg font-medium text-goa-cream italic mt-0.5">
+          <div className="mb-4 pb-3 border-b border-white/[0.06]">
+            <p className="text-xs font-mono tracking-wider text-[#F4EDD8]/50 uppercase mb-1">
+              Question
+            </p>
+            <p className="text-base sm:text-lg font-medium text-[#F4EDD8] font-sans">
               "{queryText}"
             </p>
           </div>
         )}
 
-        {/* Top Metadata Header Row */}
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-4 pb-3 border-b border-goa-line/20">
-          {/* Left: Badge based on Query Type */}
-          {data.query_type === 'conversational' ? (
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-sky-950/80 border border-sky-500/50 text-sky-300">
-              <CheckCircle className="w-3.5 h-3.5 text-sky-400" />
-              <span>CONVERSATIONAL</span>
-            </div>
-          ) : data.query_type === 'system' ? (
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-amber-950/80 border border-goa-yellow/50 text-goa-yellow">
-              <CheckCircle className="w-3.5 h-3.5 text-goa-yellow" />
-              <span>NOVARON SYSTEM</span>
-            </div>
-          ) : (
-            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-semibold bg-emerald-950/80 border border-emerald-500/50 text-emerald-300">
-              <CheckCircle className="w-3.5 h-3.5 text-emerald-400" />
-              <span>GROUNDED</span>
-            </div>
-          )}
+        {/* Status Bar: Grounding & Sources Badge */}
+        <div className="flex flex-wrap items-center justify-between gap-2.5 mb-5 pb-3 border-b border-white/[0.06]">
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium bg-emerald-950/60 border border-emerald-500/30 text-emerald-300 shadow-sm">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Grounded Knowledge</span>
+            </span>
 
-          {/* Right: Sources Count & Latency */}
-          <div className="flex items-center gap-2 font-mono text-xs">
-            {sources.length > 0 ? (
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-goa-cream/10 border border-goa-line/40 text-goa-cream font-semibold">
-                <Database className="w-3.5 h-3.5 text-goa-yellow" />
-                <span>{sources.length} SOURCES</span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-goa-cream/10 border border-goa-line/40 text-goa-cream/80 font-semibold">
-                <span>DIRECT ASSISTANT</span>
-              </div>
+            {sources.length > 0 && (
+              <button
+                onClick={() => setSourcesExpanded(!sourcesExpanded)}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-medium bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] text-[#F4EDD8]/80 hover:text-[#F4EDD8] transition-all"
+              >
+                <Database className="w-3.5 h-3.5 text-[#F5C518]" />
+                <span>{sources.length} {sources.length === 1 ? 'Source' : 'Sources'}</span>
+                {sourcesExpanded ? <ChevronUp className="w-3 h-3 text-[#F4EDD8]/60" /> : <ChevronDown className="w-3 h-3 text-[#F4EDD8]/60" />}
+              </button>
             )}
-
-            <button
-              onClick={() => setLatencyExpanded(!latencyExpanded)}
-              className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-goa-yellow/15 hover:bg-goa-yellow/25 border border-goa-yellow/40 text-goa-yellow font-bold transition-colors"
-            >
-              <Zap className="w-3.5 h-3.5 text-goa-yellow" />
-              <span>{totalLatencyFormatted}</span>
-              {latencyExpanded ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-            </button>
           </div>
+
+          {/* Latency Tag */}
+          <button
+            onClick={() => setLatencyExpanded(!latencyExpanded)}
+            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-mono text-[#F5C518]/90 hover:text-[#F5C518] bg-[#F5C518]/10 hover:bg-[#F5C518]/20 border border-[#F5C518]/25 transition-colors"
+            title="Toggle latency breakdown"
+          >
+            <Zap className="w-3 h-3 text-[#F5C518]" />
+            <span>{totalLatencyFormatted}</span>
+          </button>
         </div>
 
-        {/* Grounded Answer Text */}
-        <div className="text-goa-cream text-base sm:text-lg leading-relaxed font-normal mb-6 space-y-3 font-sans">
-          <p>{data.answer}</p>
+        {/* Primary Answer Prose with Clear Paragraphs, Lists & Citation Badges */}
+        <div className="text-[#F4EDD8] text-base sm:text-lg leading-relaxed font-normal mb-6 font-sans space-y-3.5 selection:bg-[#EE2A6D]/30 selection:text-white">
+          {data.answer.split('\n\n').map((paragraph, idx) => renderParagraph(paragraph, idx))}
         </div>
 
-        {/* Audio Player Strip (Matching Reference Image) */}
-        <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl bg-goa-forest/90 border border-goa-line/30 mb-4">
-          {/* Yellow Player Pill */}
+        {/* Minimal Audio & Action Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl bg-white/[0.03] border border-white/[0.06] mb-2">
+          {/* Voice Response Trigger */}
           <button
             onClick={onToggleAudio}
-            className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-goa-yellow text-goa-forest font-mono text-xs font-bold shadow-md shadow-goa-yellow/20 hover:scale-105 active:scale-95 transition-all"
+            className={`flex items-center gap-2.5 px-4 py-2 rounded-full font-mono text-xs font-semibold transition-all duration-200 active:scale-95 shadow-sm ${
+              isPlaying
+                ? 'bg-[#EE2A6D] text-white shadow-md shadow-[#EE2A6D]/30'
+                : 'bg-[#F4EDD8] text-[#0A2E22] hover:bg-white'
+            }`}
+            title={isPlaying ? 'Pause Voice Response' : 'Play Voice Response'}
           >
-            {isPlaying ? <Pause className="w-4 h-4 fill-current" /> : <Volume2 className="w-4 h-4 fill-current" />}
-            <span>{isPlaying ? 'Playing response...' : 'Play voice response'}</span>
-
-            {/* Mini Equalizer animation while playing */}
-            {isPlaying && (
-              <div className="flex items-center gap-0.5 ml-1">
-                <span className="w-0.5 h-3 bg-goa-forest animate-pulse" />
-                <span className="w-0.5 h-4 bg-goa-forest animate-bounce" />
-                <span className="w-0.5 h-2 bg-goa-forest animate-pulse" />
-              </div>
+            {isPlaying ? (
+              <>
+                <Pause className="w-3.5 h-3.5 fill-current" />
+                <span>Speaking...</span>
+                <span className="flex items-center gap-0.5 ml-1">
+                  <span className="w-0.5 h-2.5 bg-white animate-pulse" />
+                  <span className="w-0.5 h-3.5 bg-white animate-bounce" />
+                  <span className="w-0.5 h-2 bg-white animate-pulse" />
+                </span>
+              </>
+            ) : (
+              <>
+                <Volume2 className="w-3.5 h-3.5 fill-current" />
+                <span>Listen to answer</span>
+              </>
             )}
           </button>
 
-          {/* Secondary Controls (Pause, Copy, Share) */}
-          <div className="flex items-center gap-3 font-mono text-xs text-goa-cream/80">
-            <button
-              onClick={onToggleAudio}
-              className="flex items-center gap-1 hover:text-goa-cream transition-colors"
-            >
-              {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-              <span>{isPlaying ? 'Pause' : 'Play'}</span>
-            </button>
-
+          {/* Secondary Actions (Copy & Share) */}
+          <div className="flex items-center gap-2 text-xs font-mono text-[#F4EDD8]/70">
             <button
               onClick={handleCopy}
-              className="flex items-center gap-1 hover:text-goa-cream transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-white/[0.06] hover:text-[#F4EDD8] transition-colors"
+              title="Copy answer text"
             >
               {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
               <span>{copied ? 'Copied' : 'Copy'}</span>
@@ -138,7 +197,8 @@ export const AnswerCard: React.FC<AnswerCardProps> = ({
             {onShare && (
               <button
                 onClick={onShare}
-                className="flex items-center gap-1 hover:text-goa-pink text-goa-pink/90 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-white/[0.06] hover:text-[#EE2A6D] transition-colors"
+                title="Share answer"
               >
                 <Share2 className="w-3.5 h-3.5" />
                 <span>Share</span>
@@ -147,101 +207,78 @@ export const AnswerCard: React.FC<AnswerCardProps> = ({
           </div>
         </div>
 
-        {/* Expandable Sources Strip (when sources exist) */}
-        {sources.length > 0 && (
-          <div className="border-t border-goa-line/20 pt-3">
-            <button
-              onClick={() => setSourcesExpanded(!sourcesExpanded)}
-              className="w-full flex items-center justify-between py-1 text-xs font-mono font-semibold text-goa-cream/80 hover:text-goa-cream transition-colors"
-            >
-              <div className="flex items-center gap-2">
-                <Database className="w-3.5 h-3.5 text-goa-yellow" />
-                <span className="uppercase tracking-wider">SOURCES ({sources.length})</span>
+        {/* Expandable Grounding Sources Section */}
+        {sources.length > 0 && sourcesExpanded && (
+          <div className="mt-4 pt-4 border-t border-white/[0.06] space-y-2.5 max-h-64 overflow-y-auto pr-1 animate-fade-in">
+            <div className="text-[11px] font-mono uppercase tracking-wider text-[#F4EDD8]/50 mb-2">
+              Verified Knowledge Sources
+            </div>
+            {sources.map((src, i) => (
+              <div
+                key={src.chunk_id || i}
+                className="p-3.5 rounded-2xl bg-white/[0.025] border border-white/[0.06] text-xs font-mono hover:border-white/[0.12] transition-colors"
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <span className="font-semibold text-[#F4EDD8] truncate max-w-[240px] sm:max-w-md">
+                    {String(i + 1).padStart(2, '0')}. {src.title || src.document_id || 'Knowledge Base Entry'}
+                  </span>
+                  <span className="text-[#F5C518] text-[11px] font-medium px-2 py-0.5 rounded-md bg-[#F5C518]/10 border border-[#F5C518]/20">
+                    Relevance: {(src.relevance_score).toFixed(2)}
+                  </span>
+                </div>
+                <p className="text-[#F4EDD8]/75 font-sans text-xs line-clamp-2 leading-relaxed italic">
+                  "{src.text}"
+                </p>
               </div>
-              {sourcesExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-            </button>
-
-            {sourcesExpanded && (
-              <div className="mt-3 space-y-2 max-h-60 overflow-y-auto pr-1">
-                {sources.map((src, i) => (
-                  <div
-                    key={src.chunk_id || i}
-                    className="p-3 rounded-2xl bg-goa-forest/80 border border-goa-line/30 text-xs font-mono"
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="font-bold text-goa-cream">
-                        {String(i + 1).padStart(2, '0')} {src.document_id || 'Corpus Document'}
-                      </span>
-                      <span className="text-goa-yellow font-bold text-[11px]">
-                        {(src.relevance_score).toFixed(2)}
-                      </span>
-                    </div>
-                    <div className="text-[10px] text-goa-cream/60 mb-2 truncate">
-                      Chunk ID: {src.chunk_id}
-                    </div>
-
-                    {/* Horizontal Relevance Bar */}
-                    <div className="w-full h-1.5 bg-goa-forest-deep rounded-full overflow-hidden mb-2">
-                      <div
-                        style={{ width: `${Math.min(100, Math.max(10, src.relevance_score * 100))}%` }}
-                        className="h-full bg-emerald-400 rounded-full"
-                      />
-                    </div>
-
-                    <p className="text-goa-cream/80 font-sans text-xs line-clamp-3 leading-relaxed">
-                      "{src.text}"
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )}
+            ))}
           </div>
         )}
 
         {/* Expandable Detailed Latency Breakdown */}
         {latencyExpanded && (
-          <div className="mt-4 pt-4 border-t border-dashed border-goa-line/30 bg-goa-forest/80 -mx-5 sm:-mx-7 -mb-5 sm:-mb-7 p-5 rounded-b-3xl">
-            <div className="flex items-center justify-between mb-2 font-mono">
-              <span className="text-[11px] uppercase tracking-widest text-goa-yellow font-bold">
-                LATENCY {totalLatencyFormatted}
-              </span>
-              <span className="text-[10px] text-goa-cream/60 uppercase">DETAILS</span>
+          <div className="mt-4 pt-4 border-t border-white/[0.06] bg-white/[0.015] -mx-6 sm:-mx-8 -mb-6 sm:-mb-8 p-6 rounded-b-3xl animate-fade-in font-mono text-xs">
+            <div className="flex items-center justify-between mb-2.5 text-[#F4EDD8]/60 text-[10px] uppercase tracking-wider">
+              <span>Pipeline Stage Breakdown</span>
+              <span className="text-[#F5C518] font-bold">Total: {totalLatencyFormatted}</span>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs font-mono">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
               {latency.stt !== undefined && (
-                <div className="p-2 rounded-xl bg-goa-forest-deep border border-goa-line/20">
-                  <div className="text-goa-cream/60 text-[10px]">STT</div>
-                  <div className="text-goa-cream font-bold">{Math.round(latency.stt)}ms</div>
+                <div className="p-2 rounded-xl bg-[#0F3D2E]/50 border border-white/[0.06]">
+                  <div className="text-[#F4EDD8]/50 text-[9px] uppercase">STT Whisper</div>
+                  <div className="text-[#F4EDD8] font-bold mt-0.5">{Math.round(latency.stt)}ms</div>
                 </div>
               )}
               {latency.retrieval !== undefined && (
-                <div className="p-2 rounded-xl bg-goa-forest-deep border border-goa-line/20">
-                  <div className="text-goa-cream/60 text-[10px]">RETRIEVAL</div>
-                  <div className="text-goa-cream font-bold">{Math.round(latency.retrieval)}ms</div>
+                <div className="p-2 rounded-xl bg-[#0F3D2E]/50 border border-white/[0.06]">
+                  <div className="text-[#F4EDD8]/50 text-[9px] uppercase">FAISS Dense</div>
+                  <div className="text-[#F4EDD8] font-bold mt-0.5">{Math.round(latency.retrieval)}ms</div>
                 </div>
               )}
               {latency.reranking !== undefined && (
-                <div className="p-2 rounded-xl bg-goa-forest-deep border border-goa-line/20">
-                  <div className="text-goa-cream/60 text-[10px]">RERANK</div>
-                  <div className="text-goa-cream font-bold">{Math.round(latency.reranking)}ms</div>
+                <div className="p-2 rounded-xl bg-[#0F3D2E]/50 border border-white/[0.06]">
+                  <div className="text-[#F4EDD8]/50 text-[9px] uppercase">Reranking</div>
+                  <div className="text-[#F4EDD8] font-bold mt-0.5">{Math.round(latency.reranking)}ms</div>
                 </div>
               )}
               {latency.generation !== undefined && (
-                <div className="p-2 rounded-xl bg-goa-forest-deep border border-goa-line/20">
-                  <div className="text-goa-cream/60 text-[10px]">LLM</div>
-                  <div className="text-goa-cream font-bold">{Math.round(latency.generation)}ms</div>
+                <div className="p-2 rounded-xl bg-[#0F3D2E]/50 border border-white/[0.06]">
+                  <div className="text-[#F4EDD8]/50 text-[9px] uppercase">LLM Answer</div>
+                  <div className="text-[#F4EDD8] font-bold mt-0.5">{Math.round(latency.generation)}ms</div>
                 </div>
               )}
               {latency.tts !== undefined && (
-                <div className="p-2 rounded-xl bg-goa-forest-deep border border-goa-line/20">
-                  <div className="text-goa-cream/60 text-[10px]">TTS</div>
-                  <div className="text-goa-cream font-bold">{Math.round(latency.tts)}ms</div>
+                <div className="p-2 rounded-xl bg-[#0F3D2E]/50 border border-white/[0.06]">
+                  <div className="text-[#F4EDD8]/50 text-[9px] uppercase">EdgeTTS</div>
+                  <div className="text-[#F4EDD8] font-bold mt-0.5">{Math.round(latency.tts)}ms</div>
                 </div>
               )}
             </div>
           </div>
         )}
+
       </div>
-    </div>
+    </article>
   );
 };
+
+export default AnswerCard;

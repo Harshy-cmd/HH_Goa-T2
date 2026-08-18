@@ -1,98 +1,93 @@
 import React from 'react';
-import { Settings as SettingsIcon } from 'lucide-react';
+import { Settings as SettingsIcon, Sparkles, Menu } from 'lucide-react';
 import { Settings } from '../types';
 
 interface HeaderProps {
   isOnline: boolean;
   onOpenSettings: () => void;
+  onOpenMenu?: () => void;
   settings: Settings;
   onUpdateSettings: (newSettings: Partial<Settings>) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
-  isOnline,
   onOpenSettings,
+  onOpenMenu,
   settings,
   onUpdateSettings,
 }) => {
   return (
-    <header className="w-full flex items-center justify-between px-4 sm:px-8 py-3.5 border-b border-goa-line/30 bg-goa-forest-deep/60 backdrop-blur-md sticky top-0 z-30 select-none">
-      {/* Brand (Visible on mobile/tablet) */}
-      <div className="flex items-center gap-3 lg:invisible">
-        <div className="w-8 h-8 rounded-full bg-goa-cream flex items-center justify-center shadow-md">
-          {/* Flower / Sun Geometric Icon */}
-          <svg viewBox="0 0 24 24" className="w-5 h-5 text-goa-forest fill-current">
-            <circle cx="12" cy="12" r="4" />
-            <path d="M12 2C13.1 2 14 3.9 14 6C14 8.1 13.1 10 12 10C10.9 10 10 8.1 10 6C10 3.9 10.9 2 12 2Z" />
-            <path d="M12 14C13.1 14 14 15.9 14 18C14 20.1 13.1 22 12 22C10.9 22 10 20.1 10 18C10 15.9 10.9 14 12 14Z" />
-            <path d="M22 12C22 13.1 20.1 14 18 14C15.9 14 14 13.1 14 12C14 10.9 15.9 10 18 10C20.1 10 22 10.9 22 12Z" />
-            <path d="M10 12C10 13.1 8.1 14 6 14C3.9 14 2 13.1 2 12C2 10.9 3.9 10 6 10C8.1 10 10 10.9 10 12Z" />
-          </svg>
+    <header className="w-full flex items-center justify-between px-4 sm:px-8 py-3 border-b border-white/[0.05] bg-[#0A2E22]/30 backdrop-blur-md sticky top-0 z-30 select-none">
+      {/* Mobile Brand Identity & Menu Toggle (Visible on mobile/tablet when sidebar is hidden) */}
+      <div className="flex items-center gap-2 lg:invisible">
+        <button
+          onClick={onOpenMenu}
+          className="w-8 h-8 rounded-xl flex items-center justify-center text-[#F4EDD8]/80 hover:text-[#F4EDD8] bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] transition-colors active:scale-95 lg:hidden focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#F5C518]"
+          title="Open navigation menu"
+          aria-label="Open navigation menu"
+        >
+          <Menu className="w-4 h-4" />
+        </button>
+
+        <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#0F3D2E] to-[#0A2E22] border border-white/[0.12] flex items-center justify-center shadow-sm ml-1">
+          <Sparkles className="w-3.5 h-3.5 text-[#F5C518]" />
         </div>
-        <div>
-          <h1 className="text-sm font-bold tracking-wider text-goa-cream">
-            NOVARON
-          </h1>
-          <p className="text-[9px] font-mono tracking-widest text-goa-cream/60 uppercase">
-            VOICE RAG · HH GOA 2026
-          </p>
-        </div>
+        <span className="text-xs font-bold tracking-[0.14em] text-[#F4EDD8] font-sans">
+          NOVARON
+        </span>
       </div>
 
-      {/* Right Controls: RAG ONLINE, EN | HI toggle, Settings */}
-      <div className="flex items-center gap-3 ml-auto">
-        {/* Status Pill */}
+      {/* Right Utility Group: Language Selector (EN | HI) & Settings Gear */}
+      <div className="flex items-center gap-2.5 sm:gap-3 ml-auto">
+        {/* Unified Segmented Language Control */}
         <div
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono border transition-all ${
-            isOnline
-              ? 'bg-emerald-950/70 border-emerald-500/40 text-emerald-300 shadow-sm'
-              : 'bg-rose-950/70 border-rose-500/40 text-rose-300'
-          }`}
+          className="flex items-center rounded-full bg-white/[0.04] border border-white/[0.08] p-0.5 text-xs font-mono shadow-sm"
+          role="radiogroup"
+          aria-label="Interface Language"
         >
-          <span
-            className={`w-2 h-2 rounded-full ${
-              isOnline ? 'bg-emerald-400 animate-pulse shadow-sm shadow-emerald-400' : 'bg-rose-400'
-            }`}
-          />
-          <span className="font-semibold text-[11px] tracking-wide">
-            {isOnline ? '● RAG ONLINE' : '○ RAG OFFLINE'}
-          </span>
-        </div>
-
-        {/* Language Segmented Toggle (EN | HI) */}
-        <div className="flex items-center rounded-full bg-goa-forest-deep border border-goa-line/40 p-0.5 text-xs font-mono">
           <button
             onClick={() => onUpdateSettings({ language: 'en' })}
-            className={`px-2.5 py-1 rounded-full transition-all ${
+            role="radio"
+            aria-checked={settings.language === 'en'}
+            className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-mono font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#F5C518]/60 ${
               settings.language === 'en'
-                ? 'bg-goa-cream text-goa-forest font-bold shadow-sm'
-                : 'text-goa-cream/70 hover:text-goa-cream'
+                ? 'bg-[#F4EDD8] text-[#0A2E22] font-bold shadow-sm'
+                : 'text-[#F4EDD8]/60 hover:text-[#F4EDD8] hover:bg-white/[0.03]'
             }`}
+            title="English"
           >
             EN
           </button>
-          <span className="text-goa-line/50 text-[10px] px-0.5">|</span>
+
+          <span className="w-px h-3 bg-white/[0.08] mx-0.5" aria-hidden="true" />
+
           <button
             onClick={() => onUpdateSettings({ language: 'hi' })}
-            className={`px-2.5 py-1 rounded-full transition-all ${
+            role="radio"
+            aria-checked={settings.language === 'hi'}
+            className={`px-2.5 sm:px-3 py-1 rounded-full text-xs font-mono font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#F5C518]/60 ${
               settings.language === 'hi'
-                ? 'bg-goa-cream text-goa-forest font-bold shadow-sm'
-                : 'text-goa-cream/70 hover:text-goa-cream'
+                ? 'bg-[#F4EDD8] text-[#0A2E22] font-bold shadow-sm'
+                : 'text-[#F4EDD8]/60 hover:text-[#F4EDD8] hover:bg-white/[0.03]'
             }`}
+            title="Hindi"
           >
             HI
           </button>
         </div>
 
-        {/* Settings Gear Button */}
+        {/* Unified Settings Gear Button */}
         <button
           onClick={onOpenSettings}
-          className="p-2 rounded-full text-goa-cream/80 hover:text-goa-cream hover:bg-goa-cream/10 transition-colors border border-goa-line/30"
-          title="Settings"
+          className="w-8 h-8 rounded-full flex items-center justify-center text-[#F4EDD8]/70 hover:text-[#F4EDD8] bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/[0.16] transition-all duration-150 shadow-sm active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F5C518]/60"
+          title="System Settings"
+          aria-label="System Settings"
         >
-          <SettingsIcon className="w-4 h-4 text-goa-cream/70 hover:text-goa-cream" />
+          <SettingsIcon className="w-4 h-4 text-[#F4EDD8]/70 group-hover:text-[#F4EDD8]" />
         </button>
       </div>
     </header>
   );
 };
+
+export default Header;
