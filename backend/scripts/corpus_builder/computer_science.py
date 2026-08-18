@@ -1,199 +1,160 @@
 """Computer Science Domain Knowledge Generator.
-Comprehensive coverage of Programming, Data Structures, Algorithms, OOP, Databases, OS, Networking, Web Dev.
+Comprehensive, in-depth coverage across all major areas of Computer Science.
 """
 from __future__ import annotations
 
 def get_computer_science_documents() -> list[dict]:
-    docs = []
-    
-    # 1. Programming Languages
-    lang_data = [
+    data = [
+        # --- 1. PROGRAMMING LANGUAGES ---
         ("tech-lang-python", "Python Programming Language", "programming",
          "Python is a high-level, interpreted, dynamically-typed programming language created by Guido van Rossum. It emphasizes code readability with significant whitespace indentation. Python features a comprehensive standard library and extensive third-party package ecosystem (PyPI) widely used in data science, artificial intelligence, web development, and automation."),
+        ("tech-lang-python-internals", "Python Internals: GIL, Memory Management, and Bytecode", "programming",
+         "Python (CPython) compiles source code into intermediate bytecode executed on a stack-based virtual machine. CPython utilizes reference counting combined with a cyclic garbage collector to reclaim memory. The Global Interpreter Lock (GIL) is a mutex that prevents multiple native threads from executing Python bytecode simultaneously, ensuring thread-safe C extension memory access but requiring multiprocessing or asyncio for CPU/IO parallelism."),
         ("tech-lang-c", "The C Programming Language", "programming",
          "C is a foundational procedural, statically-typed compiled language developed by Dennis Ritchie at Bell Labs. C provides low-level memory access via pointers, direct mapping to hardware machine instructions, and minimal runtime overhead, making it standard for operating systems, device drivers, and embedded systems."),
+        ("tech-lang-c-pointers", "Pointers and Memory Management in C", "programming",
+         "Pointers in C are variables that store physical or virtual memory addresses of other variables. Dynamic memory allocation is managed manually using malloc, calloc, realloc, and free on the heap. Pointer arithmetic allows traversing contiguous memory blocks, while improper handling can cause undefined behavior, dangling pointers, double frees, or memory leaks."),
         ("tech-lang-cpp", "C++ Programming Language", "programming",
          "C++ is a general-purpose compiled programming language designed by Bjarne Stroustrup as an extension of C. It supports object-oriented, generic, and functional programming paradigms with zero-cost abstractions, RAII (Resource Acquisition Is Initialization), smart pointers, and the Standard Template Library (STL)."),
-        ("tech-lang-java", "Java Programming Language", "programming",
-         "Java is a class-based, object-oriented programming language designed by James Gosling at Sun Microsystems. Java follows the 'Write Once, Run Anywhere' (WORA) philosophy by compiling source code into bytecode executed on the Java Virtual Machine (JVM) with automated garbage collection."),
-        ("tech-lang-javascript", "JavaScript Programming Language", "programming",
-         "JavaScript is a high-level, interpreted or JIT-compiled programming language that conforms to the ECMAScript specification. As the core scripting language of the World Wide Web alongside HTML and CSS, JavaScript features first-class functions, prototype-based inheritance, dynamic typing, and event-driven asynchronous execution via the event loop."),
-        ("tech-lang-typescript", "TypeScript Programming Language", "programming",
-         "TypeScript is an open-source, strongly-typed superset of JavaScript developed by Microsoft. It adds static type definitions, compile-time type checking, interfaces, and generics to JavaScript, compiling down to standard JavaScript runnable in any browser or Node.js environment."),
-        ("tech-lang-rust", "Rust Programming Language", "programming",
-         "Rust is a modern systems programming language focused on memory safety, concurrency, and performance. Rust achieves memory safety without a garbage collector through its compile-time ownership, borrowing, and lifetime system, preventing data races, null pointer dereferences, and buffer overflows."),
-        ("tech-lang-go", "Go Programming Language (Golang)", "programming",
-         "Go (Golang) is an open-source, statically-typed compiled language created at Google by Robert Griesemer, Rob Pike, and Ken Thompson. Go emphasizes simplicity, fast compilation, memory safety, and native concurrency through goroutines and channels."),
-    ]
-    for doc_id, title, topic, text in lang_data:
-        docs.append({
-            "document_id": doc_id,
-            "passage_id": f"{doc_id}-1",
-            "title": title,
-            "domain": "computer_science",
-            "topic": topic,
-            "language": "en",
-            "source_type": "curated",
-            "keywords": [k.lower() for k in title.split()],
-            "text": text
-        })
+        ("tech-lang-cpp-stl", "C++ Standard Template Library (STL) and RAII", "programming",
+         "The C++ Standard Template Library (STL) provides generic container classes (vector, list, map, unordered_map, set), iterators, and algorithms (sort, find, transform). RAII (Resource Acquisition Is Initialization) ties resource lifespan to object lifetime, utilizing smart pointers (std::unique_ptr, std::shared_ptr, std::weak_ptr) to automate deterministic resource cleanup without garbage collection."),
+        ("tech-lang-java", "Java Programming Language and JVM", "programming",
+         "Java is a class-based, object-oriented programming language designed by James Gosling at Sun Microsystems. Java follows the 'Write Once, Run Anywhere' (WORA) philosophy by compiling source code into bytecode executed on the Java Virtual Machine (JVM). The JVM performs runtime Just-In-Time (JIT) compilation and automated generational garbage collection."),
+        ("tech-lang-javascript", "JavaScript Programming Language and Event Loop", "programming",
+         "JavaScript is a high-level, multi-paradigm programming language conforming to ECMAScript. Executed in browser engines (V8, SpiderMonkey) and Node.js, JavaScript uses a single-threaded concurrency model powered by an event loop, call stack, microtask queue (Promises), and macrotask queue (setTimeout, I/O events)."),
+        ("tech-lang-typescript", "TypeScript Programming Language and Static Typing", "programming",
+         "TypeScript is a strongly-typed superset of JavaScript developed by Microsoft. It adds compile-time static type checking, type inference, interfaces, generics, union types, and enums, compiling down to standard clean JavaScript runnable on any runtime."),
+        ("tech-lang-rust", "Rust Programming Language and Memory Safety", "programming",
+         "Rust is a systems programming language focused on memory safety, concurrency, and performance without a garbage collector. Rust guarantees memory safety at compile time through an ownership and borrowing system governed by strict lifetime rules, preventing data races, null pointer dereferences, and buffer overflows."),
+        ("tech-lang-go", "Go Programming Language (Golang) and Concurrency", "programming",
+         "Go is a statically-typed compiled language developed at Google by Robert Griesemer, Rob Pike, and Ken Thompson. Go features fast compilation, garbage collection, and native concurrency primitives: goroutines (lightweight multiplexed threads) and channels (typed communication pipes based on CSP theory)."),
 
-    # 2. Data Structures
-    ds_data = [
-        ("tech-ds-array", "Arrays Data Structure", "data_structures",
-         "An array is a linear data structure that stores elements of identical data types in contiguous memory locations. Elements are accessed in O(1) constant time using zero-based numerical indices. Fixed-size arrays require pre-allocated memory, while dynamic arrays (such as Python lists or C++ std::vector) resize dynamically with amortized O(1) append operations."),
-        ("tech-ds-linked-list", "Linked Lists", "data_structures",
-         "A linked list is a linear collection of data elements called nodes, where each node stores a data value and a pointer (or reference) to the next node in sequence. Doubly linked lists maintain pointers to both next and previous nodes. Linked lists allow O(1) insertion and deletion at known positions without memory shifting, but require O(n) sequential access."),
-        ("tech-ds-stack", "Stack Data Structure", "data_structures",
-         "A stack is an abstract linear data structure adhering to the Last-In, First-Out (LIFO) principle. Core operations include push (insert element at the top) and pop (remove and return the top element), both operating in O(1) time complexity. Stacks are fundamental in function call management, expression parsing, undo/redo buffers, and backtracking algorithms."),
-        ("tech-ds-queue", "Queue Data Structure", "data_structures",
-         "A queue is a linear data structure that adheres to the First-In, First-Out (FIFO) principle. Elements are inserted at the rear (enqueue) and removed from the front (dequeue), each with O(1) time complexity. Variations include circular queues, double-ended queues (deques), and priority queues."),
-        ("tech-ds-hash-table", "Hash Tables and Hash Maps", "data_structures",
-         "A hash table (or hash map) is an associative data structure that stores key-value pairs. It uses a hash function to compute an integer index into an array of buckets where the desired value can be found. On average, search, insertion, and deletion operate in O(1) time. Hash collisions are resolved using separate chaining or open addressing (linear probing)."),
-        ("tech-ds-binary-tree", "Binary Trees and Binary Search Trees (BST)", "data_structures",
-         "A binary tree is a hierarchical non-linear data structure where each node has at most two children, referred to as the left and right child. A Binary Search Tree (BST) maintains the ordering invariant: every node in the left subtree has a key strictly less than the node's key, and every node in the right subtree has a key strictly greater. Average lookup, insertion, and deletion take O(log n) time."),
-        ("tech-ds-balanced-bst", "Self-Balancing Trees (AVL and Red-Black Trees)", "data_structures",
-         "Self-balancing binary search trees, such as AVL trees and Red-Black trees, automatically maintain logarithmic tree height during insertions and deletions. By performing tree rotations upon height violations, they guarantee worst-case O(log n) time complexity for search, insert, and delete operations."),
-        ("tech-ds-heap", "Heaps and Priority Queues", "data_structures",
-         "A heap is a specialized tree-based data structure satisfying the heap property: in a max-heap, the parent node is always greater than or equal to its children; in a min-heap, the parent is less than or equal to its children. Implemented as complete binary trees backed by flat arrays, heaps support O(1) peek and O(log n) insertion and extraction, widely used in Dijkstra's algorithm and heapsort."),
-        ("tech-ds-graph", "Graph Data Structures", "data_structures",
-         "A graph is a non-linear data structure consisting of a finite set of vertices (or nodes) connected by edges. Graphs can be directed or undirected, weighted or unweighted, cyclic or acyclic. Graphs are commonly represented using adjacency matrices (O(V^2) space, O(1) edge lookup) or adjacency lists (O(V + E) space, optimal for sparse graphs)."),
-        ("tech-ds-trie", "Tries and Prefix Trees", "data_structures",
-         "A trie (prefix tree) is a tree-like search data structure used to store associative arrays where keys are strings. Each node represents a common prefix of strings, allowing string search, prefix matching, and autocomplete operations in O(k) time, where k is the string length, independent of total stored items.")
-    ]
-    for doc_id, title, topic, text in ds_data:
-        docs.append({
-            "document_id": doc_id,
-            "passage_id": f"{doc_id}-1",
-            "title": title,
-            "domain": "computer_science",
-            "topic": topic,
-            "language": "en",
-            "source_type": "curated",
-            "keywords": [k.lower() for k in title.split()],
-            "text": text
-        })
+        # --- 2. DATA STRUCTURES ---
+        ("tech-ds-array", "Arrays and Dynamic Arrays", "data_structures",
+         "An array is a contiguous memory structure storing fixed-size elements of identical data types with O(1) random index access. Dynamic arrays (e.g., Python lists, C++ std::vector) automatically resize upon capacity exhaustion, doubling internal buffer size to achieve amortized O(1) append operations."),
+        ("tech-ds-linked-list", "Singly and Doubly Linked Lists", "data_structures",
+         "A linked list is a linear data structure of nodes where each node contains data and a reference to the next node. Doubly linked lists maintain pointers to both next and previous nodes, enabling O(1) bidirectional traversal and O(1) insertions/deletions given a node reference, but requiring O(n) sequential search."),
+        ("tech-ds-stack", "Stack Data Structure (LIFO)", "data_structures",
+         "A stack is a linear data structure operating on the Last-In, First-Out (LIFO) principle. Primary operations are push (insert element at the top) and pop (remove and return the top element), both taking O(1) time. Stacks manage execution call stacks, expression evaluation, syntax parsing, and backtracking."),
+        ("tech-ds-queue", "Queues, Deques, and Circular Buffers", "data_structures",
+         "A queue is a First-In, First-Out (FIFO) linear data structure where elements are enqueued at the rear and dequeued from the front in O(1) time. A Double-Ended Queue (Deque) permits O(1) insertion and deletion at both ends. Circular queues wrap indices using modulo arithmetic to prevent memory waste in fixed buffers."),
+        ("tech-ds-hash-table", "Hash Tables, Hash Functions, and Collision Resolution", "data_structures",
+         "A hash table maps keys to values using a hash function that calculates an array index from a key. Average lookup, insertion, and deletion run in O(1) time. Collisions are resolved via Separate Chaining (linked lists or BSTs in each bucket) or Open Addressing (Linear Probing, Quadratic Probing, Double Hashing)."),
+        ("tech-ds-binary-tree", "Binary Trees and Tree Traversals", "data_structures",
+         "A binary tree is a hierarchical data structure where each node has at most two children (left and right). Standard tree traversal algorithms include Breadth-First (Level-Order using a queue) and Depth-First: Pre-order (Root-Left-Right), In-order (Left-Root-Right, yielding sorted order in BSTs), and Post-order (Left-Right-Root)."),
+        ("tech-ds-bst", "Binary Search Trees (BST)", "data_structures",
+         "A Binary Search Tree (BST) maintains the invariant that all nodes in a node's left subtree have values strictly less than the node, and all nodes in the right subtree have values strictly greater. On balanced trees, search, insert, and delete take O(log n) time; on degenerate skewed trees, operations degrade to O(n)."),
+        ("tech-ds-avl-tree", "AVL Trees and Tree Rotations", "data_structures",
+         "An AVL tree is a strictly self-balancing binary search tree where the heights of the two child subtrees of any node differ by at most one (Balance Factor in {-1, 0, 1}). Upon balance violation during insertion or deletion, the tree performs single (LL, RR) or double (LR, RL) rotations to restore O(log n) height guarantees."),
+        ("tech-ds-red-black-tree", "Red-Black Trees and Self-Balancing Invariants", "data_structures",
+         "A Red-Black tree is a self-balancing BST where each node is colored red or black. Invariants dictate: the root is black, red nodes cannot have red children, and every path from root to null leaves contains the same number of black nodes. These constraints ensure tree height never exceeds 2*log2(n+1), making it standard for C++ std::map and Java TreeMap."),
+        ("tech-ds-heap", "Binary Heaps and Priority Queues", "data_structures",
+         "A binary heap is a complete binary tree backed by a flat array satisfying the heap property: in a max-heap, parent >= children; in a min-heap, parent <= children. Root peek is O(1), while insert (push) and extract-min/max (pop) take O(log n) using sift-up and sift-down operations. Heaps underpin Priority Queues and Heapsort."),
+        ("tech-ds-trie", "Tries (Prefix Trees) and Radix Trees", "data_structures",
+         "A Trie (prefix tree) is a tree-like search structure where edges represent characters. Nodes share common prefixes, enabling string search, prefix matching, and autocomplete in O(L) time, where L is key length, independent of total dictionary size."),
+        ("tech-ds-graph", "Graph Representations: Adjacency Lists and Matrices", "data_structures",
+         "A graph G = (V, E) comprises vertices V and edges E. An Adjacency Matrix uses a |V|x|V| boolean/weight matrix with O(1) edge lookup and O(|V|^2) space. An Adjacency List stores a list of neighbors for each vertex using O(|V| + |E|) space, optimal for sparse graphs."),
+        ("tech-ds-dsu", "Disjoint Set Union (DSU) and Union-Find", "data_structures",
+         "Disjoint Set Union (DSU or Union-Find) maintains a partition of elements into disjoint subsets. Supporting two operations: find (identifies set representative) and union (merges two sets). Optimized with Path Compression and Union by Rank/Size, operations run in nearly O(1) amortized time governed by the Inverse Ackermann function alpha(n)."),
+        ("tech-ds-segment-tree", "Segment Trees and Fenwick Trees (Binary Indexed Trees)", "data_structures",
+         "A Segment Tree is a tree data structure used for storing information about intervals or segments. It allows querying range associative operations (sum, minimum, maximum) and point/range updates (via lazy propagation) in O(log n) time. A Fenwick Tree (Binary Indexed Tree) achieves similar prefix-sum queries and point updates with lower memory overhead using bitwise index manipulation."),
 
-    # 3. Algorithms
-    algo_data = [
-        ("tech-algo-big-o", "Algorithmic Complexity and Big-O Notation", "algorithms",
-         "Big-O notation describes the limiting behavior of an algorithm's execution time or memory space as input size n approaches infinity. Common time complexity classes include O(1) constant, O(log n) logarithmic, O(n) linear, O(n log n) linearithmic, O(n^2) quadratic, and O(2^n) exponential."),
-        ("tech-algo-sorting", "Sorting Algorithms (Quicksort, Mergesort, Heapsort)", "algorithms",
-         "Sorting algorithms arrange elements in a specified order. Quicksort uses a divide-and-conquer strategy with a pivot, achieving average O(n log n) time. Mergesort guarantees stable O(n log n) time by recursively dividing arrays and merging sorted halves. Heapsort uses a binary heap to sort in-place with guaranteed O(n log n) worst-case time."),
-        ("tech-algo-binary-search", "Binary Search Algorithm", "algorithms",
-         "Binary search is an efficient search algorithm for finding a target value within a sorted array. It compares the target with the middle element, eliminating half of the search space at each step. Binary search operates in O(log n) time complexity with O(1) auxiliary space."),
-        ("tech-algo-recursion", "Recursion and Recursive Problem Solving", "algorithms",
-         "Recursion is a method of solving computational problems where a function calls itself directly or indirectly to solve smaller instances of the same problem. Every valid recursive algorithm requires a base case to terminate execution without further recursion and a recursive step that progresses toward the base case."),
-        ("tech-algo-dp", "Dynamic Programming (DP)", "algorithms",
-         "Dynamic Programming (DP) is an algorithmic paradigm that solves complex optimization problems by breaking them into overlapping subproblems with optimal substructure. DP avoids redundant calculations by storing intermediate results using memoization (top-down) or tabulation (bottom-up), common in Knapsack and shortest-path problems."),
-        ("tech-algo-greedy", "Greedy Algorithms", "algorithms",
-         "A greedy algorithm makes the locally optimal choice at each stage with the intent of finding a global optimum. Greedy approaches are proven optimal for problems possessing the greedy-choice property and optimal substructure, such as Huffman coding, Kruskal's and Prim's minimum spanning tree algorithms, and Dijkstra's algorithm."),
-        ("tech-algo-bfs-dfs", "Graph Traversal (Breadth-First Search and Depth-First Search)", "algorithms",
-         "Breadth-First Search (BFS) explores a graph level by level using a queue, finding the shortest path in unweighted graphs in O(V + E) time. Depth-First Search (DFS) explores as deep as possible along each branch before backtracking using a stack or recursion, widely used in topological sorting and cycle detection."),
+        # --- 3. ALGORITHMS ---
+        ("tech-algo-big-o", "Asymptotic Analysis: Big-O, Big-Theta, and Big-Omega", "algorithms",
+         "Asymptotic analysis evaluates algorithm resource usage as input size n grows to infinity. Big-O (O) represents an asymptotic upper bound (worst-case growth rate). Big-Omega (Omega) represents a lower bound (best-case). Big-Theta (Theta) represents a tight bound where upper and lower bounds match. Common classes: O(1) constant, O(log n) logarithmic, O(n) linear, O(n log n) linearithmic, O(n^2) quadratic, O(2^n) exponential, O(n!) factorial."),
+        ("tech-algo-sorting", "Comparison Sorting: Quicksort, Mergesort, and Heapsort", "algorithms",
+         "Comparison sorting algorithms arrange items based on pairwise comparisons with a theoretical lower bound of Omega(n log n). Mergesort is a stable divide-and-conquer algorithm with guaranteed O(n log n) time and O(n) auxiliary space. Quicksort partitions in-place around a pivot with average O(n log n) time. Heapsort builds a binary heap to sort in-place with guaranteed O(n log n) time."),
+        ("tech-algo-linear-sorting", "Non-Comparison Sorting: Counting Sort and Radix Sort", "algorithms",
+         "Non-comparison sorting algorithms bypass the Omega(n log n) comparison barrier by exploiting key structure. Counting Sort tallies distinct key frequencies in O(n + k) time where k is key range. Radix Sort processes integer digits position by position (LSD or MSD) using a stable sub-sort, running in O(d * (n + k)) time for d-digit keys."),
+        ("tech-algo-binary-search", "Binary Search and Bisection Search", "algorithms",
+         "Binary search locates a target value in a sorted array by repeatedly dividing the search interval in half. Comparing the target with the midpoint element reduces the candidate space exponentially, yielding O(log n) time complexity and O(1) auxiliary space. Bisection search generalizes this principle to find roots of monotonic continuous functions."),
+        ("tech-algo-recursion-backtracking", "Recursion and Backtracking Algorithms", "algorithms",
+         "Recursion solves problems by having a function call itself on smaller subproblems, requiring a base case and recursive progress. Backtracking is a systematic brute-force search that incrementally builds candidate solutions and abandons ('backtracks') a partial candidate as soon as it determines the candidate cannot yield a valid solution (e.g., N-Queens, Sudoku solver, subset generation)."),
+        ("tech-algo-dp", "Dynamic Programming: Memoization and Tabulation", "algorithms",
+         "Dynamic Programming (DP) solves complex optimization problems exhibiting overlapping subproblems and optimal substructure. Top-down DP uses recursion with Memoization (caching subproblem outputs). Bottom-up DP uses Tabulation (iteratively filling a table in topological dependency order). Canonical examples include 0/1 Knapsack, Longest Common Subsequence (LCS), Longest Increasing Subsequence (LIS), and Floyd-Warshall."),
+        ("tech-algo-greedy", "Greedy Algorithms and Matroid Theory", "algorithms",
+         "A greedy algorithm builds a solution piece by piece, choosing the immediate locally optimal choice at each step. Greedy algorithms yield provably optimal global solutions when problems satisfy the Greedy Choice Property and Optimal Substructure, exemplified by Huffman Coding (optimal prefix-free codes), Fractional Knapsack, Activity Selection, and Minimum Spanning Trees."),
+        ("tech-algo-bfs-dfs", "Graph Search: Breadth-First Search (BFS) and Depth-First Search (DFS)", "algorithms",
+         "Breadth-First Search (BFS) explores vertices level-by-level using a FIFO queue, finding shortest paths in unweighted graphs in O(V + E) time. Depth-First Search (DFS) traverses as deep as possible along each branch before backtracking using a call stack, computing discovery/finishing timestamps for cycle detection, topological sorting, and connected components."),
         ("tech-algo-dijkstra", "Dijkstra's Shortest Path Algorithm", "algorithms",
-         "Dijkstra's algorithm finds the shortest path from a single source vertex to all other vertices in a weighted graph with non-negative edge weights. Using a min-priority queue (min-heap), it iteratively selects the unvisited vertex with the smallest provisional distance, achieving O((V + E) log V) time complexity.")
-    ]
-    for doc_id, title, topic, text in algo_data:
-        docs.append({
-            "document_id": doc_id,
-            "passage_id": f"{doc_id}-1",
-            "title": title,
-            "domain": "computer_science",
-            "topic": topic,
-            "language": "en",
-            "source_type": "curated",
-            "keywords": [k.lower() for k in title.split()],
-            "text": text
-        })
+         "Dijkstra's algorithm finds single-source shortest paths in directed or undirected graphs with non-negative edge weights. Using a min-priority queue (binary min-heap), it repeatedly relaxes outgoing edges from the unvisited vertex with smallest provisional distance, achieving O((V + E) log V) time complexity."),
+        ("tech-algo-bellman-ford", "Bellman-Ford Algorithm and Negative Cycles", "algorithms",
+         "The Bellman-Ford algorithm computes single-source shortest paths in graphs containing negative edge weights. By relaxing all |E| edges |V|-1 times, it computes shortest paths in O(V * E) time. A subsequent |V|-th relaxation pass detects reachable negative weight cycles."),
+        ("tech-algo-floyd-warshall", "Floyd-Warshall All-Pairs Shortest Path Algorithm", "algorithms",
+         "The Floyd-Warshall algorithm is a dynamic programming algorithm that finds shortest paths between all pairs of vertices in a weighted directed graph (without negative cycles). By iteratively updating an adjacency matrix considering each vertex k as an intermediate candidate, it computes all-pairs distances in O(V^3) time."),
+        ("tech-algo-mst", "Minimum Spanning Tree (MST): Kruskal's and Prim's Algorithms", "algorithms",
+         "A Minimum Spanning Tree (MST) connects all vertices of a weighted undirected graph with minimum total edge weight and no cycles. Kruskal's algorithm sorts all edges by weight and greedily adds non-cycle edges using DSU in O(E log E) time. Prim's algorithm grows a single tree from a starting vertex by greedily adding minimum-weight crossing edges using a priority queue in O(E log V) time."),
+        ("tech-algo-topological-sort", "Topological Sorting and Directed Acyclic Graphs (DAGs)", "algorithms",
+         "Topological sorting linearly orders vertices of a Directed Acyclic Graph (DAG) such that for every directed edge u -> v, vertex u precedes v. Kahn's algorithm computes this iteratively by removing vertices with in-degree zero using a queue in O(V + E) time. DFS-based topological sort prepends vertices to an output list upon finishing timestamp completion."),
+        ("tech-algo-np-completeness", "Computational Complexity: P, NP, NP-Complete, and NP-Hard", "algorithms",
+         "Complexity class P contains decision problems solvable in polynomial time O(n^k) by a deterministic Turing machine. Class NP contains problems whose solutions are verifiable in polynomial time. A problem is NP-Hard if every problem in NP polynomial-time reduces to it. A problem is NP-Complete if it is both in NP and NP-Hard (e.g., SAT, Traveling Salesperson, 3-SAT, Clique, Hamiltonian Cycle, Cook-Levin Theorem)."),
 
-    # 4. Object-Oriented Programming (OOP)
-    oop_data = [
-        ("tech-oop-principles", "Core Principles of Object-Oriented Programming (OOP)", "oop",
-         "Object-Oriented Programming (OOP) is a programming paradigm based on the concept of 'objects' containing data (attributes) and code (methods). The four core pillars of OOP are Encapsulation (bundling data and restricting direct access), Abstraction (hiding implementation details), Inheritance (reusing characteristics from parent classes), and Polymorphism (allowing entities to take on multiple forms)."),
-        ("tech-oop-solid", "SOLID Design Principles", "oop",
-         "The SOLID principles are five design guidelines for maintainable object-oriented software: Single Responsibility (one reason to change), Open/Closed (open for extension, closed for modification), Liskov Substitution (subtypes must be substitutable for base types), Interface Segregation (small, client-specific interfaces), and Dependency Inversion (depend on abstractions, not concretions)."),
-        ("tech-oop-patterns", "Software Design Patterns (Creational, Structural, Behavioral)", "oop",
-         "Design patterns are reusable solutions to common software architecture problems. Creational patterns (Singleton, Factory, Builder) manage object instantiation. Structural patterns (Adapter, Composite, Decorator, Facade) compose classes and objects into larger structures. Behavioral patterns (Observer, Strategy, Command, State) define communication and responsibility between objects.")
-    ]
-    for doc_id, title, topic, text in oop_data:
-        docs.append({
-            "document_id": doc_id,
-            "passage_id": f"{doc_id}-1",
-            "title": title,
-            "domain": "computer_science",
-            "topic": topic,
-            "language": "en",
-            "source_type": "curated",
-            "keywords": [k.lower() for k in title.split()],
-            "text": text
-        })
+        # --- 4. OBJECT-ORIENTED PROGRAMMING (OOP) & DESIGN PATTERNS ---
+        ("tech-oop-principles", "The Four Pillars of Object-Oriented Programming", "oop",
+         "Object-Oriented Programming (OOP) models software systems around stateful objects. The four fundamental pillars are: Encapsulation (bundling data and restricting direct field access via access modifiers), Abstraction (hiding complex internal mechanics behind clean interfaces), Inheritance (deriving new classes from existing classes for code reuse), and Polymorphism (allowing distinct types to respond to identical method invocations via method overriding and dynamic dispatch)."),
+        ("tech-oop-solid", "The SOLID Object-Oriented Design Principles", "oop",
+         "SOLID represents five foundational software engineering principles: Single Responsibility Principle (a class should have only one reason to change), Open/Closed Principle (software entities should be open for extension, but closed for modification), Liskov Substitution Principle (subclasses must be substitutable for base classes without altering program correctness), Interface Segregation Principle (clients should not be forced to depend on unused interface methods), and Dependency Inversion Principle (high-level modules should depend on abstractions rather than concrete implementations)."),
+        ("tech-oop-gof-patterns", "Gang of Four (GoF) Software Design Patterns", "oop",
+         "Design patterns are battle-tested, reusable architectural solutions to common software problems categorized into three groups: Creational Patterns (Singleton, Factory Method, Abstract Factory, Builder, Prototype) manage object instantiation. Structural Patterns (Adapter, Bridge, Composite, Decorator, Facade, Flyweight, Proxy) compose classes and objects into flexible structures. Behavioral Patterns (Observer, Strategy, Command, State, Template Method, Iterator, Mediator, Visitor) define communication and algorithm distribution across objects."),
 
-    # 5. Databases
-    db_data = [
-        ("tech-db-rdbms", "Relational Database Management Systems (RDBMS) and SQL", "databases",
-         "A Relational Database Management System (RDBMS) organizes structured data into tables consisting of rows (records) and columns (attributes). Structured Query Language (SQL) is the standard declarative language used to query, insert, update, and manage relational databases like PostgreSQL, MySQL, and SQLite."),
-        ("tech-db-acid", "ACID Transactions in Databases", "databases",
-         "ACID is a set of four guarantees for reliable database transactions: Atomicity (all operations succeed or entire transaction rolls back), Consistency (transactions preserve valid database schema constraints), Isolation (concurrent transactions execute independently without interference), and Durability (committed changes persist permanently even after system crashes)."),
-        ("tech-db-normalization", "Database Normalization (1NF, 2NF, 3NF, BCNF)", "databases",
-         "Database normalization is the process of structuring relational tables to reduce data redundancy and improve data integrity. First Normal Form (1NF) eliminates repeating groups and enforces atomic values. Second Normal Form (2NF) removes partial dependencies on composite primary keys. Third Normal Form (3NF) removes transitive functional dependencies."),
-        ("tech-db-indexing", "Database Indexing and B-Trees", "databases",
-         "A database index is an auxiliary data structure that accelerates data retrieval queries at the cost of additional storage and write overhead. Most relational databases use self-balancing B-Trees or B+ Trees for primary and secondary indexes, allowing logarithmic O(log n) search, range scans, and sorting."),
-        ("tech-db-nosql", "NoSQL Databases and Distributed Storage", "databases",
-         "NoSQL databases provide non-relational, flexible data models optimized for horizontal scalability and high-throughput distributed applications. The four primary NoSQL categories are Document stores (MongoDB), Key-Value stores (Redis), Column-Family stores (Cassandra), and Graph databases (Neo4j).")
-    ]
-    for doc_id, title, topic, text in db_data:
-        docs.append({
-            "document_id": doc_id,
-            "passage_id": f"{doc_id}-1",
-            "title": title,
-            "domain": "computer_science",
-            "topic": topic,
-            "language": "en",
-            "source_type": "curated",
-            "keywords": [k.lower() for k in title.split()],
-            "text": text
-        })
+        # --- 5. DATABASES ---
+        ("tech-db-rdbms", "Relational Database Management Systems and SQL", "databases",
+         "A Relational Database Management System (RDBMS) organizes structured data into tables of rows (tuples) and columns (attributes) governed by relational algebra. Structured Query Language (SQL) is the standard declarative language comprising DDL (Data Definition: CREATE, ALTER, DROP), DML (Data Manipulation: INSERT, UPDATE, DELETE), and DQL (Data Query: SELECT, JOIN, GROUP BY, HAVING)."),
+        ("tech-db-acid", "ACID Properties in Database Transactions", "databases",
+         "ACID guarantees reliable processing of database transactions: Atomicity (all-or-nothing execution; partial failures trigger automatic rollback), Consistency (transactions transition the database between valid states adhering to constraints and triggers), Isolation (concurrent transactions execute independently without mutual interference), and Durability (committed modifications survive crashes and power loss via write-ahead logging)."),
+        ("tech-db-isolation-levels", "Transaction Isolation Levels and Concurrency Anomalies", "databases",
+         "ANSI SQL defines four transaction isolation levels to balance concurrency and consistency: Read Uncommitted (vulnerable to dirty reads, non-repeatable reads, phantom reads), Read Committed (prevents dirty reads using row-level read locks or MVCC snapshots), Repeatable Read (prevents dirty and non-repeatable reads; standard in MySQL InnoDB), and Serializable (enforces total serial order via range locks or strict two-phase locking 2PL)."),
+        ("tech-db-normalization", "Database Normalization: 1NF, 2NF, 3NF, and BCNF", "databases",
+         "Database normalization organizes relational schema to eliminate data redundancy and prevent insertion, update, and deletion anomalies. First Normal Form (1NF) requires atomic column values. Second Normal Form (2NF) removes partial dependencies on composite primary keys. Third Normal Form (3NF) removes transitive dependencies. Boyce-Codd Normal Form (BCNF) requires every determinant in functional dependencies to be a candidate key."),
+        ("tech-db-indexing-btrees", "Database Indexing: B+ Trees, Hash Indexes, and Execution Plans", "databases",
+         "Database indexes accelerate query search times at the cost of additional storage and write overhead. B+ Trees are balanced search trees where internal nodes store search keys for navigation and leaf nodes store sorted data pointers linked sequentially, optimizing both point lookups O(log n) and range scans. Clustered indexes dictate the physical table storage order; non-clustered indexes maintain auxiliary lookup pointers."),
+        ("tech-db-nosql", "NoSQL Database Categories: Document, Key-Value, Column, and Graph", "databases",
+         "NoSQL databases provide horizontal scalability, flexible schemas, and high write throughput across distributed clusters. The four primary models are: Document Stores (MongoDB, CouchDB storing JSON/BSON), Key-Value Stores (Redis, Memcached providing sub-millisecond in-memory lookups), Wide-Column Stores (Apache Cassandra, ScyllaDB for massive write-heavy time series), and Graph Databases (Neo4j, AWS Neptune for highly connected relational traversals)."),
+        ("tech-db-cap-theorem", "The CAP Theorem and Distributed Data Consistency", "databases",
+         "The CAP Theorem (Brewer's Theorem) states that a distributed data store can simultaneously provide at most two of three guarantees during network partitions: Consistency (every read receives the most recent write or an error), Availability (every non-failing node returns a non-error response), and Partition Tolerance (system continues operating despite network message drops). Systems choose CP (e.g., MongoDB, Spanner) or AP (e.g., Cassandra, DynamoDB)."),
 
-    # 6. Operating Systems
-    os_data = [
-        ("tech-os-processes-threads", "Processes, Threads, and Concurrency in Operating Systems", "operating_systems",
-         "A process is an executing program instance with its own dedicated virtual memory space, file descriptors, and CPU context. A thread is the smallest unit of CPU execution within a process, sharing memory and resources with sibling threads. Concurrency is managed using synchronization primitives such as mutexes, semaphores, and condition variables."),
-        ("tech-os-scheduling", "CPU Scheduling Algorithms in Operating Systems", "operating_systems",
-         "CPU scheduling determines which ready process is allocated CPU execution time. Common scheduling algorithms include First-Come First-Served (FCFS), Shortest Job First (SJF), Round Robin (RR) with time quantum slices, and Multi-Level Feedback Queues (MLFQ) that balance responsiveness for interactive jobs with throughput for compute-bound tasks."),
-        ("tech-os-virtual-memory", "Virtual Memory, Paging, and Page Faults", "operating_systems",
-         "Virtual memory maps the program's virtual address space to physical RAM and secondary storage (swap space). Memory is divided into fixed-size pages mapped via page tables managed by the Memory Management Unit (MMU). When a requested page is not in physical memory, a page fault triggers the OS to fetch the page from disk using replacement algorithms such as LRU."),
-        ("tech-os-deadlocks", "Deadlocks in Operating Systems", "operating_systems",
-         "A deadlock occurs when a set of concurrent processes are permanently blocked because each process holds a resource while waiting for another resource held by another process. The four necessary Coffman conditions for deadlock are: Mutual Exclusion, Hold and Wait, No Preemption, and Circular Wait. Deadlocks are addressed via prevention, avoidance (Banker's Algorithm), or detection and recovery.")
-    ]
-    for doc_id, title, topic, text in os_data:
-        docs.append({
-            "document_id": doc_id,
-            "passage_id": f"{doc_id}-1",
-            "title": title,
-            "domain": "computer_science",
-            "topic": topic,
-            "language": "en",
-            "source_type": "curated",
-            "keywords": [k.lower() for k in title.split()],
-            "text": text
-        })
+        # --- 6. OPERATING SYSTEMS ---
+        ("tech-os-processes-threads", "Processes, Threads, and Context Switching", "operating_systems",
+         "A process is an executing program instance with its own isolated virtual address space, file descriptors, and Process Control Block (PCB). A thread is a lightweight execution stream within a process sharing memory, global variables, and open files with peer threads. Context switching saves the current process/thread CPU register state and loads another, incurring CPU cache invalidation overhead."),
+        ("tech-os-scheduling", "CPU Scheduling Algorithms: FCFS, SJF, Round Robin, and MLFQ", "operating_systems",
+         "CPU schedulers select ready processes from the run queue. First-Come First-Served (FCFS) is non-preemptive with high turnaround time due to the convoy effect. Shortest Job First (SJF) is theoretically optimal for average waiting time but requires future knowledge. Round Robin (RR) allocates fixed time quantums. Multi-Level Feedback Queue (MLFQ) dynamically adjusts process priorities based on observed CPU-burst versus I/O-bound behavior."),
+        ("tech-os-synchronization", "Process Synchronization: Mutexes, Semaphores, and Race Conditions", "operating_systems",
+         "Race conditions occur when concurrent threads access shared data without synchronization, causing non-deterministic corruption. Synchronization primitives enforce mutual exclusion in critical sections. A Mutex is a locking mechanism owned by a single thread. A Semaphore is an integer signaling mechanism (Binary or Counting) modified atomically via wait (P) and signal (V) operations."),
+        ("tech-os-deadlocks", "Deadlock Conditions, Banker's Algorithm, and Recovery", "operating_systems",
+         "A deadlock is a state where a set of processes are blocked because each process holds resources while waiting for resources held by others. The four Coffman conditions must hold simultaneously: Mutual Exclusion, Hold and Wait, No Preemption, and Circular Wait. Deadlocks are avoided using Dijkstra's Banker's Algorithm (safe state analysis) or resolved via process termination and resource preemption."),
+        ("tech-os-virtual-memory", "Virtual Memory, Paging, TLB, and Page Replacement", "operating_systems",
+         "Virtual memory provides processes with the illusion of a large, contiguous, private memory space. Virtual addresses are translated to physical RAM addresses via Page Tables managed by the hardware Memory Management Unit (MMU) and cached in the Translation Lookaside Buffer (TLB). When a requested page is not in RAM, a Page Fault traps to the OS to fetch the page from disk using replacement algorithms (LRU, Clock, FIFO)."),
+        ("tech-os-file-systems", "File System Architecture: Inodes, Directories, and Journaling", "operating_systems",
+         "A file system structures persistent storage into human-readable hierarchies. Unix-like file systems use Inodes (Index Nodes) storing file metadata (permissions, ownership, size, timestamps) and direct/indirect block pointers to data on disk. Journaling file systems (ext4, NTFS) record pending disk writes to an append-only journal before committing, guaranteeing crash consistency."),
 
-    # 7. Networking & Web Development
-    net_data = [
-        ("tech-net-tcpip", "The TCP/IP Model and Internet Protocols", "networking",
-         "The TCP/IP protocol suite powers the internet across four conceptual layers: Application (HTTP, DNS, SSH), Transport (TCP, UDP), Internet (IP, ICMP), and Link/Network Access (Ethernet, Wi-Fi). Transmission Control Protocol (TCP) provides reliable, ordered, error-checked data delivery via a three-way handshake and flow control, while UDP offers low-latency connectionless datagram delivery."),
-        ("tech-net-http", "HTTP, HTTPS, and Web Protocols", "networking",
-         "Hypertext Transfer Protocol (HTTP) is an application-layer request-response protocol for distributed hypermedia information systems. HTTPS encrypts HTTP communication using Transport Layer Security (TLS/SSL), protecting data integrity and confidentiality with asymmetric public-key cryptography and symmetric session encryption."),
-        ("tech-net-rest", "REST Architecture and APIs", "web_development",
-         "Representational State Transfer (REST) is an architectural style for networked web services. RESTful APIs use standard HTTP methods (GET, POST, PUT, DELETE, PATCH) to operate on stateless resource endpoints identified by Uniform Resource Identifiers (URIs), returning representations typically encoded in JSON format."),
+        # --- 7. COMPUTER NETWORKS ---
+        ("tech-net-osi-tcpip", "The OSI 7-Layer and TCP/IP 4-Layer Network Models", "networking",
+         "The OSI Reference Model divides network communication into seven layers: Physical (bits, cables), Data Link (frames, MAC addresses, switches), Network (packets, IP routing), Transport (segments, TCP/UDP ports, reliability), Session (dialog control), Presentation (data formatting, encryption), and Application (HTTP, DNS). The pragmatic TCP/IP model condenses these into four layers: Link, Internet, Transport, and Application."),
+        ("tech-net-tcp-udp", "TCP vs UDP: Reliability, Flow Control, and Congestion Control", "networking",
+         "Transmission Control Protocol (TCP) is a connection-oriented transport protocol providing reliable, in-order, error-checked data delivery via a 3-way handshake (SYN, SYN-ACK, ACK), sliding window flow control, and AIMD congestion control (Slow Start, Congestion Avoidance). User Datagram Protocol (UDP) is connectionless and lightweight, offering low-latency unacknowledged transmission ideal for DNS, live streaming, and real-time gaming."),
+        ("tech-net-ip-routing", "IP Addressing, Subnetting (CIDR), and Routing Protocols", "networking",
+         "The Internet Protocol (IPv4 32-bit, IPv6 128-bit) provides logical host addressing and packet routing across networks. Classless Inter-Domain Routing (CIDR) uses prefix masks (e.g., /24) to partition network and host bits. Routing protocols determine optimal packet paths: Interior Gateway Protocols (OSPF using Dijkstra link-state, RIP) operate within Autonomous Systems (AS); Border Gateway Protocol (BGP path-vector) routes traffic across the global internet backbone."),
+        ("tech-net-dns", "The Domain Name System (DNS) Resolution Process", "networking",
+         "DNS is a hierarchical, distributed naming system translating human-readable hostnames (e.g., example.com) into numerical IP addresses. Resolution proceeds recursively through: Local DNS Cache, Resolving Name Server, Root Name Server (.), Top-Level Domain (TLD) Server (.com), and Authoritative Name Server, utilizing record types such as A (IPv4), AAAA (IPv6), CNAME (alias), MX (mail), and TXT."),
+        ("tech-net-http-https", "HTTP Evolution: HTTP/1.1, HTTP/2, HTTP/3, and HTTPS (TLS)", "networking",
+         "HTTP/1.1 introduced persistent connections and chunked transfers but suffered from head-of-line blocking. HTTP/2 introduced binary framing, multiplexed streams over a single TCP connection, and header compression (HPACK). HTTP/3 replaces TCP with QUIC over UDP for zero-RTT handshakes and independent stream recovery. HTTPS encrypts HTTP using TLS with asymmetric public-key certificates and symmetric AES session encryption."),
         ("tech-net-websockets", "WebSockets and Real-Time Bidirectional Communication", "networking",
-         "WebSocket is a computer communications protocol providing full-duplex, bidirectional communication channels over a single TCP connection. Initiated via an HTTP upgrade handshake, WebSockets enable low-overhead, real-time message exchange between client browsers and backend servers without HTTP polling overhead."),
-        ("tech-web-react", "React Frontend Library and Virtual DOM", "web_development",
-         "React is a declarative, component-based JavaScript library for building user interfaces developed by Meta. React uses a Virtual DOM to compute minimal UI diffs (reconciliation) before applying updates to the real browser DOM, featuring state hooks, effects, and functional components."),
-        ("tech-web-fastapi", "FastAPI Modern Web Framework for Python", "web_development",
-         "FastAPI is a modern, high-performance web framework for building APIs with Python 3.8+ based on standard Python type hints. Built upon Starlette for ASGI async routing and Pydantic for automated data validation and serialization, FastAPI generates interactive OpenAPI and Swagger documentation automatically with near-Go/NodeJS performance.")
+         "WebSocket provides persistent, full-duplex, bidirectional communication over a single TCP socket connection. Initiated via an HTTP 101 Switching Protocols upgrade handshake, WebSockets transmit lightweight binary and text frames with minimal header overhead (2-14 bytes), replacing inefficient HTTP long-polling in real-time chat, telemetry, and collaborative apps."),
+
+        # --- 8. WEB DEVELOPMENT & SOFTWARE ENGINEERING ---
+        ("tech-web-react", "React Architecture: Virtual DOM, Reconciliation, and Hooks", "web_development",
+         "React is a declarative component-based UI library developed by Meta. React maintains an in-memory Virtual DOM tree representing desired UI states. When component state changes, React's reconciliation engine (Fiber) computes minimal diffs between virtual trees and batches DOM updates. React Hooks (useState, useEffect, useMemo, useCallback) provide stateful functional component logic without classes."),
+        ("tech-web-fastapi", "FastAPI Framework: ASGI, Pydantic, and Async Endpoints", "web_development",
+         "FastAPI is a modern, high-performance web framework for building Python APIs. Powered by Starlette for ASGI asynchronous request handling and Pydantic for data validation and schema serialization, FastAPI automatically generates interactive OpenAPI/Swagger documentation while achieving high throughput via Python async/await native coroutines."),
+        ("tech-web-rest-api", "RESTful API Architecture and Best Practices", "web_development",
+         "Representational State Transfer (REST) is an architectural style for stateless networked web services. RESTful APIs utilize standard HTTP methods (GET for idempotent retrieval, POST for creation, PUT for complete replacement, PATCH for partial modification, DELETE for removal) on noun-based URI resource endpoints, using status codes (200 OK, 201 Created, 400 Bad Request, 401 Unauthorized, 404 Not Found, 500 Internal Error)."),
+        ("tech-swe-sdlc-agile", "Software Engineering: SDLC, Agile, Scrum, and CI/CD", "software_engineering",
+         "Software Development Life Cycle (SDLC) defines structured methodologies for software delivery. Agile promotes iterative development, rapid customer feedback, and adaptive planning. Scrum organizes development into time-boxed Sprints (1-4 weeks) with daily standups, Sprint Planning, and Retrospectives. Continuous Integration and Continuous Deployment (CI/CD) automates automated build testing and production deployment via pipelines (e.g., GitHub Actions)."),
+        ("tech-swe-git", "Version Control: Git Architecture, Branching, and Merging", "software_engineering",
+         "Git is a distributed version control system modeling project history as a directed acyclic graph (DAG) of immutable commit objects linked via SHA-1/SHA-256 hashes. Git tracks content via blobs, trees, and commits. Branching creates lightweight pointers to commits. Merging incorporates branch histories using three-way merge or fast-forward merges, while Rebasing rewrites commit base pointers to maintain linear history.")
     ]
-    for doc_id, title, topic, text in net_data:
+    docs = []
+    for doc_id, title, topic, text in data:
         docs.append({
             "document_id": doc_id,
             "passage_id": f"{doc_id}-1",
@@ -205,5 +166,4 @@ def get_computer_science_documents() -> list[dict]:
             "keywords": [k.lower() for k in title.split()],
             "text": text
         })
-
     return docs

@@ -142,15 +142,22 @@ _CROSS_ENCODER_CACHE: dict[str, Any] = {}
 _CROSS_ENCODER_LOCK = threading.Lock()
 
 
+_STOP_WORDS = {"what", "is", "are", "a", "an", "the", "how", "why", "who", "where", "when", "does", "do", "in", "on", "of", "to", "for", "and", "or"}
+
+
 class TransparentReranker(Reranker):
-    """Transparent baseline reranker; replace with a cross-encoder adapter after baseline evaluation."""
+    """Transparent baseline reranker; prioritizes meaningful content and title term overlap."""
     def rerank(self, query: str, candidates: Sequence[SearchHit], limit: int) -> list[SearchHit]:
         query_terms = set(tokenize(query))
+        content_query_terms = {t for t in query_terms if t not in _STOP_WORDS} or query_terms
         rescored = []
         for hit in candidates:
-            terms = set(tokenize(hit.chunk.text))
-            coverage = len(query_terms & terms) / max(len(query_terms), 1)
-            rescored.append(SearchHit(hit.chunk, (0.7 * hit.score) + (0.3 * coverage), "reranked"))
+            body_terms = set(tokenize(hit.chunk.text))
+            title_terms = set(tokenize(hit.chunk.title or ""))
+            body_cov = len(content_query_terms & body_terms) / max(len(content_query_terms), 1)
+            title_cov = len(content_query_terms & title_terms) / max(len(content_query_terms), 1)
+            coverage = (0.6 * body_cov) + (0.4 * title_cov)
+            rescored.append(SearchHit(hit.chunk, (0.4 * hit.score) + (0.6 * coverage), "reranked"))
         return sorted(rescored, key=lambda hit: hit.score, reverse=True)[:limit]
 
 

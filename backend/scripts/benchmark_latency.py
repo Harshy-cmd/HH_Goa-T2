@@ -23,6 +23,14 @@ TEST_QUERIES = [
     "What is recursion?",
     "What is an operating system?",
     "What is artificial intelligence?",
+    "What is a binary tree?",
+    "What is TCP?",
+    "What is SQL normalization?",
+    "What is a transformer?",
+    "What is DNA?",
+    "What is probability?",
+    "What is a derivative?",
+    "What is supply and demand?",
     "प्रकाश संश्लेषण क्या है?",
     "गुरुत्वाकर्षण क्या है?",
 ]
@@ -55,7 +63,7 @@ def benchmark_pipeline(pipe, queries: list[str], runs: int = 2):
 
 def main():
     print("=" * 90)
-    print("NOVARON LOOP 14 — RETRIEVAL & GENERATION LATENCY BENCHMARK")
+    print("NOVARON LOOP 14B — RETRIEVAL & GENERATION LATENCY BENCHMARK")
     print("=" * 90)
 
     pipe = pipelines["sentence"]["hybrid_rerank"]
