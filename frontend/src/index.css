@@ -10,100 +10,88 @@
     --goa-cream: #F4EDD8;
     --goa-pink: #EE2A6D;
     --goa-yellow: #F5C518;
-    --goa-line: rgba(244, 237, 216, 0.14);
+    --goa-line: rgba(244, 237, 216, 0.16);
   }
 
   body {
-    background-color: var(--goa-forest);
+    background-color: #07241B;
     color: var(--goa-cream);
     font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
     overflow-x: hidden;
   }
 }
 
-/* Organic Blob / Sun Layer Keyframes */
-@keyframes blob-layer-1 {
+/* Deep Atmospheric Forest Environmental Movement (28-48s multi-axis asynchronous drift) */
+@keyframes atmospheric-drift-x {
   0%, 100% {
-    border-radius: 60% 40% 70% 30% / 30% 60% 40% 70%;
-    transform: rotate(0deg) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.70;
   }
   50% {
-    border-radius: 40% 60% 35% 65% / 60% 40% 60% 40%;
-    transform: rotate(6deg) scale(1.02);
+    transform: translate3d(45px, -15px, 0) scale(1.08);
+    opacity: 0.90;
   }
 }
 
-@keyframes blob-layer-2 {
+@keyframes atmospheric-drift-y {
   0%, 100% {
-    border-radius: 45% 55% 60% 40% / 55% 45% 50% 50%;
-    transform: rotate(0deg) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.55;
   }
   50% {
-    border-radius: 65% 35% 45% 55% / 40% 60% 40% 60%;
-    transform: rotate(-8deg) scale(0.98);
+    transform: translate3d(-35px, 40px, 0) scale(1.05);
+    opacity: 0.75;
   }
 }
 
-@keyframes blob-layer-3 {
+@keyframes atmospheric-breath {
   0%, 100% {
-    border-radius: 50% 50% 45% 55% / 55% 45% 55% 45%;
-    transform: rotate(0deg);
+    transform: scale(1) translate3d(0, 0, 0);
+    opacity: 0.60;
   }
   50% {
-    border-radius: 55% 45% 55% 45% / 45% 55% 45% 55%;
-    transform: rotate(12deg);
+    transform: scale(1.12) translate3d(20px, 20px, 0);
+    opacity: 0.85;
   }
 }
 
-@keyframes listening-wave {
-  0%, 100% {
-    transform: scaleY(0.2);
-    opacity: 0.4;
-  }
-  50% {
-    transform: scaleY(1);
-    opacity: 1;
-  }
-}
-
-@keyframes radar-ring {
-  0% {
-    transform: scale(0.85);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1.65);
+@keyframes fade-in {
+  from {
     opacity: 0;
+    transform: translateY(4px);
   }
-}
-
-@keyframes gentle-float {
-  0%, 100% {
+  to {
+    opacity: 1;
     transform: translateY(0);
   }
-  50% {
-    transform: translateY(-5px);
+}
+
+.animate-atmosphere-x {
+  animation: atmospheric-drift-x 34s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-atmosphere-y {
+  animation: atmospheric-drift-y 42s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-atmosphere-breath {
+  animation: atmospheric-breath 48s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  .animate-atmosphere-x,
+  .animate-atmosphere-y,
+  .animate-atmosphere-breath {
+    animation: none !important;
   }
-}
-
-.animate-blob-1 {
-  animation: blob-layer-1 10s ease-in-out infinite;
-}
-
-.animate-blob-2 {
-  animation: blob-layer-2 12s ease-in-out infinite;
-}
-
-.animate-blob-3 {
-  animation: blob-layer-3 14s ease-in-out infinite;
-}
-
-.animate-radar-ring {
-  animation: radar-ring 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
-}
-
-.animate-gentle-float {
-  animation: gentle-float 6s ease-in-out infinite;
 }
 
 /* Custom Scrollbars */
@@ -112,12 +100,12 @@
   height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(10, 46, 34, 0.6);
+  background: rgba(10, 46, 34, 0.4);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(244, 237, 216, 0.25);
+  background: rgba(244, 237, 216, 0.2);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(244, 237, 216, 0.45);
+  background: rgba(244, 237, 216, 0.4);
 }
