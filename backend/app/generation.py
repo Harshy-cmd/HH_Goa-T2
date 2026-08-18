@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from pathlib import Path
 from typing import Any, Sequence
 
@@ -101,19 +102,36 @@ class OpenAIGroundedLLM:
     def answer(self, query: str, evidence: Sequence[SearchHit]) -> GeneratedAnswer:
         if not evidence:
             return GeneratedAnswer(REFUSAL, (), refused=True)
-        try:
-            completion = self._client_instance().chat.completions.create(
-                model=self.model,
-                messages=self._prompt(query, evidence),
-                response_format={"type": "json_object"},
-                temperature=0,
-            )
-            content = completion.choices[0].message.content
-            parsed = GroundedLLMResponse.model_validate_json(content)
-        except (ValidationError, AttributeError, IndexError, TypeError, ValueError) as exc:
-            raise GroundedGenerationError(f"Invalid structured LLM response: {exc}") from exc
-        except Exception as exc:
-            raise GroundedGenerationError(f"Grounded LLM request failed: {exc}") from exc
+        parsed = None
+        models_to_try = [self.model]
+        for fallback in ["openai/gpt-oss-120b", "qwen/qwen3.6-27b", "allam-2-7b"]:
+            if fallback not in models_to_try:
+                models_to_try.append(fallback)
+
+        last_exc = None
+        for current_model in models_to_try:
+            try:
+                completion = self._client_instance().chat.completions.create(
+                    model=current_model,
+                    messages=self._prompt(query, evidence),
+                    response_format={"type": "json_object"},
+                    temperature=0,
+                )
+                content = completion.choices[0].message.content
+                parsed = GroundedLLMResponse.model_validate_json(content)
+                break
+            except (ValidationError, AttributeError, IndexError, TypeError, ValueError) as exc:
+                raise GroundedGenerationError(f"Invalid structured LLM response: {exc}") from exc
+            except Exception as exc:
+                last_exc = exc
+                if "429" in str(exc) or "rate_limit" in str(exc).lower():
+                    continue
+                raise GroundedGenerationError(f"Grounded LLM request failed: {exc}") from exc
+
+        if parsed is None:
+            if last_exc is not None:
+                raise GroundedGenerationError(f"Grounded LLM request failed: {last_exc}") from last_exc
+            return GeneratedAnswer(REFUSAL, (), refused=True)
         allowed = {hit.chunk.chunk_id for hit in evidence}
         citations = tuple(chunk_id for chunk_id in parsed.citation_chunk_ids if chunk_id in allowed)
         parsed_answer = (parsed.answer or "").strip()
