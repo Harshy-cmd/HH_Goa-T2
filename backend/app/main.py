@@ -25,7 +25,7 @@ except ImportError:
 
 from app.domain import SpeechToText, TextToSpeech
 from app.embeddings import SentenceTransformerEmbeddingProvider
-from app.generation import OpenAIGroundedLLM
+from app.generation import GeminiGroundedLLM, OpenAIGroundedLLM
 from app.ingestion import fixed_chunks, hierarchical_chunks, load_jsonl, sentence_chunks
 from app.pipeline import ExtractiveGroundedGenerator, RAGPipeline
 from app.retrieval import (BM25Retriever, CrossEncoderReranker, FAISSDenseRetriever,
@@ -149,7 +149,10 @@ def _build_generator():
     if provider == "openai":
         _GENERATOR_INSTANCE = OpenAIGroundedLLM()
         return _GENERATOR_INSTANCE
-    raise ValueError("LLM_PROVIDER must be either 'extractive' or 'openai'.")
+    if provider == "gemini":
+        _GENERATOR_INSTANCE = GeminiGroundedLLM()
+        return _GENERATOR_INSTANCE
+    raise ValueError("LLM_PROVIDER must be one of 'extractive', 'openai', or 'gemini'.")
 
 
 def _build_stt() -> SpeechToText:
