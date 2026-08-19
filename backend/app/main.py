@@ -32,7 +32,7 @@ from app.retrieval import (BM25Retriever, CrossEncoderReranker, FAISSDenseRetrie
                            HashingDenseRetriever, HashingEmbedder, HybridRetriever,
                            TransparentReranker)
 from app.router import QueryIntent, classify_query
-from app.stt import MockSTT, OpenAIWhisperSTT, SpeechToTextError
+from app.stt import FasterWhisperSTT, MockSTT, OpenAIWhisperSTT, SpeechToTextError
 from app.tts import EdgeTTS, MockTTS, TextToSpeechError
 from app.vector_store import FaissVectorStore
 
@@ -156,12 +156,14 @@ def _build_generator():
 
 
 def _build_stt() -> SpeechToText:
-    provider = os.getenv("STT_PROVIDER", "openai").lower()
+    provider = os.getenv("STT_PROVIDER", "local").lower()
+    if provider in ("local", "faster-whisper", "faster_whisper", "whisper"):
+        return FasterWhisperSTT()
     if provider in ("openai", "groq"):
         return OpenAIWhisperSTT()
     if provider == "mock":
         return MockSTT()
-    raise ValueError(f"STT_PROVIDER must be either 'openai', 'groq', or 'mock', got '{provider}'.")
+    raise ValueError(f"STT_PROVIDER must be 'local', 'openai', 'groq', or 'mock', got '{provider}'.")
 
 
 def _build_tts() -> TextToSpeech:

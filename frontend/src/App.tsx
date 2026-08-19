@@ -309,13 +309,14 @@ export const App: React.FC = () => {
   const processVoiceQuery = async (audioBlob: Blob) => {
     setAppState('TRANSCRIBING');
     setStageLabel('Transcribing voice with Whisper…');
+    setErrorMessage(null);
+
+    let stageTimer: ReturnType<typeof setTimeout> | null = setTimeout(() => {
+      setAppState('RETRIEVING');
+      setStageLabel('Searching knowledge base with FAISS…');
+    }, 600);
 
     try {
-      setTimeout(() => {
-        setAppState('RETRIEVING');
-        setStageLabel('Searching knowledge base with FAISS…');
-      }, 500);
-
       const res = await queryVoice({
         audioBlob,
         language: settings.language,
@@ -325,6 +326,11 @@ export const App: React.FC = () => {
         synthesize_audio: settings.synthesize_audio,
         apiBaseUrl: settings.apiBaseUrl,
       });
+
+      if (stageTimer) {
+        clearTimeout(stageTimer);
+        stageTimer = null;
+      }
 
       setResponse(res);
 
@@ -349,8 +355,12 @@ export const App: React.FC = () => {
         playAudioPayload(res.audio_base64, res.answer);
       }
     } catch (err: any) {
+      if (stageTimer) {
+        clearTimeout(stageTimer);
+        stageTimer = null;
+      }
       console.error('Voice query error:', err);
-      setErrorMessage(err.message || 'Failed to process voice query.');
+      setErrorMessage(err.message || 'Speech recognition failed. Please try again or type your question.');
       setAppState('ERROR');
     }
   };

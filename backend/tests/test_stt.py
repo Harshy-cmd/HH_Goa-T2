@@ -7,7 +7,7 @@ from fastapi.testclient import TestClient
 from app.domain import GeneratedAnswer
 from app.main import app
 from app.pipeline import ExtractiveGroundedGenerator, REFUSAL
-from app.stt import MockSTT, OpenAIWhisperSTT, SpeechToTextError
+from app.stt import FasterWhisperSTT, MockSTT, OpenAIWhisperSTT, SpeechToTextError
 
 
 class FakeTranscriptionResponse:
@@ -164,3 +164,69 @@ def test_voice_endpoint_preserves_refusal(monkeypatch):
     assert data["refused"] is True
     assert data["sources"] == []
     assert "reliably" in data["answer"].lower()
+
+
+# 11. FasterWhisperSTT transcribes segments from mocked model
+class FakeSegment:
+    def __init__(self, text: str) -> None:
+        self.text = text
+
+
+class FakeWhisperModel:
+    def __init__(self, texts: list[str] = None, should_fail: bool = False) -> None:
+        self.texts = texts or ["What", " is", " Python?"]
+        self.should_fail = should_fail
+        self.last_kwargs: dict = {}
+
+    def transcribe(self, audio_stream, **kwargs):
+        if self.should_fail:
+            raise RuntimeError("Model inference error")
+        self.last_kwargs = kwargs
+        segments = [FakeSegment(t) for t in self.texts]
+        info = type("Info", (), {"language": kwargs.get("language", "en")})()
+        return segments, info
+
+
+def test_faster_whisper_stt_transcribes_segments():
+    fake_model = FakeWhisperModel(["What", " is", " Python?"])
+    stt = FasterWhisperSTT(model_instance=fake_model)
+    res = asyncio.run(stt.transcribe(b"fake-audio-bytes"))
+    assert res == "What  is  Python?"
+
+
+def test_faster_whisper_stt_forwards_language():
+    fake_model = FakeWhisperModel(["पायथन क्या है?"])
+    stt = FasterWhisperSTT(model_instance=fake_model)
+    res = asyncio.run(stt.transcribe(b"fake-audio-bytes", language="hi"))
+    assert res == "पायथन क्या है?"
+    assert fake_model.last_kwargs.get("language") == "hi"
+
+
+def test_faster_whisper_stt_empty_transcript_raises_error():
+    fake_model = FakeWhisperModel(["   ", ""])
+    stt = FasterWhisperSTT(model_instance=fake_model)
+    with pytest.raises(SpeechToTextError, match="empty transcript"):
+        asyncio.run(stt.transcribe(b"fake-audio-bytes"))
+
+
+def test_faster_whisper_stt_exception_raises_stt_error():
+    fake_model = FakeWhisperModel(should_fail=True)
+    stt = FasterWhisperSTT(model_instance=fake_model)
+    with pytest.raises(SpeechToTextError, match="STT transcription request failed"):
+        asyncio.run(stt.transcribe(b"fake-audio-bytes"))
+
+
+def test_build_stt_factory_provider_dispatch(monkeypatch):
+    from app.main import _build_stt
+
+    monkeypatch.setenv("STT_PROVIDER", "local")
+    adapter = _build_stt()
+    assert isinstance(adapter, FasterWhisperSTT)
+
+    monkeypatch.setenv("STT_PROVIDER", "openai")
+    adapter_oai = _build_stt()
+    assert isinstance(adapter_oai, OpenAIWhisperSTT)
+
+    monkeypatch.setenv("STT_PROVIDER", "mock")
+    adapter_mock = _build_stt()
+    assert isinstance(adapter_mock, MockSTT)

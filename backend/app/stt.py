@@ -19,11 +19,87 @@ except ImportError:
     pass
 
 from app.domain import SpeechToText
+import threading
 
 
 class SpeechToTextError(RuntimeError):
     """Raised when audio transcription fails."""
     pass
+
+
+_WHISPER_MODEL_CACHE: dict[str, Any] = {}
+_WHISPER_MODEL_LOCK = threading.Lock()
+
+
+class FasterWhisperSTT(SpeechToText):
+    """Local, offline Speech-to-Text adapter using faster-whisper on CPU."""
+
+    def __init__(
+        self,
+        model_size: str | None = None,
+        device: str = "cpu",
+        compute_type: str = "int8",
+        model_instance: Any | None = None,
+    ) -> None:
+        self.model_size = model_size or os.getenv("STT_MODEL", "tiny")
+        self.device = device
+        self.compute_type = compute_type
+        self._model = model_instance
+
+    def _get_model(self) -> Any:
+        if self._model is not None:
+            return self._model
+        with _WHISPER_MODEL_LOCK:
+            if self.model_size in _WHISPER_MODEL_CACHE:
+                self._model = _WHISPER_MODEL_CACHE[self.model_size]
+                return self._model
+            try:
+                from faster_whisper import WhisperModel
+            except ImportError as exc:
+                raise SpeechToTextError(
+                    "faster-whisper package is required for FasterWhisperSTT. "
+                    "Install it with: pip install faster-whisper"
+                ) from exc
+            try:
+                model = WhisperModel(
+                    self.model_size,
+                    device=self.device,
+                    compute_type=self.compute_type,
+                )
+                _WHISPER_MODEL_CACHE[self.model_size] = model
+                self._model = model
+                return self._model
+            except Exception as exc:
+                raise SpeechToTextError(
+                    f"Failed to initialize faster-whisper model '{self.model_size}': {exc}"
+                ) from exc
+
+    async def transcribe(
+        self,
+        audio: bytes,
+        language: str | None = None,
+        filename: str = "audio.wav",
+    ) -> str:
+        if not audio or len(audio) == 0:
+            raise SpeechToTextError("Audio payload cannot be empty.")
+
+        try:
+            model = self._get_model()
+            audio_stream = io.BytesIO(audio)
+            kwargs: dict[str, Any] = {"beam_size": 5}
+            if language and language != "auto":
+                kwargs["language"] = language
+
+            segments, info = model.transcribe(audio_stream, **kwargs)
+            text_segments = [segment.text for segment in segments]
+            transcript = " ".join(text_segments).strip()
+            if not transcript:
+                raise SpeechToTextError("Transcribed audio yielded an empty transcript.")
+            return transcript
+        except SpeechToTextError:
+            raise
+        except Exception as exc:
+            raise SpeechToTextError(f"STT transcription request failed: {exc}") from exc
 
 
 class OpenAIWhisperSTT(SpeechToText):

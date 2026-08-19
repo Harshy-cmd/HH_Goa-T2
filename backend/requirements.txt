@@ -11,6 +11,7 @@ faiss-cpu>=1.9,<2.0
 sentence-transformers>=3.0,<6.0
 openai>=1.0,<3.0
 google-genai>=1.0,<3.0
+faster-whisper>=1.0.0,<2.0.0
 datasets>=3.0,<6.0
 pyarrow>=14.0
 huggingface-hub>=0.20.0
