@@ -74,6 +74,7 @@ export const App: React.FC = () => {
   const animationFrameRef = useRef<number | null>(null);
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
   const activeAudioUrlRef = useRef<string | null>(null);
+  const lastQueryRef = useRef<string | null>(null);
 
   // Update Settings
   const handleUpdateSettings = (newSettings: Partial<Settings>) => {
@@ -308,13 +309,24 @@ export const App: React.FC = () => {
   // Process Voice Query
   const processVoiceQuery = async (audioBlob: Blob) => {
     setAppState('TRANSCRIBING');
-    setStageLabel('Transcribing voice with Whisper…');
+    setStageLabel('Understanding your voice with Whisper…');
     setErrorMessage(null);
 
-    let stageTimer: ReturnType<typeof setTimeout> | null = setTimeout(() => {
-      setAppState('RETRIEVING');
-      setStageLabel('Searching knowledge base with FAISS…');
-    }, 600);
+    const timers: ReturnType<typeof setTimeout>[] = [];
+
+    timers.push(
+      setTimeout(() => {
+        setAppState('RETRIEVING');
+        setStageLabel('Searching 12,184 knowledge passages…');
+      }, 450)
+    );
+
+    timers.push(
+      setTimeout(() => {
+        setAppState('GENERATING');
+        setStageLabel('Synthesizing grounded answer with citations…');
+      }, 950)
+    );
 
     try {
       const res = await queryVoice({
@@ -324,15 +336,14 @@ export const App: React.FC = () => {
         chunking_strategy: settings.chunking_strategy,
         retrieval_mode: settings.retrieval_mode,
         synthesize_audio: settings.synthesize_audio,
+        previous_query: lastQueryRef.current || undefined,
         apiBaseUrl: settings.apiBaseUrl,
       });
 
-      if (stageTimer) {
-        clearTimeout(stageTimer);
-        stageTimer = null;
-      }
+      timers.forEach((t) => clearTimeout(t));
 
       setResponse(res);
+      lastQueryRef.current = res.query || res.normalized_query || null;
 
       // Add to session history
       setHistory((prev) => [
@@ -355,12 +366,9 @@ export const App: React.FC = () => {
         playAudioPayload(res.audio_base64, res.answer);
       }
     } catch (err: any) {
-      if (stageTimer) {
-        clearTimeout(stageTimer);
-        stageTimer = null;
-      }
+      timers.forEach((t) => clearTimeout(t));
       console.error('Voice query error:', err);
-      setErrorMessage(err.message || 'Speech recognition failed. Please try again or type your question.');
+      setErrorMessage(err.message || "Couldn't understand the audio. Try speaking again or type your question.");
       setAppState('ERROR');
     }
   };
@@ -368,8 +376,13 @@ export const App: React.FC = () => {
   // Process Typed Question
   const handleTextQuery = async (text: string) => {
     setAppState('RETRIEVING');
-    setStageLabel('Searching knowledge base with FAISS…');
+    setStageLabel('Searching 12,184 knowledge passages…');
     setErrorMessage(null);
+
+    const genTimer = setTimeout(() => {
+      setAppState('GENERATING');
+      setStageLabel('Synthesizing grounded answer with citations…');
+    }, 450);
 
     try {
       const res = await queryText({
@@ -377,10 +390,13 @@ export const App: React.FC = () => {
         top_k: settings.top_k,
         chunking_strategy: settings.chunking_strategy,
         retrieval_mode: settings.retrieval_mode,
+        previous_query: lastQueryRef.current || undefined,
         apiBaseUrl: settings.apiBaseUrl,
       });
 
+      clearTimeout(genTimer);
       setResponse(res);
+      lastQueryRef.current = text;
 
       setHistory((prev) => [
         {
@@ -402,6 +418,7 @@ export const App: React.FC = () => {
         playAudioPayload(null, res.answer);
       }
     } catch (err: any) {
+      clearTimeout(genTimer);
       console.error('Text query error:', err);
       setErrorMessage(err.message || 'Failed to process query.');
       setAppState('ERROR');
@@ -450,16 +467,28 @@ export const App: React.FC = () => {
           supporting: "Speak naturally. I'll know when you're done.",
         };
       case 'TRANSCRIBING':
+        return {
+          main: 'Understanding your voice...',
+          supporting: 'Transcribing speech with local Whisper model...',
+        };
       case 'RETRIEVING':
+        return {
+          main: 'Searching knowledge...',
+          supporting: 'Scanning 12,184 verified passages with FAISS & BM25...',
+        };
       case 'GENERATING':
         return {
-          main: 'Got it.',
-          supporting: 'Finding the right information...',
+          main: 'Formulating answer...',
+          supporting: 'Synthesizing grounded response with verified citations...',
         };
       case 'PLAYING_AUDIO':
+        return {
+          main: 'Speaking answer...',
+          supporting: null,
+        };
       case 'ANSWER_READY':
         return {
-          main: "Here's what I found.",
+          main: 'Grounded Answer',
           supporting: null,
         };
       case 'REFUSED':
@@ -476,7 +505,7 @@ export const App: React.FC = () => {
       default:
         return {
           main: 'Ready when you are.',
-          supporting: 'Tap the microphone and start speaking.',
+          supporting: 'Tap the microphone or type your question in English or Indic languages.',
         };
     }
   }, [appState, errorMessage]);
@@ -586,6 +615,7 @@ export const App: React.FC = () => {
               isPlaying={isPlayingAudio}
               onToggleAudio={handleToggleAudio}
               onShare={() => setIsShareModalOpen(true)}
+              onSelectSuggestion={(q) => handleTextQuery(q)}
             />
           )}
 

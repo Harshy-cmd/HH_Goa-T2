@@ -21,12 +21,14 @@ export async function queryText({
   top_k = 5,
   chunking_strategy = 'sentence',
   retrieval_mode = 'dense',
+  previous_query,
   apiBaseUrl = DEFAULT_API_BASE_URL,
 }: {
   query: string;
   top_k?: number;
   chunking_strategy?: string;
   retrieval_mode?: string;
+  previous_query?: string;
   apiBaseUrl?: string;
 }): Promise<QueryResponse> {
   const res = await fetch(`${apiBaseUrl}/v1/query`, {
@@ -40,6 +42,7 @@ export async function queryText({
       top_k,
       chunking_strategy,
       retrieval_mode,
+      previous_query,
     }),
   });
 
@@ -58,6 +61,7 @@ export async function queryVoice({
   chunking_strategy = 'sentence',
   retrieval_mode = 'dense',
   synthesize_audio = true,
+  previous_query,
   apiBaseUrl = DEFAULT_API_BASE_URL,
 }: {
   audioBlob: Blob;
@@ -66,6 +70,7 @@ export async function queryVoice({
   chunking_strategy?: string;
   retrieval_mode?: string;
   synthesize_audio?: boolean;
+  previous_query?: string;
   apiBaseUrl?: string;
 }): Promise<VoiceQueryResponse> {
   const formData = new FormData();
@@ -77,6 +82,9 @@ export async function queryVoice({
   formData.append('chunking_strategy', chunking_strategy);
   formData.append('retrieval_mode', retrieval_mode);
   formData.append('synthesize_audio', synthesize_audio ? 'true' : 'false');
+  if (previous_query) {
+    formData.append('previous_query', previous_query);
+  }
 
   const res = await fetch(`${apiBaseUrl}/v1/voice/query`, {
     method: 'POST',

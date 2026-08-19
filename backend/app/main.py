@@ -28,6 +28,9 @@ from app.embeddings import SentenceTransformerEmbeddingProvider
 from app.generation import GeminiGroundedLLM, OpenAIGroundedLLM
 from app.ingestion import fixed_chunks, hierarchical_chunks, load_jsonl, sentence_chunks
 from app.pipeline import ExtractiveGroundedGenerator, RAGPipeline
+from app.query_normalizer import (extract_topic_from_query,
+                                  generate_suggested_questions,
+                                  normalize_spoken_query)
 from app.retrieval import (BM25Retriever, CrossEncoderReranker, FAISSDenseRetriever,
                            HashingDenseRetriever, HashingEmbedder, HybridRetriever,
                            TransparentReranker)
@@ -45,6 +48,7 @@ class QueryRequest(BaseModel):
     chunking_strategy: Literal["fixed", "sentence", "hierarchical"] = "sentence"
     retrieval_mode: Literal["dense", "bm25", "hybrid", "hybrid_rerank"] = "hybrid_rerank"
     language: str | None = None
+    previous_query: str | None = None
 
 
 class SourceResponse(BaseModel):
@@ -65,6 +69,8 @@ class QueryResponse(BaseModel):
     sources: list[SourceResponse]
     latency_ms: dict[str, float]
     query_type: str | None = None
+    normalized_query: str | None = None
+    suggested_questions: list[str] = Field(default_factory=list)
 
 
 class VoiceQueryResponse(BaseModel):
@@ -77,6 +83,8 @@ class VoiceQueryResponse(BaseModel):
     latency_ms: dict[str, float]
     audio_base64: str | None = None
     query_type: str | None = None
+    normalized_query: str | None = None
+    suggested_questions: list[str] = Field(default_factory=list)
 
 
 class TTSRequest(BaseModel):
@@ -282,9 +290,16 @@ def health() -> dict[str, str]:
 @app.post("/v1/query", response_model=QueryResponse)
 def query(request: QueryRequest) -> QueryResponse:
     t_start = time.perf_counter()
-    route = classify_query(request.query, preferred_language=request.language)
 
-    # 1. Handle Conversational / System directly
+    # 1. Deterministic Local Query Normalization & Anaphora Context
+    prev_topic = extract_topic_from_query(request.previous_query) if request.previous_query else None
+    normalized = normalize_spoken_query(request.query, previous_topic=prev_topic)
+    norm_elapsed = round((time.perf_counter() - t_start) * 1000, 3)
+
+    # 2. Route Query
+    route = classify_query(normalized.normalized_query, preferred_language=request.language)
+
+    # 3. Handle Conversational / System directly
     if route.intent in (QueryIntent.CONVERSATIONAL, QueryIntent.SYSTEM) and route.direct_answer:
         route_ms = round((time.perf_counter() - t_start) * 1000, 3)
         return QueryResponse(
@@ -293,25 +308,35 @@ def query(request: QueryRequest) -> QueryResponse:
             retrieval_strategy=f"direct_{route.intent.value}",
             chunking_strategy=request.chunking_strategy,
             query_type=route.intent.value,
+            normalized_query=normalized.normalized_query,
             sources=[],
-            latency_ms={"route": route_ms, "total": route_ms},
+            latency_ms={"norm": norm_elapsed, "route": route_ms, "total": route_ms},
+            suggested_questions=generate_suggested_questions(normalized.normalized_query, [], language=route.language),
         )
 
-    # 2. Handle Knowledge Queries through Grounded RAG Pipeline
-    result = pipelines[request.chunking_strategy][request.retrieval_mode].run(request.query, answer_limit=request.top_k)
+    # 4. Handle Knowledge Queries through Grounded RAG Pipeline
+    result = pipelines[request.chunking_strategy][request.retrieval_mode].run(normalized.normalized_query, answer_limit=request.top_k)
     labels = {
         "dense": "dense",
         "bm25": "bm25",
         "hybrid": "hybrid_rrf",
         "hybrid_rerank": "hybrid_rrf + reranker",
     }
+    source_titles = [hit.chunk.title for hit in result.sources if hit.chunk.title]
+    suggestions = generate_suggested_questions(normalized.normalized_query, source_titles, language=route.language)
+
+    latencies = {"norm": norm_elapsed, **result.latency_ms}
+    latencies["total"] = round(norm_elapsed + result.latency_ms.get("rag_total", 0.0), 3)
+
     return QueryResponse(
         answer=result.answer,
         refused=result.refused,
         retrieval_strategy=labels[request.retrieval_mode],
         chunking_strategy=request.chunking_strategy,
         query_type="knowledge" if not result.refused else "refusal",
-        latency_ms=result.latency_ms,
+        normalized_query=normalized.normalized_query,
+        latency_ms=latencies,
+        suggested_questions=suggestions,
         sources=[
             SourceResponse(
                 chunk_id=hit.chunk.chunk_id,
@@ -335,6 +360,7 @@ async def voice_query(
     chunking_strategy: Literal["fixed", "sentence", "hierarchical"] = Form(default="sentence"),
     retrieval_mode: Literal["dense", "bm25", "hybrid", "hybrid_rerank"] = Form(default="dense"),
     synthesize_audio: bool = Form(default=False),
+    previous_query: str | None = Form(default=None),
 ) -> VoiceQueryResponse:
     if not file or not file.filename:
         raise HTTPException(status_code=400, detail="Audio file is required.")
@@ -366,8 +392,14 @@ async def voice_query(
             detail=f"Invalid chunking strategy '{chunking_strategy}' or retrieval mode '{retrieval_mode}'.",
         )
 
-    # Route query
-    route = classify_query(transcript, preferred_language=language)
+    # 1. Deterministic Local Query Normalization & Anaphora Context
+    t_norm_start = time.perf_counter()
+    prev_topic = extract_topic_from_query(previous_query) if previous_query else None
+    normalized = normalize_spoken_query(transcript, previous_topic=prev_topic)
+    norm_elapsed = round((time.perf_counter() - t_norm_start) * 1000, 3)
+
+    # 2. Route Query
+    route = classify_query(normalized.normalized_query, preferred_language=language)
     labels = {
         "dense": "dense",
         "bm25": "bm25",
@@ -382,12 +414,14 @@ async def voice_query(
         sources: list[SourceResponse] = []
         latency_ms = {
             "stt": stt_elapsed,
+            "norm": norm_elapsed,
             "route": 0.5,
-            "total": round(stt_elapsed + 0.5, 3),
+            "total": round(stt_elapsed + norm_elapsed + 0.5, 3),
         }
         query_type = route.intent.value
+        suggestions = generate_suggested_questions(normalized.normalized_query, [], language=route.language)
     else:
-        result = pipelines[chunking_strategy][retrieval_mode].run(transcript, answer_limit=top_k)
+        result = pipelines[chunking_strategy][retrieval_mode].run(normalized.normalized_query, answer_limit=top_k)
         answer = result.answer
         refused = result.refused
         strategy = labels[retrieval_mode]
@@ -403,10 +437,13 @@ async def voice_query(
             )
             for hit in result.sources
         ]
+        source_titles = [hit.chunk.title for hit in result.sources if hit.chunk.title]
+        suggestions = generate_suggested_questions(normalized.normalized_query, source_titles, language=route.language)
         latency_ms = {
             "stt": stt_elapsed,
+            "norm": norm_elapsed,
             **result.latency_ms,
-            "total": round(stt_elapsed + result.latency_ms.get("rag_total", 0.0), 3),
+            "total": round(stt_elapsed + norm_elapsed + result.latency_ms.get("rag_total", 0.0), 3),
         }
         query_type = "knowledge" if not refused else "refusal"
 
@@ -424,6 +461,7 @@ async def voice_query(
 
     return VoiceQueryResponse(
         query=transcript,
+        normalized_query=normalized.normalized_query,
         answer=answer,
         refused=refused,
         retrieval_strategy=strategy,
@@ -431,6 +469,7 @@ async def voice_query(
         query_type=query_type,
         latency_ms=latency_ms,
         audio_base64=audio_b64,
+        suggested_questions=suggestions,
         sources=sources,
     )
 

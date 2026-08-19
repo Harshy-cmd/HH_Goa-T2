@@ -7,6 +7,7 @@ interface AnswerCardProps {
   isPlaying: boolean;
   onToggleAudio: () => void;
   onShare?: () => void;
+  onSelectSuggestion?: (question: string) => void;
 }
 
 export const AnswerCard: React.FC<AnswerCardProps> = ({
@@ -14,14 +15,17 @@ export const AnswerCard: React.FC<AnswerCardProps> = ({
   isPlaying,
   onToggleAudio,
   onShare,
+  onSelectSuggestion,
 }) => {
   const [sourcesExpanded, setSourcesExpanded] = useState(false);
   const [latencyExpanded, setLatencyExpanded] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const queryText = 'query' in data ? data.query : undefined;
+  const normalizedQuery = data.normalized_query;
   const sources = data.sources || [];
   const latency = data.latency_ms || {};
+  const suggestedQuestions = data.suggested_questions || [];
 
   const handleCopy = () => {
     navigator.clipboard.writeText(data.answer);
@@ -108,9 +112,16 @@ export const AnswerCard: React.FC<AnswerCardProps> = ({
         {/* User Query Header (if from Voice/Text) */}
         {queryText && (
           <div className="mb-4 pb-3 border-b border-white/[0.06]">
-            <p className="text-xs font-mono tracking-wider text-[#F4EDD8]/50 uppercase mb-1">
-              Question
-            </p>
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
+              <p className="text-xs font-mono tracking-wider text-[#F4EDD8]/50 uppercase">
+                Heard Transcript
+              </p>
+              {normalizedQuery && normalizedQuery.toLowerCase() !== queryText.toLowerCase() && (
+                <span className="text-[11px] font-mono text-[#F5C518]/90 bg-[#F5C518]/10 px-2.5 py-0.5 rounded-full border border-[#F5C518]/20">
+                  Normalized: "{normalizedQuery}"
+                </span>
+              )}
+            </div>
             <p className="text-base sm:text-lg font-medium text-[#F4EDD8] font-sans">
               "{queryText}"
             </p>
@@ -152,6 +163,27 @@ export const AnswerCard: React.FC<AnswerCardProps> = ({
         <div className="text-[#F4EDD8] text-base sm:text-lg leading-relaxed font-normal mb-6 font-sans space-y-3.5 selection:bg-[#EE2A6D]/30 selection:text-white">
           {data.answer.split('\n\n').map((paragraph, idx) => renderParagraph(paragraph, idx))}
         </div>
+
+        {/* Interactive Follow-up / Suggested Questions */}
+        {suggestedQuestions.length > 0 && (
+          <div className="mb-5 pt-3 border-t border-white/[0.06] animate-fade-in">
+            <p className="text-[11px] font-mono uppercase tracking-wider text-[#F4EDD8]/50 mb-2.5">
+              Related Follow-up Questions
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {suggestedQuestions.map((q, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => onSelectSuggestion?.(q)}
+                  className="text-left text-xs font-sans text-[#F4EDD8]/85 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#F5C518]/40 px-3.5 py-2 rounded-2xl transition-all duration-200 active:scale-95 shadow-sm"
+                >
+                  <span className="text-[#F5C518] mr-1.5 font-mono">→</span>
+                  <span>{q}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Minimal Audio & Action Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl bg-white/[0.03] border border-white/[0.06] mb-2">
@@ -241,16 +273,22 @@ export const AnswerCard: React.FC<AnswerCardProps> = ({
               <span>Pipeline Stage Breakdown</span>
               <span className="text-[#F5C518] font-bold">Total: {totalLatencyFormatted}</span>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-6 gap-2">
               {latency.stt !== undefined && (
                 <div className="p-2 rounded-xl bg-[#0F3D2E]/50 border border-white/[0.06]">
                   <div className="text-[#F4EDD8]/50 text-[9px] uppercase">STT Whisper</div>
                   <div className="text-[#F4EDD8] font-bold mt-0.5">{Math.round(latency.stt)}ms</div>
                 </div>
               )}
+              {latency.norm !== undefined && (
+                <div className="p-2 rounded-xl bg-[#0F3D2E]/50 border border-white/[0.06]">
+                  <div className="text-[#F4EDD8]/50 text-[9px] uppercase">Normalizer</div>
+                  <div className="text-[#F4EDD8] font-bold mt-0.5">{latency.norm < 1 ? '<1ms' : `${Math.round(latency.norm)}ms`}</div>
+                </div>
+              )}
               {latency.retrieval !== undefined && (
                 <div className="p-2 rounded-xl bg-[#0F3D2E]/50 border border-white/[0.06]">
-                  <div className="text-[#F4EDD8]/50 text-[9px] uppercase">FAISS Dense</div>
+                  <div className="text-[#F4EDD8]/50 text-[9px] uppercase">Hybrid RAG</div>
                   <div className="text-[#F4EDD8] font-bold mt-0.5">{Math.round(latency.retrieval)}ms</div>
                 </div>
               )}

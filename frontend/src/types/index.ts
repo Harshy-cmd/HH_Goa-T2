@@ -10,6 +10,7 @@ export interface Source {
 
 export interface LatencyBreakdown {
   stt?: number;
+  norm?: number;
   retrieval?: number;
   reranking?: number;
   generation?: number;
@@ -27,6 +28,8 @@ export interface QueryResponse {
   latency_ms: LatencyBreakdown;
   audio_base64?: string | null;
   query_type?: 'conversational' | 'system' | 'knowledge' | 'refusal' | string | null;
+  normalized_query?: string | null;
+  suggested_questions?: string[];
 }
 
 export interface VoiceQueryResponse {
@@ -39,6 +42,8 @@ export interface VoiceQueryResponse {
   latency_ms: LatencyBreakdown;
   audio_base64?: string | null;
   query_type?: 'conversational' | 'system' | 'knowledge' | 'refusal' | string | null;
+  normalized_query?: string | null;
+  suggested_questions?: string[];
 }
 
 export type AppState =
