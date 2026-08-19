@@ -1,5 +1,4 @@
-from __future__ import annotations
-
+import asyncio
 import io
 import os
 from pathlib import Path
@@ -74,6 +73,20 @@ class FasterWhisperSTT(SpeechToText):
                     f"Failed to initialize faster-whisper model '{self.model_size}': {exc}"
                 ) from exc
 
+    def _transcribe_sync(self, audio: bytes, language: str | None) -> str:
+        model = self._get_model()
+        audio_stream = io.BytesIO(audio)
+        kwargs: dict[str, Any] = {"beam_size": 5}
+        if language and language != "auto":
+            kwargs["language"] = language
+
+        segments, info = model.transcribe(audio_stream, **kwargs)
+        text_segments = [segment.text for segment in segments]
+        transcript = " ".join(text_segments).strip()
+        if not transcript:
+            raise SpeechToTextError("Transcribed audio yielded an empty transcript.")
+        return transcript
+
     async def transcribe(
         self,
         audio: bytes,
@@ -84,18 +97,8 @@ class FasterWhisperSTT(SpeechToText):
             raise SpeechToTextError("Audio payload cannot be empty.")
 
         try:
-            model = self._get_model()
-            audio_stream = io.BytesIO(audio)
-            kwargs: dict[str, Any] = {"beam_size": 5}
-            if language and language != "auto":
-                kwargs["language"] = language
-
-            segments, info = model.transcribe(audio_stream, **kwargs)
-            text_segments = [segment.text for segment in segments]
-            transcript = " ".join(text_segments).strip()
-            if not transcript:
-                raise SpeechToTextError("Transcribed audio yielded an empty transcript.")
-            return transcript
+            loop = asyncio.get_running_loop()
+            return await loop.run_in_executor(None, self._transcribe_sync, audio, language)
         except SpeechToTextError:
             raise
         except Exception as exc:

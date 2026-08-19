@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import asyncio
 import base64
 import os
 import time
@@ -249,7 +250,8 @@ def warmup_system() -> dict[str, float]:
     for strat, modes in pipelines.items():
         for mode, pipeline in modes.items():
             try:
-                pipeline.run("warmup query", retrieval_limit=2, answer_limit=2)
+                # Warm up local vector & lexical retrieval indices without calling remote cloud LLM
+                pipeline.retriever.search("warmup", 2)
             except Exception:
                 pass
     timings["warmup_ms"] = round((time.perf_counter() - w_start) * 1000, 2)
@@ -421,7 +423,12 @@ async def voice_query(
         query_type = route.intent.value
         suggestions = generate_suggested_questions(normalized.normalized_query, [], language=route.language)
     else:
-        result = pipelines[chunking_strategy][retrieval_mode].run(normalized.normalized_query, answer_limit=top_k)
+        loop = asyncio.get_running_loop()
+        pipeline_instance = pipelines[chunking_strategy][retrieval_mode]
+        result = await loop.run_in_executor(
+            None,
+            lambda: pipeline_instance.run(normalized.normalized_query, answer_limit=top_k),
+        )
         answer = result.answer
         refused = result.refused
         strategy = labels[retrieval_mode]
