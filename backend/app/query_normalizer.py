@@ -56,7 +56,7 @@ _PREAMBLE_PATTERNS = [
 
 # Anaphora replacement patterns
 _ANAPHORA_PATTERNS_EN = [
-    (re.compile(r"^(?:what\s+about\s+)?(?:its|their)\s+(advantages|disadvantages|features|applications|uses|benefits|architecture|history|syntax|types)\??$", flags=re.IGNORECASE), r"\1 of {topic}"),
+    (re.compile(r"^(?:what\s+(?:about|are|is)\s+)?(?:its|their)\s+(advantages|disadvantages|features|applications|uses|benefits|architecture|history|syntax|types|limitations)\??$", flags=re.IGNORECASE), r"\1 of {topic}"),
     (re.compile(r"^(?:who\s+(?:created|made|invented|designed|developed))\s+it\??$", flags=re.IGNORECASE), r"who created {topic}?"),
     (re.compile(r"^(?:when\s+was\s+it\s+(?:created|made|invented|released|introduced|published))\??$", flags=re.IGNORECASE), r"when was {topic} released?"),
     (re.compile(r"^(?:how\s+does\s+it\s+work)\??$", flags=re.IGNORECASE), r"how does {topic} work?"),
