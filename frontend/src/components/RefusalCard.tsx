@@ -7,6 +7,7 @@ interface RefusalCardProps {
   isPlaying: boolean;
   onToggleAudio: () => void;
   onReset: () => void;
+  onSelectSuggestion?: (question: string) => void;
 }
 
 export const RefusalCard: React.FC<RefusalCardProps> = ({
@@ -14,9 +15,18 @@ export const RefusalCard: React.FC<RefusalCardProps> = ({
   isPlaying,
   onToggleAudio,
   onReset,
+  onSelectSuggestion,
 }) => {
   const [showExplanation, setShowExplanation] = useState(false);
   const queryText = 'query' in data ? data.query : undefined;
+  const normalizedQuery = data.normalized_query;
+  const suggestedQuestions = (data.suggested_questions && data.suggested_questions.length > 0)
+    ? data.suggested_questions
+    : [
+        'What is Retrieval-Augmented Generation (RAG)?',
+        'How does FAISS index high-dimensional vectors?',
+        'What is the difference between supervised and unsupervised learning?',
+      ];
 
   return (
     <article className="w-full max-w-2xl mx-auto my-2 animate-fade-in">
@@ -28,9 +38,16 @@ export const RefusalCard: React.FC<RefusalCardProps> = ({
         {/* User Query Transcript (if available) */}
         {queryText && (
           <div className="mb-4 pb-3 border-b border-white/[0.06]">
-            <p className="text-xs font-mono tracking-wider text-[#EE2A6D]/80 uppercase mb-1">
-              Question
-            </p>
+            <div className="flex flex-wrap items-center justify-between gap-2 mb-1">
+              <p className="text-xs font-mono tracking-wider text-[#EE2A6D]/80 uppercase">
+                Heard Question
+              </p>
+              {normalizedQuery && normalizedQuery.toLowerCase() !== queryText.toLowerCase() && (
+                <span className="text-[11px] font-mono text-[#F5C518]/90 bg-[#F5C518]/10 px-2.5 py-0.5 rounded-full border border-[#F5C518]/20">
+                  Normalized: "{normalizedQuery}"
+                </span>
+              )}
+            </div>
             <p className="text-base sm:text-lg font-medium text-[#F4EDD8] font-sans">
               "{queryText}"
             </p>
@@ -63,6 +80,27 @@ export const RefusalCard: React.FC<RefusalCardProps> = ({
             <strong className="text-[#F5C518]">Evidence Relevance Below Threshold:</strong> The retrieved knowledge passages did not satisfy the semantic confidence requirements needed to guarantee a factual answer.
           </div>
         </div>
+
+        {/* Suggested Supported Questions */}
+        {suggestedQuestions.length > 0 && (
+          <div className="mb-5 pt-3 border-t border-white/[0.06] animate-fade-in">
+            <p className="text-[11px] font-mono uppercase tracking-wider text-[#F4EDD8]/50 mb-2.5">
+              Try Asking a Verified Knowledge Question:
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {suggestedQuestions.map((q, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => onSelectSuggestion?.(q)}
+                  className="text-left text-xs font-sans text-[#F4EDD8]/85 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-[#EE2A6D]/40 px-3.5 py-2 rounded-2xl transition-all duration-200 active:scale-95 shadow-sm"
+                >
+                  <span className="text-[#EE2A6D] mr-1.5 font-mono">→</span>
+                  <span>{q}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Action Controls */}
         <div className="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-white/[0.06]">

@@ -520,7 +520,7 @@ export const VoiceOrb: React.FC<VoiceOrbProps> = ({
       </div>
 
       {/* State Processing Stage Feedback Label */}
-      {!compact && stageLabel && isProcessing && (
+      {stageLabel && isProcessing && (
         <div className="mt-1 text-center z-20 animate-fade-in">
           <p className="text-xs font-mono tracking-wider text-goa-yellow font-medium bg-goa-forest-deep/90 px-3.5 py-1.5 rounded-full border border-goa-line/30 inline-flex items-center gap-2 shadow-md">
             <span className="w-2 h-2 rounded-full bg-goa-yellow animate-pulse" />

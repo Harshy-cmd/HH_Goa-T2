@@ -626,6 +626,7 @@ export const App: React.FC = () => {
               isPlaying={isPlayingAudio}
               onToggleAudio={handleToggleAudio}
               onReset={handleReset}
+              onSelectSuggestion={(q) => handleTextQuery(q)}
             />
           )}
 

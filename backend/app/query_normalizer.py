@@ -183,20 +183,38 @@ def normalize_spoken_query(
 def extract_topic_from_query(query: str) -> str | None:
     """Heuristically extracts the core topic entity from a factual query for follow-up context."""
     q = query.strip()
-    # Match "what is X", "what are X", "explain X"
-    m = re.search(r"^(?:what\s+(?:is|are)\s+|who\s+(?:is|was)\s+|explain\s+|describe\s+)(.+?)(?:\?|\.|$)", q, flags=re.IGNORECASE)
+    if not q:
+        return None
+
+    # Match "what is X", "what are X", "explain X", "tell me about X", "describe X", "who is/was X", "where is/are X"
+    m = re.search(
+        r"^(?:what\s+(?:is|are)\s+|who\s+(?:is|was)\s+|where\s+(?:is|are)\s+|why\s+(?:is|are)\s+|explain\s+|describe\s+)(.+?)(?:\?|\.|$)",
+        q,
+        flags=re.IGNORECASE,
+    )
     if m:
         candidate = m.group(1).strip()
-        # Remove trailing words like "in python", "algorithm", etc. if too broad
         if candidate and len(candidate.split()) <= 4:
             return candidate
 
-    # Hindi match: "X क्या है", "X क्या होता है"
+    # Match "how does X work"
+    m_how = re.search(r"^how\s+(?:does|do)\s+(.+?)\s+work\??$", q, flags=re.IGNORECASE)
+    if m_how:
+        candidate = m_how.group(1).strip()
+        if candidate and len(candidate.split()) <= 4:
+            return candidate
+
+    # Hindi match: "X क्या है", "X क्या होता है", "X किसे कहते हैं"
     m_hi = re.search(r"^(.+?)\s*(?:क्या\s*है|क्या\s*होता\s*है|किसे\s*कहते\s*हैं)(?:\?|।|$)", q, flags=re.IGNORECASE)
     if m_hi:
         candidate_hi = m_hi.group(1).strip()
         if candidate_hi and len(candidate_hi.split()) <= 4:
             return candidate_hi
+
+    # If it's a short 1-3 word query without interrogatives (e.g. "Python", "Machine Learning")
+    words = q.strip("?.! ").split()
+    if 1 <= len(words) <= 3 and not any(w.lower() in ("what", "why", "how", "who", "where", "when", "can", "tell") for w in words):
+        return " ".join(words)
 
     return None
 
@@ -211,17 +229,17 @@ def generate_suggested_questions(
     retrieved source titles and the current query topic without any cloud LLM calls.
     """
     topic = extract_topic_from_query(query)
-    
+
     # Derive from source titles if available
     valid_titles = [t.strip() for t in source_titles if t and t.strip()]
-    
+
     suggestions: list[str] = []
-    
+
     if language == "hi":
         if topic:
             suggestions.append(f"{topic} के मुख्य लाभ क्या हैं?")
             suggestions.append(f"{topic} कैसे काम करता है?")
-            suggestions.append(f"{topic} के विभिन्न प्रकार क्या हैं?")
+            suggestions.append(f"{topic} को किसने बनाया?")
         elif valid_titles:
             primary_title = valid_titles[0].split(":")[0].strip()
             suggestions.append(f"{primary_title} का क्या महत्व है?")
@@ -237,7 +255,7 @@ def generate_suggested_questions(
         if topic:
             suggestions.append(f"How does {topic} work in practice?")
             suggestions.append(f"What are the main advantages and use cases of {topic}?")
-            suggestions.append(f"What is the underlying architecture of {topic}?")
+            suggestions.append(f"Who created {topic} and when was it released?")
         elif valid_titles:
             primary_title = valid_titles[0].split(":")[0].strip()
             suggestions.append(f"What are the key concepts of {primary_title}?")
