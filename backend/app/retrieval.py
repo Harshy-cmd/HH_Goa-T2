@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import heapq
 import math
 import re
 import threading
@@ -75,13 +76,32 @@ class BM25Retriever:
     def __init__(self, chunks: Iterable[Chunk], k1: float = 1.5, b: float = 0.75) -> None:
         self.chunks = list(chunks)
         self.k1, self.b = k1, b
+        total_docs = len(self.chunks)
+
         self.tokens = [tokenize(chunk.text) for chunk in self.chunks]
         self.lengths = [len(tokens) for tokens in self.tokens]
-        self.average_length = sum(self.lengths) / len(self.lengths) if self.lengths else 0.0
+        self.average_length = sum(self.lengths) / max(total_docs, 1)
+
+        avg_len = max(self.average_length, 1.0)
+        self.doc_len_norm = [
+            self.k1 * (1.0 - self.b + self.b * (l / avg_len))
+            for l in self.lengths
+        ]
+
         self.document_frequency: dict[str, int] = defaultdict(int)
-        for terms in self.tokens:
-            for term in set(terms):
+        postings_builder: dict[str, list[tuple[int, int]]] = defaultdict(list)
+
+        for doc_idx, terms in enumerate(self.tokens):
+            term_counts = Counter(terms)
+            for term, count in term_counts.items():
+                postings_builder[term].append((doc_idx, count))
                 self.document_frequency[term] += 1
+
+        self.postings: dict[str, list[tuple[int, int]]] = dict(postings_builder)
+
+        self.idf: dict[str, float] = {}
+        for term, df in self.document_frequency.items():
+            self.idf[term] = math.log(1.0 + (total_docs - df + 0.5) / (df + 0.5))
 
     def search(self, query: str, limit: int) -> list[SearchHit]:
         hits, _ = self.search_with_profile(query, limit)
@@ -89,21 +109,37 @@ class BM25Retriever:
 
     def search_with_profile(self, query: str, limit: int) -> tuple[list[SearchHit], dict[str, float]]:
         started = time.perf_counter()
-        total = len(self.chunks)
         query_terms = tokenize(query)
-        scored: list[tuple[float, Chunk]] = []
-        for chunk, terms, length in zip(self.chunks, self.tokens, self.lengths):
-            frequency = Counter(terms)
-            score = 0.0
-            for term in query_terms:
-                df = self.document_frequency.get(term, 0)
-                if not df:
-                    continue
-                idf = math.log(1 + (total - df + 0.5) / (df + 0.5))
-                denominator = frequency[term] + self.k1 * (1 - self.b + self.b * length / max(self.average_length, 1))
-                score += idf * (frequency[term] * (self.k1 + 1) / denominator)
-            scored.append((score, chunk))
-        hits = [SearchHit(chunk=chunk, score=score, retriever="bm25") for score, chunk in sorted(scored, reverse=True, key=lambda pair: pair[0])[:limit]]
+        if not query_terms or not self.chunks:
+            return [], {"bm25": (time.perf_counter() - started) * 1000}
+
+        query_counts = Counter(query_terms)
+        scores: dict[int, float] = defaultdict(float)
+        k1_plus_1 = self.k1 + 1.0
+
+        for term, q_freq in query_counts.items():
+            idf_val = self.idf.get(term)
+            if idf_val is None:
+                continue
+            term_weight = q_freq * idf_val * k1_plus_1
+            postings_list = self.postings.get(term)
+            if postings_list is None:
+                continue
+            for doc_idx, tf in postings_list:
+                scores[doc_idx] += term_weight * tf / (tf + self.doc_len_norm[doc_idx])
+
+        if not scores:
+            return [], {"bm25": (time.perf_counter() - started) * 1000}
+
+        if len(scores) <= limit:
+            top_items = sorted(scores.items(), key=lambda item: item[1], reverse=True)
+        else:
+            top_items = heapq.nlargest(limit, scores.items(), key=lambda item: item[1])
+
+        hits = [
+            SearchHit(chunk=self.chunks[doc_idx], score=score, retriever="bm25")
+            for doc_idx, score in top_items
+        ]
         return hits, {"bm25": (time.perf_counter() - started) * 1000}
 
 
