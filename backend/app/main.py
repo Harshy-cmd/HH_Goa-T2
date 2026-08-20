@@ -261,11 +261,13 @@ def _initialize_all() -> None:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """FastAPI lifespan: heavy initialisation runs in a thread so the event
-    loop stays free and the port health-check responds immediately."""
-    loop = asyncio.get_running_loop()
-    await loop.run_in_executor(None, _initialize_all)
-    yield
+    """Uvicorn binds its port only AFTER this function yields.
+    We must yield immediately so Render's port scan succeeds, then run
+    heavy initialisation (model download, FAISS, BM25) in the background.
+    Routes guard themselves with _require_ready() until the task finishes."""
+    # Fire-and-forget: start init in a thread pool, do NOT await before yield.
+    asyncio.get_event_loop().run_in_executor(None, _initialize_all)
+    yield  # ← port binds here; Render port scan passes immediately
 
 
 app = FastAPI(title="NOVARON Voice RAG", version="0.5.0", lifespan=lifespan)
