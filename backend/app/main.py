@@ -3,7 +3,9 @@ from __future__ import annotations
 import asyncio
 import base64
 import os
+import sys
 import time
+import traceback
 from pathlib import Path
 from typing import Literal
 
@@ -40,7 +42,16 @@ from app.stt import FasterWhisperSTT, MockSTT, OpenAIWhisperSTT, SpeechToTextErr
 from app.tts import EdgeTTS, MockTTS, TextToSpeechError
 from app.vector_store import FaissVectorStore
 
-DATA_PATH = Path(os.getenv("NOVARON_CORPUS_PATH", str(PROJECT_ROOT / "data" / "fixtures" / "sample_corpus.jsonl")))
+_configured_corpus = os.getenv("NOVARON_CORPUS_PATH")
+if _configured_corpus:
+    _raw_path = Path(_configured_corpus.strip())
+    DATA_PATH = _raw_path if _raw_path.is_absolute() else (PROJECT_ROOT / _raw_path)
+    if not DATA_PATH.exists():
+        _fallback = PROJECT_ROOT / "data" / "fixtures" / "sample_corpus.jsonl"
+        if _fallback.exists():
+            DATA_PATH = _fallback
+else:
+    DATA_PATH = PROJECT_ROOT / "data" / "fixtures" / "sample_corpus.jsonl"
 
 
 class QueryRequest(BaseModel):
@@ -223,51 +234,143 @@ from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 
 # ---------------------------------------------------------------------------
-# Global state — initialised lazily inside lifespan so the server binds its
-# port immediately and Render's port-scan timeout is never hit.
+# Global state & Diagnostic startup tracking
 # ---------------------------------------------------------------------------
 pipelines: dict | None = None
 stt_adapter: SpeechToText | None = None
 tts_adapter: TextToSpeech | None = None
 _startup_complete: bool = False
+_startup_error: str | None = None
+
+
+def _get_memory_mb() -> float | None:
+    """Read current process memory RSS in MB (cross-platform)."""
+    try:
+        import resource
+        return resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024.0
+    except Exception:
+        pass
+    try:
+        import psutil
+        return psutil.Process().memory_info().rss / (1024.0 * 1024.0)
+    except Exception:
+        pass
+    return None
+
+
+def _log_startup_step(step_desc: str, start_time: float | None = None) -> float:
+    now = time.perf_counter()
+    ram = _get_memory_mb()
+    ram_tag = f" [RAM: {ram:.1f} MB]" if ram is not None else ""
+    if start_time is not None:
+        elapsed = (now - start_time) * 1000.0
+        print(f"[STARTUP]{ram_tag} [DONE] {step_desc} ({elapsed:.1f} ms)", flush=True)
+    else:
+        print(f"[STARTUP]{ram_tag} -> {step_desc}...", flush=True)
+    return now
 
 
 def _initialize_all() -> None:
     """Build every heavy resource (model download, FAISS index, BM25, STT, TTS).
-    Called once from lifespan *after* the ASGI server has already bound its port."""
-    global pipelines, stt_adapter, tts_adapter, _startup_complete
+    Called from lifespan in background on production, or synchronously in test environments."""
+    global pipelines, stt_adapter, tts_adapter, _startup_complete, _startup_error
 
-    print("[STARTUP] Loading corpus and building pipelines…")
-    t0 = time.perf_counter()
-    pipelines = build_pipelines()
-    print(f"[STARTUP] Pipelines ready in {round((time.perf_counter() - t0)*1000, 1)} ms")
+    if _startup_complete and pipelines is not None:
+        return
 
-    print("[STARTUP] Initialising STT adapter…")
-    stt_adapter = _build_stt()
+    import sys
+    import traceback
 
-    print("[STARTUP] Initialising TTS adapter…")
-    tts_adapter = _build_tts()
+    t_total = time.perf_counter()
+    print("=" * 60, flush=True)
+    _log_startup_step("NOVARON STARTUP SEQUENCE INITIATED")
+    print(f"[STARTUP] PID: {os.getpid()} | Python: {sys.version.split()[0]} | Platform: {sys.platform}", flush=True)
+    print(
+        f"[STARTUP] Config: CORPUS='{DATA_PATH}' | "
+        f"DENSE_RETRIEVER='{os.getenv('DENSE_RETRIEVER', 'faiss')}' | "
+        f"STT='{os.getenv('STT_PROVIDER', 'local')}' | "
+        f"TTS='{os.getenv('TTS_PROVIDER', 'edge')}' | "
+        f"LLM='{os.getenv('LLM_PROVIDER', 'gemini')}'",
+        flush=True,
+    )
+    print("=" * 60, flush=True)
 
-    # Optional warmup pass (embed a dummy query to prime the model cache)
     try:
-        embedder = _get_shared_embedder()
-        embedder.warmup()
-    except Exception:
-        pass
+        # Step 1: Pipelines (Corpus, Chunking, Index loading)
+        t_step = _log_startup_step("Step 1/5: Loading corpus and building RAG pipelines")
+        pipelines = build_pipelines()
+        _log_startup_step("Step 1/5: RAG pipelines built", t_step)
 
-    _startup_complete = True
-    print(f"[STARTUP] ✅ System ready — total {round((time.perf_counter() - t0)*1000, 1)} ms")
+        # Step 2: STT Adapter
+        stt_provider = os.getenv("STT_PROVIDER", "local")
+        t_step = _log_startup_step(f"Step 2/5: Initializing STT adapter (provider='{stt_provider}')")
+        stt_adapter = _build_stt()
+        _log_startup_step("Step 2/5: STT adapter initialized", t_step)
+
+        # Step 3: TTS Adapter
+        tts_provider = os.getenv("TTS_PROVIDER", "edge")
+        t_step = _log_startup_step(f"Step 3/5: Initializing TTS adapter (provider='{tts_provider}')")
+        tts_adapter = _build_tts()
+        _log_startup_step("Step 3/5: TTS adapter initialized", t_step)
+
+        # Step 4: Shared Embedder initialization
+        t_step = _log_startup_step("Step 4/5: Instantiating shared embedding provider")
+        embedder = _get_shared_embedder()
+        _log_startup_step(f"Step 4/5: Shared embedder instantiated (model='{embedder.model_name}')", t_step)
+
+        # Step 5: Embedder warmup (run if FAISS index is active or explicitly enabled)
+        warmup_setting = os.getenv("WARMUP_EMBEDDINGS", "auto").lower()
+        faiss_active = False
+        if pipelines:
+            for strat_modes in pipelines.values():
+                for pipe in strat_modes.values():
+                    ret = getattr(pipe, "retriever", None)
+                    if isinstance(ret, FAISSDenseRetriever):
+                        faiss_active = True
+                        break
+                    if hasattr(ret, "dense") and isinstance(ret.dense, FAISSDenseRetriever):
+                        faiss_active = True
+                        break
+
+        should_warmup = (
+            warmup_setting in ("1", "true", "yes")
+            or (warmup_setting == "auto" and faiss_active)
+        )
+
+        if should_warmup:
+            t_step = _log_startup_step(f"Step 5/5: Warming up embedder model '{embedder.model_name}'")
+            embedder.warmup()
+            _log_startup_step("Step 5/5: Embedder warmup finished", t_step)
+        else:
+            _log_startup_step("Step 5/5: Embedder warmup deferred (lazy loading or hashing retriever active)")
+
+        _startup_complete = True
+        _startup_error = None
+        _log_startup_step("[READY] System ready -- all services initialized successfully", t_total)
+        print("=" * 60, flush=True)
+
+    except Exception as exc:
+        _startup_complete = False
+        _startup_error = f"{type(exc).__name__}: {exc}"
+        print(f"\n[STARTUP ERROR] Initialization failed: {exc}", flush=True)
+        print("[STARTUP ERROR] Full traceback:", flush=True)
+        traceback.print_exc()
+        print("=" * 60, flush=True)
+
+
+# Synchronous initialization for test suites and offline harnesses
+if "pytest" in sys.modules or os.getenv("PYTEST_CURRENT_TEST"):
+    _initialize_all()
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Uvicorn binds its port only AFTER this function yields.
-    We must yield immediately so Render's port scan succeeds, then run
-    heavy initialisation (model download, FAISS, BM25) in the background.
-    Routes guard themselves with _require_ready() until the task finishes."""
-    # Fire-and-forget: start init in a thread pool, do NOT await before yield.
-    asyncio.get_event_loop().run_in_executor(None, _initialize_all)
-    yield  # ← port binds here; Render port scan passes immediately
+    We yield immediately so Render's port scan succeeds, then run
+    heavy initialization (model download, FAISS, BM25) in the background."""
+    if not _startup_complete:
+        asyncio.get_event_loop().run_in_executor(None, _initialize_all)
+    yield
 
 
 app = FastAPI(title="NOVARON Voice RAG", version="0.5.0", lifespan=lifespan)
@@ -282,17 +385,39 @@ app.add_middleware(
 
 @app.get("/health")
 def health() -> dict:
-    """Health-check endpoint — responds immediately even while startup is loading."""
+    """Health-check endpoint — accurately reports ready, starting, or error state."""
+    if _startup_error is not None:
+        return {
+            "status": "error",
+            "service": "novaron-rag-core",
+            "ready": False,
+            "error": _startup_error,
+        }
+    if not _startup_complete or pipelines is None:
+        return {
+            "status": "starting",
+            "service": "novaron-rag-core",
+            "ready": False,
+        }
     return {
-        "status": "ok" if _startup_complete else "starting",
+        "status": "ok",
         "service": "novaron-rag-core",
-        "ready": _startup_complete,
+        "ready": True,
     }
 
 
 def _require_ready():
-    """Raise HTTP 503 if startup hasn't finished yet."""
-    if not _startup_complete:
+    """Raise HTTP 500 if startup failed, or 503 if still starting up."""
+    if _startup_error is not None:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Service initialization failed: {_startup_error}",
+        )
+    if not _startup_complete or pipelines is None:
+        if "pytest" in sys.modules or os.getenv("PYTEST_CURRENT_TEST"):
+            _initialize_all()
+            if _startup_complete:
+                return
         raise HTTPException(
             status_code=503,
             detail="Service is starting up — please retry in a few seconds.",

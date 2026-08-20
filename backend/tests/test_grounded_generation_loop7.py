@@ -145,7 +145,10 @@ def test_api_health_endpoint() -> None:
     client = TestClient(app)
     resp = client.get("/health")
     assert resp.status_code == 200
-    assert resp.json() == {"status": "ok", "service": "novaron-rag-core"}
+    data = resp.json()
+    assert data["status"] == "ok"
+    assert data["service"] == "novaron-rag-core"
+    assert data.get("ready") is True
 
 
 def test_api_query_endpoint_dense_mode() -> None:
