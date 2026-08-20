@@ -73,6 +73,15 @@ export const App: React.FC = () => {
   const analyserRef = useRef<AnalyserNode | null>(null);
   const animationFrameRef = useRef<number | null>(null);
   const audioElementRef = useRef<HTMLAudioElement | null>(null);
+  const warmUpRetryRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingVoiceBlobRef = useRef<Blob | null>(null);
+  const pendingTextRef = useRef<string | null>(null);
+
+  // Helper: detect Render cold-start 503 response
+  const isStartingUpError = (msg: string) =>
+    msg.toLowerCase().includes('starting up') ||
+    msg.toLowerCase().includes('service is starting') ||
+    msg.includes('503');
   const activeAudioUrlRef = useRef<string | null>(null);
   const lastQueryRef = useRef<string | null>(null);
 
@@ -368,8 +377,23 @@ export const App: React.FC = () => {
     } catch (err: any) {
       timers.forEach((t) => clearTimeout(t));
       console.error('Voice query error:', err);
-      setErrorMessage(err.message || "Couldn't understand the audio. Try speaking again or type your question.");
-      setAppState('ERROR');
+      const msg: string = err.message || '';
+      if (isStartingUpError(msg)) {
+        // Render cold-start: backend is warming up, auto-retry
+        setAppState('WARMING_UP');
+        setErrorMessage(null);
+        if (warmUpRetryRef.current) clearTimeout(warmUpRetryRef.current);
+        pendingVoiceBlobRef.current = audioBlob;
+        warmUpRetryRef.current = setTimeout(() => {
+          if (pendingVoiceBlobRef.current) {
+            processVoiceQuery(pendingVoiceBlobRef.current);
+            pendingVoiceBlobRef.current = null;
+          }
+        }, 8000);
+      } else {
+        setErrorMessage(msg || "Couldn't understand the audio. Try speaking again or type your question.");
+        setAppState('ERROR');
+      }
     }
   };
 
@@ -420,8 +444,23 @@ export const App: React.FC = () => {
     } catch (err: any) {
       clearTimeout(genTimer);
       console.error('Text query error:', err);
-      setErrorMessage(err.message || 'Failed to process query.');
-      setAppState('ERROR');
+      const msg: string = err.message || '';
+      if (isStartingUpError(msg)) {
+        // Render cold-start: backend is warming up, auto-retry
+        setAppState('WARMING_UP');
+        setErrorMessage(null);
+        if (warmUpRetryRef.current) clearTimeout(warmUpRetryRef.current);
+        pendingTextRef.current = text;
+        warmUpRetryRef.current = setTimeout(() => {
+          if (pendingTextRef.current) {
+            handleTextQuery(pendingTextRef.current);
+            pendingTextRef.current = null;
+          }
+        }, 8000);
+      } else {
+        setErrorMessage(msg || 'Failed to process query.');
+        setAppState('ERROR');
+      }
     }
   };
 
@@ -500,6 +539,11 @@ export const App: React.FC = () => {
         return {
           main: 'Something went wrong.',
           supporting: errorMessage || 'Please try again.',
+        };
+      case 'WARMING_UP':
+        return {
+          main: 'Warming up…',
+          supporting: 'The backend is waking from sleep. Your query will auto-retry in a few seconds.',
         };
       case 'IDLE':
       default:

@@ -55,6 +55,7 @@ export type AppState =
   | 'ANSWER_READY'
   | 'REFUSED'
   | 'ERROR'
+  | 'WARMING_UP'
   | 'PLAYING_AUDIO';
 
 export interface Settings {
