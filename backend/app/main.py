@@ -218,59 +218,53 @@ def build_pipelines() -> dict[str, dict[str, RAGPipeline]]:
     return result
 
 
-from fastapi.middleware.cors import CORSMiddleware
-
-pipelines = build_pipelines()
-stt_adapter = _build_stt()
-tts_adapter = _build_tts()
 from contextlib import asynccontextmanager
 
+from fastapi.middleware.cors import CORSMiddleware
 
-def warmup_system() -> dict[str, float]:
-    t_start = time.perf_counter()
-    timings: dict[str, float] = {}
+# ---------------------------------------------------------------------------
+# Global state — initialised lazily inside lifespan so the server binds its
+# port immediately and Render's port-scan timeout is never hit.
+# ---------------------------------------------------------------------------
+pipelines: dict | None = None
+stt_adapter: SpeechToText | None = None
+tts_adapter: TextToSpeech | None = None
+_startup_complete: bool = False
 
-    m_start = time.perf_counter()
-    embedder = _get_shared_embedder()
+
+def _initialize_all() -> None:
+    """Build every heavy resource (model download, FAISS index, BM25, STT, TTS).
+    Called once from lifespan *after* the ASGI server has already bound its port."""
+    global pipelines, stt_adapter, tts_adapter, _startup_complete
+
+    print("[STARTUP] Loading corpus and building pipelines…")
+    t0 = time.perf_counter()
+    pipelines = build_pipelines()
+    print(f"[STARTUP] Pipelines ready in {round((time.perf_counter() - t0)*1000, 1)} ms")
+
+    print("[STARTUP] Initialising STT adapter…")
+    stt_adapter = _build_stt()
+
+    print("[STARTUP] Initialising TTS adapter…")
+    tts_adapter = _build_tts()
+
+    # Optional warmup pass (embed a dummy query to prime the model cache)
     try:
+        embedder = _get_shared_embedder()
         embedder.warmup()
     except Exception:
         pass
-    timings["model_load_ms"] = round((time.perf_counter() - m_start) * 1000, 2)
 
-    f_start = time.perf_counter()
-    vector_counts = {}
-    for strat in ("fixed", "sentence", "hierarchical"):
-        store = _get_vector_store(strat)
-        if store is not None:
-            vector_counts[strat] = len(store.chunks)
-    timings["faiss_load_ms"] = round((time.perf_counter() - f_start) * 1000, 2)
-
-    w_start = time.perf_counter()
-    for strat, modes in pipelines.items():
-        for mode, pipeline in modes.items():
-            try:
-                # Warm up local vector & lexical retrieval indices without calling remote cloud LLM
-                pipeline.retriever.search("warmup", 2)
-            except Exception:
-                pass
-    timings["warmup_ms"] = round((time.perf_counter() - w_start) * 1000, 2)
-    timings["total_startup_ms"] = round((time.perf_counter() - t_start) * 1000, 2)
-
-    passages = load_jsonl(DATA_PATH)
-    print(
-        f"[STARTUP] CORPUS: {DATA_PATH.name} ({len(passages)} passages) | "
-        f"INDEX VECTORS: {vector_counts} | "
-        f"MODEL: {embedder.model_name} | "
-        f"WARMUP: {timings['warmup_ms']} ms | "
-        f"TOTAL: {timings['total_startup_ms']} ms"
-    )
-    return timings
+    _startup_complete = True
+    print(f"[STARTUP] ✅ System ready — total {round((time.perf_counter() - t0)*1000, 1)} ms")
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    warmup_system()
+    """FastAPI lifespan: heavy initialisation runs in a thread so the event
+    loop stays free and the port health-check responds immediately."""
+    loop = asyncio.get_running_loop()
+    await loop.run_in_executor(None, _initialize_all)
     yield
 
 
@@ -285,12 +279,27 @@ app.add_middleware(
 
 
 @app.get("/health")
-def health() -> dict[str, str]:
-    return {"status": "ok", "service": "novaron-rag-core"}
+def health() -> dict:
+    """Health-check endpoint — responds immediately even while startup is loading."""
+    return {
+        "status": "ok" if _startup_complete else "starting",
+        "service": "novaron-rag-core",
+        "ready": _startup_complete,
+    }
+
+
+def _require_ready():
+    """Raise HTTP 503 if startup hasn't finished yet."""
+    if not _startup_complete:
+        raise HTTPException(
+            status_code=503,
+            detail="Service is starting up — please retry in a few seconds.",
+        )
 
 
 @app.post("/v1/query", response_model=QueryResponse)
 def query(request: QueryRequest) -> QueryResponse:
+    _require_ready()
     t_start = time.perf_counter()
 
     # 1. Deterministic Local Query Normalization & Anaphora Context
@@ -364,6 +373,7 @@ async def voice_query(
     synthesize_audio: bool = Form(default=False),
     previous_query: str | None = Form(default=None),
 ) -> VoiceQueryResponse:
+    _require_ready()
     if not file or not file.filename:
         raise HTTPException(status_code=400, detail="Audio file is required.")
 
@@ -483,6 +493,7 @@ async def voice_query(
 
 @app.post("/v1/tts")
 async def synthesize_speech(request: TTSRequest) -> Response:
+    _require_ready()
     if not request.text or not request.text.strip():
         raise HTTPException(status_code=400, detail="Text to synthesize cannot be empty.")
     try:
