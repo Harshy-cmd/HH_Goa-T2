@@ -1,6 +1,7 @@
 import { QueryResponse, VoiceQueryResponse } from '../types';
 
-export const DEFAULT_API_BASE_URL = 'http://localhost:8000';
+export const DEFAULT_API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') || 'http://localhost:8000';
 
 export async function checkHealth(apiBaseUrl: string = DEFAULT_API_BASE_URL): Promise<boolean> {
   try {
@@ -10,7 +11,8 @@ export async function checkHealth(apiBaseUrl: string = DEFAULT_API_BASE_URL): Pr
     });
     if (!res.ok) return false;
     const data = await res.json();
-    return data.status === 'ok';
+    // Accept both "ok" (fully ready) and "starting" (warming up after port binds)
+    return data.status === 'ok' || data.status === 'starting';
   } catch (err) {
     return false;
   }
